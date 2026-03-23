@@ -66,7 +66,42 @@ CRITICAL RULES:
 8. Keep answers focused and concise - mechanics need quick answers, not essays."""
 
 
-def get_ai_response(query, context):
+def get_recent_chat_context():
+    """Get recent chat history for follow-up question understanding."""
+    messages = st.session_state.get("messages", [])
+    if not messages:
+        return ""
+    # Include last 4 messages (2 exchanges) for context
+    recent = messages[-4:]
+    parts = []
+    for m in recent:
+        role = "User" if m["role"] == "user" else "Assistant"
+        parts.append(f"{role}: {m['content'][:300]}")
+    return "\n".join(parts)
+
+
+def build_search_query(prompt):
+    """
+    Build an effective search query by combining the current prompt
+    with recent conversation context for follow-up questions.
+    """
+    chat_context = get_recent_chat_context()
+    if not chat_context:
+        return prompt
+
+    # If the prompt is short/vague, it's likely a follow-up — combine with previous topic
+    words = prompt.strip().split()
+    if len(words) <= 6:
+        # Extract the last user question for context
+        messages = st.session_state.get("messages", [])
+        for m in reversed(messages):
+            if m["role"] == "user":
+                return f"{m['content']} {prompt}"
+        return prompt
+    return prompt
+
+
+def get_ai_response(query, context, chat_history=""):
     """Get an AI response from Groq, grounded in the procedure context."""
     api_key = st.secrets.get("GROQ_API_KEY", "")
     if not api_key:
@@ -74,14 +109,18 @@ def get_ai_response(query, context):
 
     client = Groq(api_key=api_key)
 
-    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
+    history_section = ""
+    if chat_history:
+        history_section = f"\nRECENT CONVERSATION:\n{chat_history}\n"
 
+    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
+{history_section}
 PROCEDURE CONTEXT:
 {context}
 
 USER QUESTION: {query}
 
-Answer using ONLY the information from the procedure context above."""
+Answer using ONLY the information from the procedure context above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to."""
 
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
@@ -213,12 +252,12 @@ else:
                 st.markdown(prompt)
             st.session_state.messages.append({"role": "user", "content": prompt})
 
-            # Search for relevant context
-            context, images = get_context_for_llm(prompt, max_sections=3)
+            # Build search query with conversation context for follow-ups
+            search_query = build_search_query(prompt)
+            chat_history = get_recent_chat_context()
 
-            # Only show images from the top matching section
-            top_results = search(prompt, top_k=1)
-            top_images = top_results[0]["images"] if top_results else []
+            # Search for relevant context
+            context, images = get_context_for_llm(search_query, max_sections=3)
 
             # Generate AI response
             with st.chat_message("assistant"):
@@ -227,20 +266,20 @@ else:
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
-                            response_text = get_ai_response(prompt, context)
+                            response_text = get_ai_response(prompt, context, chat_history)
                         except Exception as e:
                             response_text = f"Error generating response: {e}"
 
                 st.markdown(response_text)
 
-                # Show images from top matching section only
-                if top_images:
+                # Show related images
+                if images:
                     st.divider()
                     st.caption("📸 Related procedure images:")
-                    display_images(top_images)
+                    display_images(images)
 
                 # Show sources
-                results = search(prompt, top_k=3)
+                results = search(search_query, top_k=3)
                 if results:
                     with st.expander("📋 Sources"):
                         for r in results:
@@ -249,5 +288,5 @@ else:
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": response_text,
-                "images": top_images,
+                "images": images if images else [],
             })
