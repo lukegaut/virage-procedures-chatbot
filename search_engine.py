@@ -59,10 +59,31 @@ def load_index():
         return json.load(f)
 
 
+STOPWORDS = {
+    "how", "do", "does", "did", "the", "is", "are", "was", "were", "be",
+    "to", "of", "and", "in", "on", "at", "for", "with", "from", "by",
+    "an", "it", "its", "this", "that", "what", "which", "who", "whom",
+    "can", "could", "would", "should", "will", "shall", "may", "might",
+    "have", "has", "had", "not", "no", "or", "if", "then", "than",
+    "so", "as", "up", "out", "about", "into", "over", "after", "before",
+    "me", "my", "we", "our", "you", "your", "they", "them", "their",
+    "use", "used", "using", "need", "want", "get", "tell", "show",
+    "where", "when", "why",
+}
+
+
 def tokenize(text):
     """Simple tokenizer: lowercase, split on non-alphanumeric, remove short words."""
     words = re.findall(r'[a-z0-9]+', text.lower())
     return [w for w in words if len(w) >= 2]
+
+
+def tokenize_query(text):
+    """Tokenize a user query, removing stopwords to focus on meaningful terms."""
+    tokens = tokenize(text)
+    meaningful = [w for w in tokens if w not in STOPWORDS]
+    # If all words were stopwords, fall back to all tokens
+    return meaningful if meaningful else tokens
 
 
 def expand_query(tokens):
@@ -79,44 +100,43 @@ def score_section(query_tokens, expanded_tokens, section):
     title_text = section["title"].lower()
     title_tokens = tokenize(section["title"])
     content_text = " ".join(section["content"]).lower()
-    content_tokens = tokenize(content_text)
-    all_tokens = title_tokens + content_tokens
+    content_tokens = set(tokenize(content_text))  # Use set to avoid counting duplicates
+    all_title_tokens = set(title_tokens)
 
-    if not all_tokens:
+    if not all_title_tokens and not content_tokens:
         return 0
 
     score = 0
 
-    # Score original query tokens (higher weight)
+    # Title matches are heavily weighted — the title is the best signal
     for qt in query_tokens:
-        if qt in title_tokens:
-            score += 15
+        if qt in all_title_tokens:
+            score += 25  # Strong title match
+        elif qt in title_text:
+            score += 15  # Substring in title
         if qt in content_tokens:
-            score += 5
-        # Substring match in title
-        if qt in title_text:
-            score += 8
+            score += 3   # Content match (low weight to avoid noise)
 
-    # Score expanded/synonym tokens (lower weight)
+    # Synonym matches in title only (not content — too noisy)
     for et in expanded_tokens:
         if et in query_tokens:
-            continue  # Already scored above
-        if et in title_tokens:
+            continue
+        if et in all_title_tokens:
+            score += 12
+        elif et in title_text:
             score += 8
-        if et in content_tokens:
-            score += 2
 
-    # Bonus for multiple original query terms matching the same section
-    matches = sum(1 for qt in query_tokens if qt in all_tokens)
-    if matches >= 2:
-        score += matches * 5
+    # Big bonus for ALL query terms matching in title
+    title_matches = sum(1 for qt in query_tokens if qt in all_title_tokens or qt in title_text)
+    if title_matches == len(query_tokens) and len(query_tokens) >= 2:
+        score += 40
 
-    # Bonus for phrase match in content
+    # Bonus for phrase match
     query_str = " ".join(query_tokens)
-    if query_str in content_text:
-        score += 25
     if query_str in title_text:
-        score += 30
+        score += 50
+    if query_str in content_text:
+        score += 15
 
     # Normalize by number of query tokens
     if query_tokens:
@@ -128,7 +148,7 @@ def score_section(query_tokens, expanded_tokens, section):
 def search(query, top_k=5, min_score=1.0):
     """Search the procedure index for sections relevant to the query."""
     index = load_index()
-    query_tokens = tokenize(query)
+    query_tokens = tokenize_query(query)
 
     if not query_tokens:
         return []
