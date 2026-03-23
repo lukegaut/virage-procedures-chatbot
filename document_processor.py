@@ -82,6 +82,38 @@ def format_table(table):
     return "\n".join(rows)
 
 
+def _add_after_context(section):
+    """Add 'after' text context to images by scanning the content list."""
+    if not section.get("image_contexts"):
+        return
+    content = section.get("content", [])
+    # For each image, find text that comes after it in the content flow
+    # Since images are inline with text, use the content lines after the "before" text
+    for img_file, ctx in section["image_contexts"].items():
+        before_text = ctx.get("before", "")
+        # Find where in content the "before" text ends, then grab what follows
+        found_idx = -1
+        for i, line in enumerate(content):
+            if before_text and line in before_text:
+                found_idx = i
+        # Grab up to 2 lines after
+        after_lines = []
+        if found_idx >= 0 and found_idx + 1 < len(content):
+            after_lines = content[found_idx + 1: found_idx + 3]
+        ctx["after"] = " ".join(after_lines) if after_lines else ""
+        # Build a combined description for matching
+        parts = []
+        if ctx.get("parent"):
+            parts.append(ctx["parent"])
+        if ctx.get("section"):
+            parts.append(ctx["section"])
+        if ctx.get("before"):
+            parts.append(ctx["before"])
+        if ctx.get("after"):
+            parts.append(ctx["after"])
+        ctx["description"] = " ".join(parts)
+
+
 def process_document(filepath):
     """Process a single .docx file into structured sections."""
     doc = Document(filepath)
@@ -100,8 +132,12 @@ def process_document(filepath):
         "level": 0,
         "content": [],
         "images": [],
+        "image_contexts": {},  # filename -> surrounding text description
         "parent": "",
     }
+
+    # We need to track recent text lines to build image context
+    recent_text_lines = []
 
     for item in iter_block_items(doc):
         if isinstance(item, Paragraph):
@@ -144,19 +180,39 @@ def process_document(filepath):
                     "level": heading_level,
                     "content": [],
                     "images": [],
+                    "image_contexts": {},
                     "parent": parent,
                 }
+                recent_text_lines = []
             else:
                 if text:
                     current_section["content"].append(text)
+                    recent_text_lines.append(text)
+                    # Keep only last 3 lines for context
+                    if len(recent_text_lines) > 3:
+                        recent_text_lines = recent_text_lines[-3:]
                 if para_images:
                     current_section["images"].extend(para_images)
+                    # Build context for each image from surrounding text
+                    context_before = " ".join(recent_text_lines[-3:])
+                    for img_file in para_images:
+                        current_section["image_contexts"][img_file] = {
+                            "before": context_before,
+                            "section": current_section["title"],
+                            "parent": current_section.get("parent", ""),
+                        }
 
         elif isinstance(item, DocxTable):
             # Tables are now processed in order, attached to current section
             table_text = format_table(item)
             if table_text.strip():
                 current_section["content"].append(f"[Table]\n{table_text}")
+                recent_text_lines.append(table_text[:200])
+
+    # Capture text AFTER images — go back and add "after" context
+    for section in sections:
+        _add_after_context(section)
+    _add_after_context(current_section)
 
     # Don't forget the last section
     if current_section["content"] or current_section["images"]:

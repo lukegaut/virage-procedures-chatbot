@@ -242,6 +242,8 @@ else:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
+            if message.get("images"):
+                display_images(message["images"])
 
     # Chat input
     if prompt := st.chat_input("Ask about a procedure..."):
@@ -258,13 +260,14 @@ else:
             search_query = build_search_query(prompt)
             chat_history = get_recent_chat_context()
 
-            # Search for relevant context
-            context, _images = get_context_for_llm(search_query, max_sections=3)
+            # Search for relevant context (images are pre-filtered by relevance)
+            context, images = get_context_for_llm(search_query, max_sections=3)
 
             # Generate AI response
             with st.chat_message("assistant"):
                 if not context:
                     display_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
+                    images = []
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
@@ -273,6 +276,10 @@ else:
                             display_text = f"Error generating response: {e}"
 
                 st.markdown(display_text)
+
+                # Show relevant images (already filtered by semantic matching)
+                if images:
+                    display_images(images)
 
                 # Show sources
                 results = search(search_query, top_k=3)
@@ -284,4 +291,5 @@ else:
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": display_text,
+                "images": images if images else [],
             })
