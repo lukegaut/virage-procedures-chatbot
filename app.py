@@ -17,16 +17,15 @@ st.set_page_config(
 )
 
 
-# --- Login ---
-def check_login():
-    """Simple username/password login gate."""
-    if st.session_state.get("authenticated"):
+def check_admin_login():
+    """Login gate for the admin page only."""
+    if st.session_state.get("admin_authenticated"):
         return True
 
-    st.title("🔧 Virage Procedures Chatbot")
-    st.caption("Please log in to continue.")
+    st.title("🔒 Admin Login")
+    st.caption("Enter credentials to access the admin center.")
 
-    with st.form("login_form"):
+    with st.form("admin_login_form"):
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         submitted = st.form_submit_button("Log in", use_container_width=True)
@@ -35,15 +34,12 @@ def check_login():
         valid_user = st.secrets.get("APP_USERNAME", "engineers")
         valid_pass = st.secrets.get("APP_PASSWORD", "RACE2win")
         if username == valid_user and password == valid_pass:
-            st.session_state["authenticated"] = True
+            st.session_state["admin_authenticated"] = True
             st.rerun()
         else:
             st.error("Incorrect username or password.")
     return False
 
-
-if not check_login():
-    st.stop()
 
 # --- Custom CSS ---
 st.markdown("""
@@ -115,8 +111,11 @@ page = st.sidebar.radio("", ["💬 Chat", "⚙️ Admin"], label_visibility="col
 
 if page == "⚙️ Admin":
     # ========================
-    #  ADMIN CENTER
+    #  ADMIN CENTER (login required)
     # ========================
+    if not check_admin_login():
+        st.stop()
+
     st.title("⚙️ Admin Center")
     st.caption("Upload new procedure documents or remove existing ones.")
 
