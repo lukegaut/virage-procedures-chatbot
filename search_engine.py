@@ -1,12 +1,13 @@
 """
 Search engine for procedure documents.
-Uses keyword matching with synonym expansion and fuzzy matching
-to find the best sections that answer a user's question.
+Uses keyword matching with synonym expansion, document name matching,
+and fuzzy matching to find the best sections that answer a user's question.
 """
 
 import json
 import re
 from pathlib import Path
+from difflib import SequenceMatcher
 
 INDEX_FILE = Path(__file__).parent / "extracted" / "index.json"
 
@@ -62,11 +63,29 @@ SYNONYMS = {
     "weights": ["weight", "balance"],
     "balance": ["weights", "weight"],
     "damage": ["damaged", "crack", "cracked", "broken"],
-    "procedure": ["process", "steps", "method", "guide"],
+    "procedure": ["process", "steps", "method", "guide", "setup"],
+    "setup": ["set up", "setting up", "procedure", "process"],
+    "process": ["procedure", "setup", "steps", "method"],
     "set": ["sets"],
     "sets": ["set"],
     "session": ["run", "stint"],
     "grid": ["pre-grid", "pregrid"],
+    "lmp3": ["lmp4"],
+    "lmp4": ["lmp3"],
+    "camber": ["alignment", "angle"],
+    "ride": ["ride height", "height"],
+    "height": ["ride height", "ride"],
+    "toe": ["alignment", "angle"],
+    "corner": ["corners", "wheel"],
+    "spring": ["springs", "stiffness"],
+    "springs": ["spring", "stiffness"],
+    "arb": ["anti roll bar", "antiroll", "roll bar", "sway bar"],
+    "damper": ["dampers", "shock", "shocks", "absorber"],
+    "dampers": ["damper", "shock", "shocks"],
+    "front": ["fr", "fl"],
+    "rear": ["rr", "rl"],
+    "explain": ["explanation", "describe", "description"],
+    "replace": ["replacing", "replacement", "swap", "change"],
 }
 
 
@@ -87,7 +106,8 @@ STOPWORDS = {
     "so", "as", "up", "out", "about", "into", "over", "after", "before",
     "me", "my", "we", "our", "you", "your", "they", "them", "their",
     "use", "used", "using", "need", "want", "get", "tell", "show",
-    "where", "when", "why",
+    "where", "when", "why", "give", "short", "explain", "please",
+    "description", "explanation", "summary",
 }
 
 
@@ -114,55 +134,125 @@ def expand_query(tokens):
     return list(expanded)
 
 
-def score_section(query_tokens, expanded_tokens, section):
+def fuzzy_match(word, target_words, threshold=0.75):
+    """Check if a word fuzzy-matches any word in target_words."""
+    for tw in target_words:
+        if len(tw) >= 3 and len(word) >= 3:
+            ratio = SequenceMatcher(None, word, tw).ratio()
+            if ratio >= threshold:
+                return True
+    return False
+
+
+def score_section(query_tokens, expanded_tokens, section, doc_name):
     """Score how relevant a section is to the query."""
     title_text = section["title"].lower()
     title_tokens = tokenize(section["title"])
-    # Include parent heading in title matching so sub-sections are findable
+
+    # Include parent heading in title matching
     parent = section.get("parent", "")
     if parent:
         title_text = f"{parent.lower()} {title_text}"
         title_tokens = tokenize(parent) + title_tokens
+
+    # Document name is a critical signal
+    doc_name_lower = doc_name.lower()
+    doc_name_tokens = set(tokenize(doc_name))
+
     content_text = " ".join(section["content"]).lower()
-    content_tokens = set(tokenize(content_text))  # Use set to avoid counting duplicates
+    content_tokens = set(tokenize(content_text))
     all_title_tokens = set(title_tokens)
 
-    if not all_title_tokens and not content_tokens:
+    # Combined searchable text (title + doc name)
+    combined_title = f"{doc_name_lower} {title_text}"
+    combined_tokens = all_title_tokens | doc_name_tokens
+
+    if not combined_tokens and not content_tokens:
         return 0
 
     score = 0
 
-    # Title matches are heavily weighted — the title is the best signal
+    # --- DOCUMENT NAME MATCHING (highest priority) ---
+    doc_matches = 0
+    for qt in query_tokens:
+        if qt in doc_name_tokens:
+            score += 30  # Very strong signal
+            doc_matches += 1
+        elif qt in doc_name_lower:
+            score += 20  # Substring match in doc name
+            doc_matches += 1
+        elif fuzzy_match(qt, doc_name_tokens):
+            score += 15  # Fuzzy match in doc name
+            doc_matches += 1
+
+    # --- TITLE MATCHING ---
+    title_matches = 0
     for qt in query_tokens:
         if qt in all_title_tokens:
-            score += 25  # Strong title match
+            score += 25
+            title_matches += 1
         elif qt in title_text:
-            score += 15  # Substring in title
-        if qt in content_tokens:
-            score += 3   # Content match (low weight to avoid noise)
+            score += 15
+            title_matches += 1
+        elif fuzzy_match(qt, all_title_tokens):
+            score += 10
+            title_matches += 1
 
-    # Synonym matches in title only (not content — too noisy)
+    # --- CONTENT MATCHING ---
+    content_matches = 0
+    for qt in query_tokens:
+        if qt in content_tokens:
+            score += 3
+            content_matches += 1
+        elif qt in content_text:
+            score += 2
+            content_matches += 1
+
+    # --- SYNONYM MATCHING (title + doc name only) ---
     for et in expanded_tokens:
         if et in query_tokens:
             continue
         if et in all_title_tokens:
-            score += 12
-        elif et in title_text:
-            score += 8
+            score += 15  # Synonym in section title is a strong signal
+        elif et in doc_name_tokens:
+            score += 8   # Synonym in doc name is weaker
+        elif et in combined_title:
+            score += 6
 
-    # Big bonus for ALL query terms matching in title
-    title_matches = sum(1 for qt in query_tokens if qt in all_title_tokens or qt in title_text)
-    if title_matches == len(query_tokens) and len(query_tokens) >= 2:
-        score += 40
+    # --- BONUSES ---
 
-    # Bonus for phrase match
-    query_str = " ".join(query_tokens)
-    if query_str in title_text:
+    # Big bonus when ALL query terms found somewhere in title + doc name
+    combined_matches = 0
+    for qt in query_tokens:
+        if qt in combined_tokens or qt in combined_title or fuzzy_match(qt, combined_tokens):
+            combined_matches += 1
+    if combined_matches == len(query_tokens) and len(query_tokens) >= 2:
         score += 50
+
+    # Phrase match bonus
+    query_str = " ".join(query_tokens)
+    if query_str in combined_title:
+        score += 60
     if query_str in content_text:
         score += 15
 
-    # Normalize by number of query tokens
+    # Content relevance bonus: if most query terms appear in content
+    if len(query_tokens) >= 2 and content_matches >= len(query_tokens) * 0.7:
+        score += 15
+
+    # Bonus for sections with substantial content (they're more useful)
+    content_length = len(content_text)
+    if content_length > 200:
+        score += 5
+    if content_length > 500:
+        score += 5
+
+    # Penalty for generic/low-value section names
+    generic_titles = {"notes", "notes & improvements", "summary", "overview", "general", "other", "misc"}
+    if section["title"].lower().strip() in generic_titles:
+        score *= 0.5
+
+    # Normalize by number of query tokens to keep scoring consistent
     if query_tokens:
         score = score / len(query_tokens)
 
@@ -181,11 +271,12 @@ def search(query, top_k=5, min_score=1.0):
 
     results = []
     for doc in index["documents"]:
+        doc_name = doc["doc_name"]
         for section in doc["sections"]:
-            score = score_section(query_tokens, expanded_tokens, section)
+            score = score_section(query_tokens, expanded_tokens, section, doc_name)
             if score >= min_score:
                 results.append({
-                    "doc_name": doc["doc_name"],
+                    "doc_name": doc_name,
                     "filename": doc["filename"],
                     "section_title": section["title"],
                     "content": section["content"],
