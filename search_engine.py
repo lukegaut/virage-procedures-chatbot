@@ -190,6 +190,7 @@ def search(query, top_k=5, min_score=1.0):
                     "section_title": section["title"],
                     "content": section["content"],
                     "images": section["images"],
+                    "parent": section.get("parent", ""),
                     "score": score,
                 })
 
@@ -218,10 +219,23 @@ def get_document_list():
     return [doc["doc_name"] for doc in index["documents"]]
 
 
+def get_sibling_images(section_title, section_parent):
+    """Get images from sibling sections (same parent heading)."""
+    if not section_parent:
+        return []
+    index = load_index()
+    images = []
+    for doc in index["documents"]:
+        for section in doc["sections"]:
+            if section.get("parent") == section_parent and section["images"]:
+                images.extend(section["images"])
+    return images
+
+
 def get_context_for_llm(query, max_sections=3, max_chars=4000):
     """
     Build a context string from the most relevant sections.
-    Only includes images from sections that are actually sent as context.
+    Includes images from the matched section and its siblings (same parent).
     """
     results = search(query, top_k=max_sections)
     if not results:
@@ -237,7 +251,16 @@ def get_context_for_llm(query, max_sections=3, max_chars=4000):
             break
         context_parts.append(section_block)
         total_chars += len(section_block)
-        # Only add images from this specific section
         images.extend(r["images"])
+        # Also grab images from sibling sections under the same parent
+        images.extend(get_sibling_images(r["section_title"], r.get("parent", "")))
 
-    return "\n".join(context_parts), images
+    # Deduplicate images while preserving order
+    seen = set()
+    unique_images = []
+    for img in images:
+        if img not in seen:
+            seen.add(img)
+            unique_images.append(img)
+
+    return "\n".join(context_parts), unique_images
