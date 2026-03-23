@@ -10,7 +10,7 @@ from google import genai
 from search_engine import search, get_context_for_llm, get_document_list, load_index
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR
 
-GEMINI_MODELS = ["gemini-2.0-flash-lite", "gemini-2.0-flash", "gemini-1.5-flash"]
+GEMINI_MODELS = ["gemini-2.0-flash-lite", "gemini-2.0-flash"]
 
 # --- Page Config ---
 st.set_page_config(
