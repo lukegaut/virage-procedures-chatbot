@@ -1,16 +1,18 @@
 """
 Processes .docx procedure files into structured searchable data.
 Extracts text organized by sections and saves embedded images.
+Tables are processed in document order so they attach to the correct section.
 """
 
 import os
 import json
 import hashlib
+import re
 from pathlib import Path
 from docx import Document
-from docx.opc.constants import RELATIONSHIP_TYPE as RT
-from PIL import Image
-import io
+from docx.table import Table as DocxTable
+from docx.text.paragraph import Paragraph
+from lxml import etree
 
 PROCEDURES_DIR = Path(__file__).parent / "procedures"
 EXTRACTED_DIR = Path(__file__).parent / "extracted"
@@ -41,13 +43,43 @@ def get_paragraph_images(paragraph, image_map):
     for run in paragraph.runs:
         xml = run._element.xml
         if "blip" in xml:
-            # Extract rId from the blip element
-            import re
             rids = re.findall(r'r:embed="([^"]+)"', xml)
             for rid in rids:
                 if rid in image_map:
                     images.append(image_map[rid])
     return images
+
+
+def iter_block_items(doc):
+    """
+    Iterate over paragraphs AND tables in document order.
+    This is critical — python-docx's doc.paragraphs and doc.tables
+    are separate lists that lose ordering. This walks the XML tree
+    to yield items in the order they appear in the document.
+    """
+    body = doc.element.body
+    for child in body:
+        tag = etree.QName(child).localname
+        if tag == "p":
+            yield Paragraph(child, doc)
+        elif tag == "tbl":
+            yield DocxTable(child, doc)
+
+
+def format_table(table):
+    """Convert a docx table to readable text."""
+    rows = []
+    for row in table.rows:
+        cells = [cell.text.strip() for cell in row.cells]
+        # Deduplicate merged cells (python-docx repeats merged cell text)
+        deduped = []
+        prev = None
+        for c in cells:
+            if c != prev:
+                deduped.append(c)
+            prev = c
+        rows.append(" | ".join(deduped))
+    return "\n".join(rows)
 
 
 def process_document(filepath):
@@ -67,63 +99,50 @@ def process_document(filepath):
         "images": [],
     }
 
-    for para in doc.paragraphs:
-        text = para.text.strip()
-        if not text and not get_paragraph_images(para, image_map):
-            continue
+    for item in iter_block_items(doc):
+        if isinstance(item, Paragraph):
+            text = item.text.strip()
+            if not text and not get_paragraph_images(item, image_map):
+                continue
 
-        style_name = para.style.name if para.style else ""
-        para_images = get_paragraph_images(para, image_map)
+            style_name = item.style.name if item.style else ""
+            para_images = get_paragraph_images(item, image_map)
 
-        # Check if this is a heading
-        is_heading = "Heading" in style_name or "heading" in style_name
-        heading_level = 0
-        if is_heading:
-            try:
-                heading_level = int("".join(filter(str.isdigit, style_name)) or "1")
-            except ValueError:
-                heading_level = 1
+            # Check if this is a heading
+            is_heading = "Heading" in style_name or "heading" in style_name
+            heading_level = 0
+            if is_heading:
+                try:
+                    heading_level = int("".join(filter(str.isdigit, style_name)) or "1")
+                except ValueError:
+                    heading_level = 1
 
-        if is_heading and text:
-            # Save the current section if it has content
-            if current_section["content"] or current_section["images"]:
-                sections.append(current_section)
+            if is_heading and text:
+                # Save the current section if it has content
+                if current_section["content"] or current_section["images"]:
+                    sections.append(current_section)
 
-            current_section = {
-                "title": text,
-                "level": heading_level,
-                "content": [],
-                "images": [],
-            }
-        else:
-            if text:
-                current_section["content"].append(text)
-            if para_images:
-                current_section["images"].extend(para_images)
+                current_section = {
+                    "title": text,
+                    "level": heading_level,
+                    "content": [],
+                    "images": [],
+                }
+            else:
+                if text:
+                    current_section["content"].append(text)
+                if para_images:
+                    current_section["images"].extend(para_images)
+
+        elif isinstance(item, DocxTable):
+            # Tables are now processed in order, attached to current section
+            table_text = format_table(item)
+            if table_text.strip():
+                current_section["content"].append(f"[Table]\n{table_text}")
 
     # Don't forget the last section
     if current_section["content"] or current_section["images"]:
         sections.append(current_section)
-
-    # Also extract table content
-    for table in doc.tables:
-        table_data = []
-        for row in table.rows:
-            row_data = [cell.text.strip() for cell in row.cells]
-            table_data.append(row_data)
-
-        if table_data:
-            # Attach table to the most recent section or create new one
-            table_text = "\n".join([" | ".join(row) for row in table_data])
-            if sections:
-                sections[-1]["content"].append(f"[Table]\n{table_text}")
-            else:
-                sections.append({
-                    "title": doc_name,
-                    "level": 0,
-                    "content": [f"[Table]\n{table_text}"],
-                    "images": [],
-                })
 
     return {
         "filename": Path(filepath).name,
