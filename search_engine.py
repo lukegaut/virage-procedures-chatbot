@@ -226,8 +226,8 @@ def get_sibling_sections(section_title, section_parent):
 def get_context_for_llm(query, max_sections=3, max_chars=5000):
     """
     Build a context string from the most relevant sections.
-    When a matched section has a parent, also includes all sibling
-    sections under the same parent for complete context.
+    When a matched section has a parent, also includes sibling sections
+    for complete context. Images come ONLY from directly matched sections.
     """
     results = search(query, top_k=max_sections)
     if not results:
@@ -249,9 +249,11 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
         context_parts.append(section_block)
         total_chars += len(section_block)
         included_titles.add(r["section_title"])
+
+        # ONLY add images from directly matched sections (not siblings)
         images.extend(r["images"])
 
-        # Include sibling sections under the same parent for complete context
+        # Include sibling section TEXT for complete context, but NOT their images
         if r.get("parent"):
             siblings = get_sibling_sections(r["section_title"], r["parent"])
             for sib in siblings:
@@ -264,10 +266,7 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
                 context_parts.append(sib_block)
                 total_chars += len(sib_block)
                 included_titles.add(sib["section_title"])
-                images.extend(sib["images"])
-
-        # Also grab images from sibling sections
-        images.extend(get_sibling_images(r["section_title"], r.get("parent", "")))
+                # No images from siblings — only from directly matched sections
 
     # Deduplicate images while preserving order
     seen = set()

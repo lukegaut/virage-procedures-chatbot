@@ -238,25 +238,13 @@ else:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Track which messages have images revealed
-    if "revealed_images" not in st.session_state:
-        st.session_state.revealed_images = set()
-
     # Display chat history
-    for i, message in enumerate(st.session_state.messages):
+    for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-            # Show "View images" button for assistant messages that have images available
-            if message["role"] == "assistant" and message.get("available_images"):
-                if i in st.session_state.revealed_images:
-                    display_images(message["available_images"])
-                else:
-                    if st.button("📸 View related images", key=f"img_{i}"):
-                        st.session_state.revealed_images.add(i)
-                        st.rerun()
 
     # Chat input
-    if prompt := st.chat_input("Ask about a procedure... (💡 Click 'View images' below answers for photos)"):
+    if prompt := st.chat_input("Ask about a procedure..."):
         index = load_index()
         if not index["documents"]:
             st.warning("⚠️ No documents indexed yet. Go to the Admin page to upload procedure documents.")
@@ -271,13 +259,12 @@ else:
             chat_history = get_recent_chat_context()
 
             # Search for relevant context
-            context, images = get_context_for_llm(search_query, max_sections=3)
+            context, _images = get_context_for_llm(search_query, max_sections=3)
 
             # Generate AI response
             with st.chat_message("assistant"):
                 if not context:
                     display_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
-                    images = []
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
@@ -286,13 +273,6 @@ else:
                             display_text = f"Error generating response: {e}"
 
                 st.markdown(display_text)
-
-                # Show "View images" button if images are available
-                if images:
-                    msg_idx = len(st.session_state.messages)
-                    if st.button("📸 View related images", key=f"img_{msg_idx}"):
-                        st.session_state.revealed_images.add(msg_idx)
-                        st.rerun()
 
                 # Show sources
                 results = search(search_query, top_k=3)
@@ -304,5 +284,4 @@ else:
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": display_text,
-                "available_images": images if images else [],
             })
