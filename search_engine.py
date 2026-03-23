@@ -137,6 +137,15 @@ def search(query, top_k=5, min_score=0.15):
     # Cosine similarity (embeddings are already normalized, so dot product = cosine sim)
     similarities = np.dot(embeddings, query_embedding)
 
+    # Penalise sections with very little content — they match semantically
+    # via parent/title context but have nothing useful to show
+    for i, section in enumerate(sections):
+        content_length = sum(len(line) for line in section.get("content", []))
+        if content_length < 20:
+            similarities[i] *= 0.3  # Heavy penalty for empty/near-empty sections
+        elif content_length < 80:
+            similarities[i] *= 0.7  # Moderate penalty for very short sections
+
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]
 
@@ -193,10 +202,32 @@ def get_sibling_images(section_title, section_parent):
     return images
 
 
-def get_context_for_llm(query, max_sections=3, max_chars=4000):
+def get_sibling_sections(section_title, section_parent):
+    """Get all sibling sections under the same parent heading."""
+    if not section_parent:
+        return []
+    index = load_index()
+    siblings = []
+    for doc in index["documents"]:
+        for section in doc["sections"]:
+            if (section.get("parent") == section_parent
+                    and section["title"] != section_title
+                    and section.get("content")):
+                siblings.append({
+                    "doc_name": doc["doc_name"],
+                    "section_title": section["title"],
+                    "content": section["content"],
+                    "images": section["images"],
+                    "parent": section.get("parent", ""),
+                })
+    return siblings
+
+
+def get_context_for_llm(query, max_sections=3, max_chars=5000):
     """
     Build a context string from the most relevant sections.
-    Includes images from the matched section and its siblings.
+    When a matched section has a parent, also includes all sibling
+    sections under the same parent for complete context.
     """
     results = search(query, top_k=max_sections)
     if not results:
@@ -205,14 +236,37 @@ def get_context_for_llm(query, max_sections=3, max_chars=4000):
     context_parts = []
     images = []
     total_chars = 0
+    included_titles = set()
+
     for r in results:
+        if r["section_title"] in included_titles:
+            continue
+
         section_text = "\n".join(r["content"])
         section_block = f"## {r['section_title']} (from: {r['doc_name']})\n{section_text}\n"
         if total_chars + len(section_block) > max_chars and context_parts:
             break
         context_parts.append(section_block)
         total_chars += len(section_block)
+        included_titles.add(r["section_title"])
         images.extend(r["images"])
+
+        # Include sibling sections under the same parent for complete context
+        if r.get("parent"):
+            siblings = get_sibling_sections(r["section_title"], r["parent"])
+            for sib in siblings:
+                if sib["section_title"] in included_titles:
+                    continue
+                sib_text = "\n".join(sib["content"])
+                sib_block = f"## {sib['section_title']} (from: {sib['doc_name']})\n{sib_text}\n"
+                if total_chars + len(sib_block) > max_chars:
+                    break
+                context_parts.append(sib_block)
+                total_chars += len(sib_block)
+                included_titles.add(sib["section_title"])
+                images.extend(sib["images"])
+
+        # Also grab images from sibling sections
         images.extend(get_sibling_images(r["section_title"], r.get("parent", "")))
 
     # Deduplicate images while preserving order
