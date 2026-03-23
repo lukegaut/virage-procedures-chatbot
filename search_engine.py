@@ -113,10 +113,11 @@ def get_document_list():
     return [doc["doc_name"] for doc in index["documents"]]
 
 
-def get_context_for_llm(query, max_sections=3):
+def get_context_for_llm(query, max_sections=3, max_chars=4000):
     """
     Build a context string from the most relevant sections
     to feed into an LLM for answer generation.
+    Caps total context size to stay within token limits.
     """
     results = search(query, top_k=max_sections)
     if not results:
@@ -124,10 +125,14 @@ def get_context_for_llm(query, max_sections=3):
 
     context_parts = []
     images = []
+    total_chars = 0
     for r in results:
-        context_parts.append(f"## {r['section_title']} (from: {r['doc_name']})")
-        context_parts.append("\n".join(r["content"]))
+        section_text = "\n".join(r["content"])
+        section_block = f"## {r['section_title']} (from: {r['doc_name']})\n{section_text}\n"
+        if total_chars + len(section_block) > max_chars and context_parts:
+            break  # Stop adding sections if we'd exceed the limit
+        context_parts.append(section_block)
+        total_chars += len(section_block)
         images.extend(r["images"])
-        context_parts.append("")
 
     return "\n".join(context_parts), images

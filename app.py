@@ -59,7 +59,7 @@ USER QUESTION: {query}
 Answer using ONLY the information from the procedure context above."""
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-8b-instant",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
@@ -142,7 +142,7 @@ if prompt := st.chat_input("Ask about a procedure... (e.g., 'How do I change a t
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         # Search for relevant context
-        context, images = get_context_for_llm(prompt, max_sections=5)
+        context, images = get_context_for_llm(prompt, max_sections=3)
 
         # Generate AI response
         with st.chat_message("assistant"):
