@@ -1,0 +1,521 @@
+{
+  "documents": [
+    {
+      "filename": "Tyre Procedure Guide (Updated).docx",
+      "doc_name": "Tyre Procedure Guide (Updated)",
+      "doc_id": "ceefb98d",
+      "sections": [
+        {
+          "title": "Ovens – First Priority",
+          "level": 2,
+          "content": [
+            "Turn ovens on as early as possible so they have time to reach temperature before the first set goes in. Check fuel level on the heater.",
+            "⚠  Always confirm oven ON/OFF temperature settings with the engineer. Standard difference: 5 °C."
+          ],
+          "images": []
+        },
+        {
+          "title": "Get Sets Out & Measure",
+          "level": 2,
+          "content": [
+            "Collect sets from the engineer, then lay them in the tent shadow in this order (front to back):",
+            "Write all values in the tyre book and give to engineer as soon as possible."
+          ],
+          "images": []
+        },
+        {
+          "title": "Rim & Wheel Checks",
+          "level": 2,
+          "content": [
+            "While the engineer calculates pressures, inspect every wheel:",
+            "Set completeness – correct tyres on correct rims, sets not mixed.",
+            "Rim stickers – rim number, set number (RS_XX), car number, TPMS sticker. All on inner side of spokes except TPMS number.",
+            "Sticker band – confirm sticker showing valve position is present and correctly placed.",
+            "Virage marking – check markings are present and legible.",
+            "TPMS sensor – condition and correct seating (use controller to confirm).",
+            "Valve – condition, torque 10 Nm, metallic cap fitted (mandatory QP & Race).",
+            "Balance weights – secure. Before applying tape: clean rim surface around weight location with brake cleaner. Press weight firmly by tapping with a plastic hammer to ensure full contact with rim. Then apply aluminium tape over weights.",
+            "Rim surface – no cracks, damage, or glue residue. Check shoulders: straight and undamaged.",
+            "Yellow strips – undamaged; replace if worn or misaligned.",
+            "Tyre shoulders – straight, no cracks."
+          ],
+          "images": []
+        },
+        {
+          "title": "Set Cold Pressures",
+          "level": 2,
+          "content": [
+            "⚠  Always show values to engineer before bleeding.",
+            "Storage pressures: Slicks 1.70 bar  |  Rain 1.90 bar  (also for transport)",
+            "Measurement order (NEVER change):  FL → FR → RR → RL",
+            "⚠  Ensure manometers are programmed to take pressures in the correct clockwise sequence before starting.",
+            "Principle: measure first, then correct. We can always drop pressure – raising requires engineer approval.",
+            "3-Step pressure method – do each step on ALL 4 tyres before moving to the next:",
+            "Big bleed – bring all 4 tyres close to target.",
+            "Small bleed – fine adjustment on all 4 tyres.",
+            "Final check – re-check all 4 in order.",
+            "Writing rules:",
+            "Always write with decimals after the comma  (e.g.  1,72 = ,72).",
+            "Corrections must show 2 digits after comma.",
+            "⚠  To increase pressure – ask engineer first. During race: remove wheel and take it to the box before adding air."
+          ],
+          "images": []
+        },
+        {
+          "title": "Stack & Store Correctly",
+          "level": 2,
+          "content": [
+            "After setting pressures, install valve caps and stack sets in correct order.",
+            "Valves facing the same way (to rear of trolleys – easier for TPMS read in ovens).",
+            "Store in tent or marked areas only – keep out of direct sun.",
+            "During cooling: lay tyres flat so all four reach the same floor temperature.",
+            "Stacking order in tyre tent – bottom to top:",
+            "ELMS / ALMS mounted set locations:",
+            "Under the tent, behind the box.",
+            "In the box, on the marked areas only.",
+            "Always keep sets together – do not mix rims between sets unless engineer confirms."
+          ],
+          "images": []
+        },
+        {
+          "title": "Put Sets in Ovens",
+          "level": 2,
+          "content": [
+            "Follow the timetable in the tyre book exactly. Before inserting a set:",
+            "Verify oven temperature is correct.",
+            "Trolley stable and centred in oven.",
+            "Correct set paper in correct oven.",
+            "Close all doors, windows, and zip fully.",
+            "⚠  Check fuel level between sessions. Refuel before events to avoid leaving mid-session."
+          ],
+          "images": []
+        },
+        {
+          "title": "Milwaukee Tyre Pressure Inflating Tool",
+          "level": 2,
+          "content": [
+            "⚠  This tool is used for inflating on pre-grid and on the grid. Always have it at hand for those moments.",
+            "Check battery is charged before leaving – put on charge between sessions.",
+            "Bring the Milwaukee tool to pre-grid and grid as standard procedure.",
+            "Confirm tool is working and battery level is sufficient before any session.",
+            "⚠  Evening: bleed compressors empty to remove humidity. Winter: verify all pressure gauges read the same on the same tyre; verify all temperature guns read the same temperature."
+          ],
+          "images": []
+        },
+        {
+          "title": "Rim Temperature Measurement",
+          "level": 2,
+          "content": [
+            "Equipment: infrared temperature gun.",
+            "Procedure:",
+            "Hold the temperature gun at the rim flank (barrel of the rim – not the tyre sidewall).",
+            "Distance: approximately 10 cm from the rim surface – keep this distance consistent on every point and every wheel.",
+            "Measure at 4 points evenly spaced around the rim (opposing pairs: top/bottom, left/right).",
+            "Place the average of the 4 values in the tyre book.",
+            "Repeat for each rim",
+            "Hand the values to the engineer",
+            "⚠  Always measure the same 4 positions in the same order on every wheel. Consistency is important for accurate values."
+          ],
+          "images": [
+            "ceefb98d_18fb4f42.png"
+          ]
+        },
+        {
+          "title": "Set Name Format",
+          "level": 2,
+          "content": [
+            "Mark in WHITE on external shoulder:",
+            "111_X11 _1_1"
+          ],
+          "images": []
+        },
+        {
+          "title": "Required Markings on Each Tyre",
+          "level": 2,
+          "content": [
+            "Rotation arrow – WHITE, LARGE",
+            "Position – FL / FR / RL / RR (white)",
+            "Markings must always remain visible."
+          ],
+          "images": []
+        },
+        {
+          "title": "Example",
+          "level": 2,
+          "content": [],
+          "images": [
+            "ceefb98d_de7fe404.png"
+          ]
+        },
+        {
+          "title": "When Changing Tyre Position",
+          "level": 2,
+          "content": [
+            "Delete old rotation arrow and position marking.",
+            "Write new arrow and position in ORANGE."
+          ],
+          "images": []
+        },
+        {
+          "title": "3.  TYRE BOOK",
+          "level": 1,
+          "content": [
+            "Each set has one page. Keep all fields filled. Write clearly and consistently.",
+            "⚠  Always confirm pressure values with engineer before bleeding. Do not leave empty fields."
+          ],
+          "images": [
+            "ceefb98d_c2156574.jpeg"
+          ]
+        },
+        {
+          "title": "4.  COMMUNICATION RULES",
+          "level": 1,
+          "content": [
+            "Always confirm with the engineer before:",
+            "Increasing or changing a pressure target",
+            "Changing tyre position on car",
+            "Dismounting a set",
+            "Discarding a set",
+            "⚠  If the plan changes at any point – re-confirm with engineer immediately. Clear communication prevents mistakes."
+          ],
+          "images": []
+        },
+        {
+          "title": "Check Tyre Temps in Ovens",
+          "level": 2,
+          "content": [
+            "Check regularly. Two methods:",
+            "Pyrometer – quick check through top window/zip. Not for precision – measures top and middle tyre.",
+            "TPMS system – precise; ask engineer for device or have engineer read values.",
+            "Oven temperature management:"
+          ],
+          "images": []
+        },
+        {
+          "title": "Session Confirm with Engineer",
+          "level": 2,
+          "content": [
+            "Which set?",
+            "Which session / stint?",
+            "Time of use?",
+            "Any plan changes?"
+          ],
+          "images": []
+        },
+        {
+          "title": "Final Pre-Run Wheel Check",
+          "level": 2,
+          "content": [
+            "Correct set on correct rim – re-confirm.",
+            "TPMS position confirmed with controller.",
+            "Valve torque 10 Nm, metallic cap fitted.",
+            "Balance weights secure - clean, tapped down with plastic hammer, aluminium tape applied.",
+            "Markings clearly visible (rotation arrow, position, set name).",
+            "No damage to shoulders or tread.",
+            "6.  DURING RUN / SESSION",
+            "Tyres to the Box",
+            "Prepare just before the call: zip suit, close slider, be ready. When called:",
+            "If we use the Ovens:",
+            "O1. Close slider first – prevents trolley wheels falling into hole.",
+            "O2. Extract trolley and close oven door immediately.",
+            "Move to box (walk the route beforehand so you know the best path).",
+            "Hand off to mechanics. Leave trolley in box (emergency spare) or return for next set.",
+            "Visual Checks on Car",
+            "Flat spots · cuts · shoulder damage.",
+            "Communicate findings to engineer immediately.",
+            "Be ready for possible single-side change – this is why position markings matter.",
+            "Hot Pressure Check (ALWAYS unless the engineer tells you NOT to)",
+            "⚠  Always ask engineer before bleeding hot pressures.",
+            "Free practice / test: check in pitlane with correct PPE (overall, helmet, glasses, armbrace).",
+            "Race and Qualifying: check pressures only after tyres are off the car – in the box.",
+            "Procedure:",
+            "Write target pressure on tape stuck to glove.",
+            "Follow clockwise order: FL → FR → RR → RL.",
+            "Record pressure before bleed and amount bled.",
+            "Correct to target only if engineer confirms.",
+            "Give data to engineer as soon as possible.",
+            "Write down pressures measured and correction on your booklet",
+            "⚠  Do NOT cross pitlane line without full PPE. \nWait for car and engine to stop before crossing. \nIf car stops  45°(NOSE IN),  wait until it is skated straight in position.",
+            "Swapping Position of Wheels between sessions",
+            "Delete old arrow and wheel markings",
+            "Write new arrow and wheel in ORANGE",
+            "Usually only happens when swapping LEFT side to Right for a quick refresh",
+            "Check Other/Next Sets",
+            "Right after dropping off a set, return to check the next set(s) planned to use",
+            "Communicate with engineer on timing and any plan changes."
+          ],
+          "images": []
+        },
+        {
+          "title": "Post-Session Tyre Treatment",
+          "level": 2,
+          "content": [
+            "Inspect tyres for damage – flat spots, cuts, shoulder, tread.",
+            "Record hot pressures (before tyre cools).",
+            "Record tread temperatures: Inside → Middle → Outside, order FL → FR → RR → RL.",
+            "Lay flat during cooling so all four tyres reach the same floor temperature.",
+            "Do NOT set down until tyres have cooled.",
+            "⚠  If inside/outside temperature difference is abnormal – inform engineer immediately.",
+            "After cooling – tyre marking & status:",
+            "Clean rims and do visual check of rubber surface.",
+            "Measure rubber thickness (see below)",
+            "Remove pick-up rubber (scraper + heat blower) IF the set will be reused.",
+            "Check and redo tyre markings – ensure all remain clearly visible.",
+            "If tyre will NOT be reused → mark X clearly on tread surface.",
+            "If tyre to be dismounted and kept in stock → mark KEEP clearly on surface."
+          ],
+          "images": []
+        },
+        {
+          "title": "Set Down (after cool-down)",
+          "level": 2,
+          "content": [
+            "Engineer confirms which sets to set down. Place in a cold, shaded spot.",
+            "Record rim temperature (above valve, same position always).",
+            "Record final cold pressure.",
+            "Return to storage pressure: Slicks 1.70 bar  |  Rain 1.90 bar.",
+            "Check pressure next morning for leaks – if dropped, inform engineer IMMEDIATELY.",
+            "Rubber thickness measurement (if requested by engineer):",
+            "Clean surfaces around the tread wear indicator holes.",
+            "Measure rubber thickness with the Depth Calliper (standard vernier calliper can be used).",
+            "Record values and pass to engineer."
+          ],
+          "images": [
+            "ceefb98d_1c75fe75.png",
+            "ceefb98d_5ccb22d9.jpeg"
+          ]
+        },
+        {
+          "title": "Ovens – After Session / Event",
+          "level": 2,
+          "content": [
+            "Shut off heater.",
+            "Open doors to cool down ovens.",
+            "Check fuel level: refuel if needed (do not overfill – heater takes longer to heat)."
+          ],
+          "images": []
+        },
+        {
+          "title": "Cleaning – Rims",
+          "level": 2,
+          "content": [
+            "Thorough clean required after each session. Sequence:",
+            "Place tyre on washer table.",
+            "Remove balance weights – including glue and tape. MANDATORY before bringing to any tyre supplier (both Goodyear and Michelin).",
+            "Remove yellow strips if damaged; replace when reassembling.",
+            "Spray with brake cleaner / wheel cleaner and let sit for 2 minutes (easier rubber removal).",
+            "Use plastic scraper to remove pick-up rubber from inside of rim.",
+            "Scrub with sponge dipped in soapy water – remove all grease and dust.",
+            "Rinse with water hose.",
+            "Check rim surface for cracks or damage.",
+            "⚠  Do not damage tread when cleaning. If supplier inspection required, clean tyre surface with heat gun as directed."
+          ],
+          "images": []
+        },
+        {
+          "title": "Cleaning – Tread",
+          "level": 2,
+          "content": [
+            "Remove pick-up rubber if set will be reused. Use heat gun to clean surface if a supplier inspection is planned – follow their instructions."
+          ],
+          "images": []
+        },
+        {
+          "title": "Goodyear / Michelin Handover",
+          "level": 2,
+          "content": [
+            "If Goodyear or Michelin has a booth, bring cleaned wheels to them for tyre removal/mounting. Bring tyre book and mark correct wheel set on the form. Wheels must be clean, inflated, balance weights removed, with stickers in correct positions."
+          ],
+          "images": []
+        },
+        {
+          "title": "At Track (Supplier Mounting)",
+          "level": 2,
+          "content": [
+            "Mounting and balancing is usually done by the supplier. We still verify:",
+            "Correct set on correct rim.",
+            "Balance weights:",
+            "Hammer with plastic hammer to be sitting correctly on rim",
+            "Clean surface around weight with brake cleaner",
+            "Apply aluminium tape",
+            "Rim stickers correct (inner side of spokes, except TPMS number).",
+            "Valve and TPMS sensor secure."
+          ],
+          "images": []
+        },
+        {
+          "title": "Workshop Mounting",
+          "level": 2,
+          "content": [
+            "Use white grease to protect rim bead seat.",
+            "Position tyre correctly with rim block.",
+            "Balance each wheel (front and rear separately).",
+            "Check diameter during balancing.",
+            "Remove all old weight glue before new balance.",
+            "Confirm TPMS position with controller after mounting.",
+            "Clean weight mounting area with brake cleaner, tap weight with plastic hammer, apply aluminium tape."
+          ],
+          "images": []
+        },
+        {
+          "title": "TPMS – Maintenance & Torques",
+          "level": 2,
+          "content": [
+            "⚠  ALWAYS use a NEW O-ring when fitting or re-fitting a TPMS sensor",
+            "⚠  Always check for damage before fitting – and report accordingly",
+            "Refer below for the installation procedure of the TPMS sensors"
+          ],
+          "images": []
+        },
+        {
+          "title": "Oven Setup (Workshop)",
+          "level": 2,
+          "content": [
+            "Full oven setup procedure:",
+            "Ensure whole system is flat – adjust with bolts if necessary, check ramps for height difference.",
+            "Mount sensors in every oven; main sensor in oven 2. Confirm system works correctly.",
+            "Mount heater correctly, fuel up, confirm adequate diesel in jerrycans.",
+            "Check structure: ramps, floor, walls, sliders for damage and stability.",
+            "Confirm ON/OFF temperature settings with engineer (standard: 5 °C difference)"
+          ],
+          "images": []
+        },
+        {
+          "title": "9.  TPMS SENSOR – INSTALLATION & TORQUES",
+          "level": 1,
+          "content": [
+            "⚠  ALWAYS fit a NEW O-ring / rubber seal every time a TPMS sensor or valve is removed and re-fitted. Never reuse.",
+            "⚠ ALWAYS use a torque wrench. Guessing torque causes leaks, sensor damage, or stripped threads.",
+            "⚠  Remove valve cap BEFORE tightening valve nut – cap inside socket stresses and bends the valve."
+          ],
+          "images": []
+        },
+        {
+          "title": "1 · Valve Installation",
+          "level": 2,
+          "content": [
+            "Valve kit (inside rim → outside rim) · mounting tool · clean rim hole before fitting",
+            "Clean hole area - removes all grease and debris.",
+            "Fit NEW O-ring - onto valve body – never reuse old seal.",
+            "Insert valve - through rim from inside, hold with mounting rod.",
+            "Remove cap - before tightening – cap in socket stresses the valve.",
+            "Tighten outer nut - 14 mm wrench · Torque: 10–11 Nm.",
+            "Check valve - did not rotate during tightening.",
+            "Fit cap - only after torquing is complete.",
+            "Tightening procedure · cap-off warning · stacking damage risk"
+          ],
+          "images": [
+            "ceefb98d_0e280952.png",
+            "ceefb98d_e4b572f0.png"
+          ]
+        },
+        {
+          "title": "2 · TPMS-RS21 Sensor  (Basic)",
+          "level": 2,
+          "content": [
+            "RS21 kit: sensor body · oblong washer · Torx T20 screw  ·  mounted on rim with silicone",
+            "Confirm valve torqued - before proceeding.",
+            "Fit oblong washer - onto sensor – correct orientation.",
+            "Place sensor on rim - full contact with rim surface.",
+            "Torque Torx T20 to 4 Nm - confirm sensor did not twist.",
+            "Apply silicone - to both sides of sensor body – fixation and vibration.",
+            "Verify with TPMS-RH21 - confirm corner assignment."
+          ],
+          "images": [
+            "ceefb98d_99c67832.png"
+          ]
+        },
+        {
+          "title": "3 · TPMS-IR21 Sensor  (Advanced – includes Rim Temperature)",
+          "level": 2,
+          "content": [
+            "IR21: thermal foam fills pad gap (top) · oblong washer + thermal foam + silicone when mounted (bottom)",
+            "Same steps as RS21, with one additional requirement:",
+            "Fit thermal foam - fill gap between thermal pad and rim before mounting – required for accurate rim temp.",
+            "All other steps - identical to RS21 above.",
+            "Verify rim temp reading - on TPMS-RH21 after mounting – should be plausible.",
+            "⚠  Without thermal foam the IR21 rim temperature reading will be inaccurate. Always fit foam."
+          ],
+          "images": [
+            "ceefb98d_3f1413de.png"
+          ]
+        },
+        {
+          "title": "4 · Maintenance & Battery",
+          "level": 2,
+          "content": [
+            "O-ring: one new seal per fit, every time. No exceptions.",
+            "Diagnostics: if TPMS-RH21 shows value ≠ 0x00, check thresholds are consistent, or restart sensor with ON command.",
+            "Storage mode while inflated: send ON with TPMS-RH21 (within 60 cm), or deflate / re-inflate above threshold.",
+            "Always confirm with engineer before any non-standard action.",
+            "10.  CHECKLISTS & NOTES",
+            "Each checklist is repeated 4× so it can be used across multiple events or sessions. Fill in Date, Event, and Sets at the top of each instance."
+          ],
+          "images": []
+        },
+        {
+          "title": "Notes",
+          "level": 2,
+          "content": [
+            "NOTES & IMPROVEMENTS",
+            "Use this space to record lessons learned, issues to fix, or improvements for the next event.",
+            "[Table]\nLayout order | \nTyre temp | Pyrometer above valve – approx. 5 cm from edge. Consistency is key.\nRim temp | Same position as tyre temp – above valve. Do if engineer requests.\nPressure | Record cold pressure after temperatures.",
+            "[Table]\nBottom → Top | RR (1st, bottom)  →  RL (2nd)  →  FR (3rd)  →  FL (4th, top)",
+            "[Table]\nTent / Box | Pyrometer (temperature gun)\n\nManometer x 2 (check batteries)\n \nAir Pressure Gauge\n\nAir Pump Guns\n\nSpare Valves\n\n\nMetallic Caps\n\n Valve Screwdriver & Tightening Key\n\n \nWhite & Orange Markers\n \n Chalk\n\n Tread Wear Calliper\n\n\n Aluminium Tape\n \nBrake Cleaner\n\nRim Cleaner\n\n\n Rubber scraper\n\nHeat Gun (check it works)\n\n\n Tyre Booklet\n\n Gloves & Rags\n\n\nTPMS O-ring\n\n\nMilwaukee Tyre Pressure Inflating Tool (charged) | Pyrometer (temperature gun)\n\nManometer x 2 (check batteries)\n \nAir Pressure Gauge\n\nAir Pump Guns\n\nSpare Valves\n\n\nMetallic Caps\n\n Valve Screwdriver & Tightening Key\n\n \nWhite & Orange Markers\n \n Chalk\n\n Tread Wear Calliper\n\n\n Aluminium Tape\n \nBrake Cleaner\n\nRim Cleaner\n\n\n Rubber scraper\n\nHeat Gun (check it works)\n\n\n Tyre Booklet\n\n Gloves & Rags\n\n\nTPMS O-ring\n\n\nMilwaukee Tyre Pressure Inflating Tool (charged)\nNitrogen (if used) | Nitrogen (if used) | Prepare bottles in position with manometers before session.\nPPE (for pitlane) | PPE (for pitlane) | Overall · fireproof underwear · shoes · gloves · helmet & glasses · armbrace\nRadio | Radio | Check before event day – always return to charge after use.",
+            "[Table]\n111 | Chassis number\nX11 | Event – T (Test) or R (Race) + number\n1 | Run number (1 digit)\n1 | Tyre Number (1,2,3,4) – [FL,FR,RL,RR]\nW | ONLY IF RAIN TYRE",
+            "[Table]\nX on tread | Tyre will NOT be reused\nKEEP on tyre | Tyre stays in stock",
+            "[Table]\nCold (before session) | Cold rim temp · cold pressure (1.70 slick / 1.90 rain)\nRun 0 | Time · pressure before bleed · amount bled\nEach on-track check | Time · 3 tread temps (Inside / Middle / Outside) · pressure · bleed amount\nSet down | Time · Rim temp · final pressure",
+            "[Table]\nToo cold (>15 min to go) | BOOST: leave slider open, raise ON/OFF setting by +5 °C temporarily.\nToo hot | Close slider only – do NOT open door suddenly (room cools, heater fires again, set gets hotter).\nStandard difference | 5 °C between ON and OFF settings.",
+            "[Table]\nTorx screw (sensor body) | 4 Nm  (Torx T20)\nValve nut (inside rim) | 10 Nm specified  –  11 Nm recommended (ELMS practice)\nInside valve (air valve) | 6–8 Nm\nController proximity | LF write functions require max 60 cm from sensor",
+            "[Table]\nSensor body screw  (Torx T20) | 4 Nm  –  do not over-tighten, cracks sensor\nValve nut  (inside rim, 14 mm wrench) | 10–11 Nm  –  11 Nm recommended (ELMS)\nAir valve  (inner) | 6–8 Nm  –  remove cap before tightening\nTPMS-RH21 controller range | LF write functions: max 60 cm from sensor",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #1 | A.  BEFORE LEAVING — Workshop → Event   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #2 | A.  BEFORE LEAVING — Workshop → Event   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #3 | A.  BEFORE LEAVING — Workshop → Event   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #4 | A.  BEFORE LEAVING — Workshop → Event   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #5 | A.  BEFORE LEAVING — Workshop → Event   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #6 | A.  BEFORE LEAVING — Workshop → Event   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #7 | A.  BEFORE LEAVING — Workshop → Event   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #8 | A.  BEFORE LEAVING — Workshop → Event   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #9 | A.  BEFORE LEAVING — Workshop → Event   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #10 | A.  BEFORE LEAVING — Workshop → Event   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #1 | B.  WHEEL CHECK — Per Set / Per Session   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #2 | B.  WHEEL CHECK — Per Set / Per Session   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #3 | B.  WHEEL CHECK — Per Set / Per Session   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #4 | B.  WHEEL CHECK — Per Set / Per Session   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #5 | B.  WHEEL CHECK — Per Set / Per Session   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #6 | B.  WHEEL CHECK — Per Set / Per Session   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #7 | B.  WHEEL CHECK — Per Set / Per Session   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #8 | B.  WHEEL CHECK — Per Set / Per Session   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #9 | B.  WHEEL CHECK — Per Set / Per Session   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #10 | B.  WHEEL CHECK — Per Set / Per Session   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐",
+            "[Table]\nC.  SESSION PREP   #1 | C.  SESSION PREP   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #2 | C.  SESSION PREP   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #3 | C.  SESSION PREP   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #4 | C.  SESSION PREP   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #5 | C.  SESSION PREP   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #6 | C.  SESSION PREP   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #7 | C.  SESSION PREP   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #8 | C.  SESSION PREP   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #9 | C.  SESSION PREP   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nC.  SESSION PREP   #10 | C.  SESSION PREP   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐",
+            "[Table]\nD.  DURING SESSION   #1 | D.  DURING SESSION   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #2 | D.  DURING SESSION   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #3 | D.  DURING SESSION   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #4 | D.  DURING SESSION   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #5 | D.  DURING SESSION   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #6 | D.  DURING SESSION   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #7 | D.  DURING SESSION   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #8 | D.  DURING SESSION   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #9 | D.  DURING SESSION   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nD.  DURING SESSION   #10 | D.  DURING SESSION   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐",
+            "[Table]\nE.  AFTER SESSION / EVENT   #1 | E.  AFTER SESSION / EVENT   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | ☐\nOvens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | ☐",
+            "[Table]\nE.  AFTER SESSION / EVENT   #2 | E.  AFTER SESSION / EVENT   #2 | E.  AFTER SESSION / EVENT   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐ | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐ | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐ | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐ | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐ | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐ | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐ | ☐\nTyre markings checked & redone as needed | ☐ | ☐\nReplace Set?\nSets: | ☐ | ☐\nOvens off — doors open to cool | ☐ | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐ | ☐\nCompressors bled empty — remove humidity | ☐ | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐ | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐ | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐ | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐ | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐ | ☐\nRadio returned to charge | ☐ | ☐\nTent & box cleaned up, all material put back in correct place | ☐ | ☐\nE.  AFTER SESSION / EVENT   #3 | E.  AFTER SESSION / EVENT   #3 | E.  AFTER SESSION / EVENT   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | Hot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | Tread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | Tyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | Abnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | Visual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | Rubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | Pick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | Tyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | Replace Set?\nSets: | ☐\nOvens off — doors open to cool | Ovens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | Oven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | Compressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | Rims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | Tread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | Wheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | Set-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | Pressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | Radio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | Tent & box cleaned up, all material put back in correct place | ☐\nE.  AFTER SESSION / EVENT   #4 | E.  AFTER SESSION / EVENT   #4 | E.  AFTER SESSION / EVENT   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | Hot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | Tread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | Tyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | Abnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | Visual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | Rubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | Pick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | Tyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | Replace Set?\nSets: | ☐\nOvens off — doors open to cool | Ovens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | Oven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | Compressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | Rims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | Tread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | Wheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | Set-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | Pressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | Radio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | Tent & box cleaned up, all material put back in correct place | ☐\nE.  AFTER SESSION / EVENT   #5 | E.  AFTER SESSION / EVENT   #5 | E.  AFTER SESSION / EVENT   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐ | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐ | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐ | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐ | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐ | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐ | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐ | ☐\nTyre markings checked & redone as needed | ☐ | ☐\nReplace Set?\nSets: | ☐ | ☐\nOvens off — doors open to cool | ☐ | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐ | ☐\nCompressors bled empty — remove humidity | ☐ | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐ | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐ | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐ | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐ | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐ | ☐\nRadio returned to charge | ☐ | ☐\nTent & box cleaned up, all material put back in correct place | ☐ | ☐",
+            "[Table]\nE.  AFTER SESSION / EVENT   #6 | E.  AFTER SESSION / EVENT   #6 | E.  AFTER SESSION / EVENT   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐ | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐ | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐ | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐ | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐ | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐ | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐ | ☐\nTyre markings checked & redone as needed | ☐ | ☐\nReplace Set?\nSets: | ☐ | ☐\nOvens off — doors open to cool | ☐ | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐ | ☐\nCompressors bled empty — remove humidity | ☐ | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐ | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐ | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐ | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐ | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐ | ☐\nRadio returned to charge | ☐ | ☐\nTent & box cleaned up, all material put back in correct place | ☐ | ☐\nE.  AFTER SESSION / EVENT   #7 | E.  AFTER SESSION / EVENT   #7 | E.  AFTER SESSION / EVENT   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | Hot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | Tread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | Tyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | Abnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | Visual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | Rubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | Pick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | Tyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | Replace Set?\nSets: | ☐\nOvens off — doors open to cool | Ovens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | Oven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | Compressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | Rims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | Tread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | Wheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | Set-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | Pressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | Radio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | Tent & box cleaned up, all material put back in correct place | ☐\nE.  AFTER SESSION / EVENT   #8 | E.  AFTER SESSION / EVENT   #8 | E.  AFTER SESSION / EVENT   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | Hot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | Tread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | Tyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | Abnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | Visual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | Rubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | Pick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | Tyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | Replace Set?\nSets: | ☐\nOvens off — doors open to cool | Ovens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | Oven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | Compressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | Rims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | Tread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | Wheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | Set-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | Pressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | Radio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | Tent & box cleaned up, all material put back in correct place | ☐\nE.  AFTER SESSION / EVENT   #9 | E.  AFTER SESSION / EVENT   #9 | E.  AFTER SESSION / EVENT   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐ | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐ | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐ | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐ | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐ | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐ | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐ | ☐\nTyre markings checked & redone as needed | ☐ | ☐\nReplace Set?\nSets: | ☐ | ☐\nOvens off — doors open to cool | ☐ | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐ | ☐\nCompressors bled empty — remove humidity | ☐ | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐ | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐ | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐ | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐ | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐ | ☐\nRadio returned to charge | ☐ | ☐\nTent & box cleaned up, all material put back in correct place | ☐ | ☐",
+            "[Table]\nE.  AFTER SESSION / EVENT   #10 | E.  AFTER SESSION / EVENT   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names: | Date: _______________   Time: ___________   Event: ___________________________\nSet names:\nHot pressures recorded before tyres cool | ☐\nTread temperatures recorded — Inside / Middle / Outside per wheel, FL → FR → RR → RL | ☐\nTyres laid flat during cool-down (equal floor temperature) | ☐\nAbnormal inside/outside temp difference? → engineer informed immediately | ☐\nVisual inspection — flat spots, cuts, shoulder, tread damage noted | ☐\nRubber thickness measured at tread wear indicator holes (if engineer requests) | ☐\nPick-up rubber removed with scraper + heat blower (if set will be reused) | ☐\nTyre markings checked & redone as needed | ☐\nReplace Set?\nSets: | ☐\nOvens off — doors open to cool | ☐\nOven fuel level checked — refuelled if needed (do not overfill) | ☐\nCompressors bled empty — remove humidity | ☐\nRims cleaned — weights+glue+tape removed (mandatory before supplier), rubber scraped, brake cleaner 2 min, sponge+soap, rinse, surface check\nSets cleaned: | ☐\nTread cleaned with heat gun (if Goodyear / Michelin inspection planned) | ☐\nWheels brought to Goodyear / Michelin with tyre book — set name marked on form (if booth present) | ☐\nSet-down pressures recorded — Slicks 1.70 / Rain 1.90 | ☐\nPressure leak check planned for next morning (if drop → inform engineer immediately) | ☐\nRadio returned to charge | ☐\nTent & box cleaned up, all material put back in correct place | ☐"
+          ],
+          "images": []
+        }
+      ]
+    }
+  ]
+}
