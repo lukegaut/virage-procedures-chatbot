@@ -7,7 +7,7 @@ import streamlit as st
 from pathlib import Path
 from groq import Groq
 from search_engine import search, get_context_for_llm, get_document_list, load_index
-from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR
+from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR, EXTRACTED_DIR
 
 # --- Page Config ---
 st.set_page_config(
@@ -71,17 +71,75 @@ Answer using ONLY the information from the procedure context above."""
 
 def display_images(images):
     """Display procedure images in the chat."""
+    shown = set()
     for img_file in images:
+        if img_file in shown:
+            continue
+        shown.add(img_file)
         img_path = IMAGES_DIR / img_file
         if img_path.exists():
             st.image(str(img_path), use_container_width=True)
 
 
-# --- Sidebar ---
-with st.sidebar:
-    st.title("⚙️ Settings")
+# --- Page routing ---
+page = st.sidebar.radio("", ["💬 Chat", "⚙️ Admin"], label_visibility="collapsed")
 
-    # Rebuild index button
+if page == "⚙️ Admin":
+    # ========================
+    #  ADMIN CENTER
+    # ========================
+    st.title("⚙️ Admin Center")
+    st.caption("Upload new procedure documents or remove existing ones.")
+
+    st.divider()
+
+    # --- Upload new documents ---
+    st.subheader("📤 Upload Procedure Documents")
+    uploaded_files = st.file_uploader(
+        "Upload .docx files",
+        type=["docx"],
+        accept_multiple_files=True,
+    )
+
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            filepath = PROCEDURES_DIR / uploaded_file.name
+            with open(filepath, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            st.success(f"Uploaded: {uploaded_file.name}")
+
+        # Auto-rebuild index after upload
+        with st.spinner("Rebuilding document index..."):
+            index = build_index()
+            doc_count = len(index["documents"])
+            section_count = sum(len(d["sections"]) for d in index["documents"])
+        st.success(f"Index rebuilt: {doc_count} document(s), {section_count} sections")
+
+    st.divider()
+
+    # --- Manage existing documents ---
+    st.subheader("📄 Existing Documents")
+    docs = list(PROCEDURES_DIR.glob("*.docx"))
+
+    if not docs:
+        st.info("No procedure documents loaded yet. Upload some above.")
+    else:
+        for doc_path in docs:
+            col1, col2 = st.columns([4, 1])
+            with col1:
+                st.write(f"📄 {doc_path.name}")
+            with col2:
+                if st.button("🗑️ Remove", key=f"del_{doc_path.name}"):
+                    doc_path.unlink()
+                    st.success(f"Removed: {doc_path.name}")
+                    # Rebuild index after removal
+                    with st.spinner("Rebuilding index..."):
+                        build_index()
+                    st.rerun()
+
+    st.divider()
+
+    # --- Rebuild index manually ---
     if st.button("🔄 Rebuild Document Index", use_container_width=True):
         with st.spinner("Processing documents..."):
             index = build_index()
@@ -89,20 +147,8 @@ with st.sidebar:
             section_count = sum(len(d["sections"]) for d in index["documents"])
             st.success(f"Indexed {doc_count} document(s), {section_count} sections")
 
+    # --- API key status ---
     st.divider()
-
-    # Show indexed documents
-    st.subheader("📄 Indexed Documents")
-    docs = get_document_list()
-    if docs:
-        for doc in docs:
-            st.write(f"• {doc}")
-    else:
-        st.warning("No documents indexed yet. Place .docx files in the `procedures` folder and click 'Rebuild Document Index'.")
-
-    st.divider()
-
-    # API key status
     api_key = st.secrets.get("GROQ_API_KEY", "")
     if api_key:
         st.success("🤖 AI: Connected (Groq)")
@@ -110,68 +156,70 @@ with st.sidebar:
         st.error("🤖 AI: No API key")
         st.caption("Add GROQ_API_KEY to secrets")
 
-    st.divider()
-    st.caption("Place procedure .docx files in:")
-    st.code(str(PROCEDURES_DIR.resolve()), language=None)
+else:
+    # ========================
+    #  CHAT INTERFACE
+    # ========================
+    st.title("🔧 Virage Procedures Chatbot")
+    st.caption("Ask questions about procedures — answers are generated from your documentation only.")
 
-# --- Main Chat Interface ---
-st.title("🔧 Virage Procedures Chatbot")
-st.caption("Ask questions about procedures — answers are generated from your documentation only.")
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+    # Display chat history
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+            if "images" in message and message["images"]:
+                display_images(message["images"])
 
-# Display chat history
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-        if "images" in message and message["images"]:
-            display_images(message["images"])
+    # Chat input
+    if prompt := st.chat_input("Ask about a procedure... (e.g., 'How do I change a tyre?')"):
+        index = load_index()
+        if not index["documents"]:
+            st.warning("⚠️ No documents indexed yet. Go to the Admin page to upload procedure documents.")
+        else:
+            # Display user message
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            st.session_state.messages.append({"role": "user", "content": prompt})
 
-# Chat input
-if prompt := st.chat_input("Ask about a procedure... (e.g., 'How do I change a tyre?')"):
-    # Check if index exists
-    index = load_index()
-    if not index["documents"]:
-        st.warning("⚠️ No documents indexed yet. Place .docx files in the `procedures` folder and click 'Rebuild Document Index' in the sidebar.")
-    else:
-        # Display user message
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        st.session_state.messages.append({"role": "user", "content": prompt})
+            # Search for relevant context
+            context, images = get_context_for_llm(prompt, max_sections=3)
 
-        # Search for relevant context
-        context, images = get_context_for_llm(prompt, max_sections=3)
+            # Only show images from the top matching section
+            top_results = search(prompt, top_k=1)
+            top_images = top_results[0]["images"] if top_results else []
 
-        # Generate AI response
-        with st.chat_message("assistant"):
-            if not context:
-                response_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
-            else:
-                with st.spinner("Searching procedures..."):
-                    try:
-                        response_text = get_ai_response(prompt, context)
-                    except Exception as e:
-                        response_text = f"Error generating response: {e}"
+            # Generate AI response
+            with st.chat_message("assistant"):
+                if not context:
+                    response_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
+                else:
+                    with st.spinner("Searching procedures..."):
+                        try:
+                            response_text = get_ai_response(prompt, context)
+                        except Exception as e:
+                            response_text = f"Error generating response: {e}"
 
-            st.markdown(response_text)
+                st.markdown(response_text)
 
-            # Show relevant images
-            if images:
-                st.divider()
-                st.caption("📸 Related procedure images:")
-                display_images(images)
+                # Show images from top matching section only
+                if top_images:
+                    st.divider()
+                    st.caption("📸 Related procedure images:")
+                    display_images(top_images)
 
-            # Show sources
-            results = search(prompt, top_k=5)
-            if results:
-                with st.expander("📋 Sources"):
-                    for r in results:
-                        st.markdown(f"- **{r['section_title']}** from _{r['doc_name']}_")
+                # Show sources
+                results = search(prompt, top_k=3)
+                if results:
+                    with st.expander("📋 Sources"):
+                        for r in results:
+                            st.markdown(f"- **{r['section_title']}** from _{r['doc_name']}_")
 
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": response_text,
-            "images": images if images else [],
-        })
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": response_text,
+                "images": top_images,
+            })
