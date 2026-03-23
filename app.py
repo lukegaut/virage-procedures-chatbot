@@ -64,10 +64,7 @@ CRITICAL RULES:
 6. When referencing specific steps, mention which procedure document they come from.
 7. Format your response for easy reading - use bullet points and numbered steps where appropriate.
 8. Keep answers focused and concise - mechanics need quick answers, not essays.
-9. You MUST write either [SHOW_IMAGES] or [HIDE_IMAGES] as the very last line of your response. Nothing else after it.
-   - Use [SHOW_IMAGES] ONLY when the user explicitly asks to see an image/photo/picture, OR when describing a physical hands-on task where seeing a photo is essential (e.g., "how to install a sensor", "where to place the washer").
-   - Use [HIDE_IMAGES] for everything else: summaries, overviews, explanations, lists of steps, values, settings, torque specs, general questions.
-   - DEFAULT to [HIDE_IMAGES]. Only use [SHOW_IMAGES] in rare cases where an image is truly essential."""
+9. Do NOT include any image tags or image instructions in your response."""
 
 
 def get_recent_chat_context():
@@ -241,15 +238,25 @@ else:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    # Track which messages have images revealed
+    if "revealed_images" not in st.session_state:
+        st.session_state.revealed_images = set()
+
     # Display chat history
-    for message in st.session_state.messages:
+    for i, message in enumerate(st.session_state.messages):
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-            if "images" in message and message["images"]:
-                display_images(message["images"])
+            # Show "View images" button for assistant messages that have images available
+            if message["role"] == "assistant" and message.get("available_images"):
+                if i in st.session_state.revealed_images:
+                    display_images(message["available_images"])
+                else:
+                    if st.button("📸 View related images", key=f"img_{i}"):
+                        st.session_state.revealed_images.add(i)
+                        st.rerun()
 
     # Chat input
-    if prompt := st.chat_input("Ask about a procedure... (e.g., 'How do I change a tyre?')"):
+    if prompt := st.chat_input("Ask about a procedure... (💡 Click 'View images' below answers for photos)"):
         index = load_index()
         if not index["documents"]:
             st.warning("⚠️ No documents indexed yet. Go to the Admin page to upload procedure documents.")
@@ -269,28 +276,23 @@ else:
             # Generate AI response
             with st.chat_message("assistant"):
                 if not context:
-                    response_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
+                    display_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
+                    images = []
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
-                            response_text = get_ai_response(prompt, context, chat_history)
+                            display_text = get_ai_response(prompt, context, chat_history)
                         except Exception as e:
-                            response_text = f"Error generating response: {e}"
-
-                # Check if AI explicitly requested images — default to hiding
-                show_images = "[SHOW_IMAGES]" in response_text
-                # Strip the tags from the displayed response
-                display_text = response_text.replace("[SHOW_IMAGES]", "").replace("[HIDE_IMAGES]", "").strip()
-                # Also strip if the AI put it in brackets or with extra formatting
-                display_text = display_text.rstrip("[]").strip()
+                            display_text = f"Error generating response: {e}"
 
                 st.markdown(display_text)
 
-                # Only show images if the AI decided they're helpful
-                if show_images and images:
-                    st.divider()
-                    st.caption("📸 Related procedure images:")
-                    display_images(images)
+                # Show "View images" button if images are available
+                if images:
+                    msg_idx = len(st.session_state.messages)
+                    if st.button("📸 View related images", key=f"img_{msg_idx}"):
+                        st.session_state.revealed_images.add(msg_idx)
+                        st.rerun()
 
                 # Show sources
                 results = search(search_query, top_k=3)
@@ -302,5 +304,5 @@ else:
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": display_text,
-                "images": images if (show_images and images) else [],
+                "available_images": images if images else [],
             })
