@@ -3,11 +3,14 @@ Virage Procedures Chatbot
 A chatbot for mechanics and engineers to query procedure documents.
 """
 
+import time
 import streamlit as st
 from pathlib import Path
 from google import genai
 from search_engine import search, get_context_for_llm, get_document_list, load_index
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR
+
+GEMINI_MODELS = ["gemini-2.0-flash-lite", "gemini-2.0-flash", "gemini-1.5-flash"]
 
 # --- Page Config ---
 st.set_page_config(
@@ -55,11 +58,19 @@ USER QUESTION: {query}
 
 Answer using ONLY the information from the procedure context above."""
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
-    )
-    return response.text
+    # Try multiple models in case one hits rate limits
+    for model in GEMINI_MODELS:
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+            )
+            return response.text
+        except Exception as e:
+            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                continue  # Try next model
+            raise
+    return "⚠️ All AI models are currently rate-limited. Please wait a minute and try again."
 
 
 def display_images(images):
