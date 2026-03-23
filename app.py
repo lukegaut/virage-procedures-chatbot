@@ -64,10 +64,10 @@ CRITICAL RULES:
 6. When referencing specific steps, mention which procedure document they come from.
 7. Format your response for easy reading - use bullet points and numbered steps where appropriate.
 8. Keep answers focused and concise - mechanics need quick answers, not essays.
-9. At the very end of your response, on a new line, write either [SHOW_IMAGES] or [HIDE_IMAGES].
-   - Use [SHOW_IMAGES] ONLY when images would genuinely help understanding (e.g., installation steps, physical placement, visual identification, showing a tool or part).
-   - Use [HIDE_IMAGES] when the answer is about values, numbers, text-based procedures, settings, or concepts that don't need visual aid.
-   - When in doubt, use [HIDE_IMAGES]."""
+9. You MUST write either [SHOW_IMAGES] or [HIDE_IMAGES] as the very last line of your response. Nothing else after it.
+   - Use [SHOW_IMAGES] ONLY when the user explicitly asks to see an image/photo/picture, OR when describing a physical hands-on task where seeing a photo is essential (e.g., "how to install a sensor", "where to place the washer").
+   - Use [HIDE_IMAGES] for everything else: summaries, overviews, explanations, lists of steps, values, settings, torque specs, general questions.
+   - DEFAULT to [HIDE_IMAGES]. Only use [SHOW_IMAGES] in rare cases where an image is truly essential."""
 
 
 def get_recent_chat_context():
@@ -277,10 +277,12 @@ else:
                         except Exception as e:
                             response_text = f"Error generating response: {e}"
 
-                # Check if AI wants to show images
+                # Check if AI explicitly requested images — default to hiding
                 show_images = "[SHOW_IMAGES]" in response_text
-                # Strip the tag from the displayed response
+                # Strip the tags from the displayed response
                 display_text = response_text.replace("[SHOW_IMAGES]", "").replace("[HIDE_IMAGES]", "").strip()
+                # Also strip if the AI put it in brackets or with extra formatting
+                display_text = display_text.rstrip("[]").strip()
 
                 st.markdown(display_text)
 
