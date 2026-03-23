@@ -63,7 +63,11 @@ CRITICAL RULES:
 5. If safety warnings or torque specs are mentioned in the procedures, ALWAYS include them.
 6. When referencing specific steps, mention which procedure document they come from.
 7. Format your response for easy reading - use bullet points and numbered steps where appropriate.
-8. Keep answers focused and concise - mechanics need quick answers, not essays."""
+8. Keep answers focused and concise - mechanics need quick answers, not essays.
+9. At the very end of your response, on a new line, write either [SHOW_IMAGES] or [HIDE_IMAGES].
+   - Use [SHOW_IMAGES] ONLY when images would genuinely help understanding (e.g., installation steps, physical placement, visual identification, showing a tool or part).
+   - Use [HIDE_IMAGES] when the answer is about values, numbers, text-based procedures, settings, or concepts that don't need visual aid.
+   - When in doubt, use [HIDE_IMAGES]."""
 
 
 def get_recent_chat_context():
@@ -270,10 +274,15 @@ else:
                         except Exception as e:
                             response_text = f"Error generating response: {e}"
 
-                st.markdown(response_text)
+                # Check if AI wants to show images
+                show_images = "[SHOW_IMAGES]" in response_text
+                # Strip the tag from the displayed response
+                display_text = response_text.replace("[SHOW_IMAGES]", "").replace("[HIDE_IMAGES]", "").strip()
 
-                # Show related images
-                if images:
+                st.markdown(display_text)
+
+                # Only show images if the AI decided they're helpful
+                if show_images and images:
                     st.divider()
                     st.caption("📸 Related procedure images:")
                     display_images(images)
@@ -287,6 +296,6 @@ else:
 
             st.session_state.messages.append({
                 "role": "assistant",
-                "content": response_text,
-                "images": images if images else [],
+                "content": display_text,
+                "images": images if (show_images and images) else [],
             })
