@@ -92,11 +92,15 @@ def process_document(filepath):
     image_map = extract_images(doc, doc_id)
 
     sections = []
+    # Track parent headings so sub-sections inherit parent context
+    parent_headings = {}  # level -> title
+
     current_section = {
         "title": doc_name,
         "level": 0,
         "content": [],
         "images": [],
+        "parent": "",
     }
 
     for item in iter_block_items(doc):
@@ -122,11 +126,25 @@ def process_document(filepath):
                 if current_section["content"] or current_section["images"]:
                     sections.append(current_section)
 
+                # Update parent heading tracking
+                parent_headings[heading_level] = text
+                # Clear any deeper level parents
+                for lvl in list(parent_headings.keys()):
+                    if lvl > heading_level:
+                        del parent_headings[lvl]
+
+                # Find parent title (closest heading with a lower level)
+                parent = ""
+                for lvl in sorted(parent_headings.keys()):
+                    if lvl < heading_level:
+                        parent = parent_headings[lvl]
+
                 current_section = {
                     "title": text,
                     "level": heading_level,
                     "content": [],
                     "images": [],
+                    "parent": parent,
                 }
             else:
                 if text:

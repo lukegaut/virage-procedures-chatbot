@@ -48,6 +48,25 @@ SYNONYMS = {
     "change": ["changing", "swap", "swapping", "replace", "replacing"],
     "fit": ["fitting", "mount", "mounting", "install"],
     "fitting": ["fit", "mount", "mounting", "install"],
+    "naming": ["markings", "marking", "identification", "label", "labelling", "name", "format"],
+    "name": ["naming", "markings", "identification", "label", "format"],
+    "markings": ["marking", "naming", "identification", "label", "labelling", "name"],
+    "marking": ["markings", "naming", "identification", "label", "labelling"],
+    "identification": ["markings", "naming", "label", "identify"],
+    "label": ["labelling", "markings", "marking", "naming", "identification", "sticker"],
+    "sticker": ["stickers", "label", "marking"],
+    "stickers": ["sticker", "label", "marking"],
+    "clean": ["cleaning", "wash", "washing"],
+    "cleaning": ["clean", "wash", "washing"],
+    "weight": ["weights", "balance"],
+    "weights": ["weight", "balance"],
+    "balance": ["weights", "weight"],
+    "damage": ["damaged", "crack", "cracked", "broken"],
+    "procedure": ["process", "steps", "method", "guide"],
+    "set": ["sets"],
+    "sets": ["set"],
+    "session": ["run", "stint"],
+    "grid": ["pre-grid", "pregrid"],
 }
 
 
@@ -99,6 +118,11 @@ def score_section(query_tokens, expanded_tokens, section):
     """Score how relevant a section is to the query."""
     title_text = section["title"].lower()
     title_tokens = tokenize(section["title"])
+    # Include parent heading in title matching so sub-sections are findable
+    parent = section.get("parent", "")
+    if parent:
+        title_text = f"{parent.lower()} {title_text}"
+        title_tokens = tokenize(parent) + title_tokens
     content_text = " ".join(section["content"]).lower()
     content_tokens = set(tokenize(content_text))  # Use set to avoid counting duplicates
     all_title_tokens = set(title_tokens)

@@ -12,7 +12,8 @@
             "Turn ovens on as early as possible so they have time to reach temperature before the first set goes in. Check fuel level on the heater.",
             "⚠  Always confirm oven ON/OFF temperature settings with the engineer. Standard difference: 5 °C."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Get Sets Out & Measure",
@@ -22,7 +23,8 @@
             "[Table]\nLayout order | \nTyre temp | Pyrometer above valve – approx. 5 cm from edge. Consistency is key.\nRim temp | Same position as tyre temp – above valve. Do if engineer requests.\nPressure | Record cold pressure after temperatures.",
             "Write all values in the tyre book and give to engineer as soon as possible."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Rim & Wheel Checks",
@@ -40,7 +42,8 @@
             "Yellow strips – undamaged; replace if worn or misaligned.",
             "Tyre shoulders – straight, no cracks."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Set Cold Pressures",
@@ -60,7 +63,8 @@
             "Corrections must show 2 digits after comma.",
             "⚠  To increase pressure – ask engineer first. During race: remove wheel and take it to the box before adding air."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Stack & Store Correctly",
@@ -77,7 +81,8 @@
             "In the box, on the marked areas only.",
             "Always keep sets together – do not mix rims between sets unless engineer confirms."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Put Sets in Ovens",
@@ -90,7 +95,8 @@
             "Close all doors, windows, and zip fully.",
             "⚠  Check fuel level between sessions. Refuel before events to avoid leaving mid-session."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Material Checklist",
@@ -98,7 +104,8 @@
           "content": [
             "[Table]\nTent / Box | Pyrometer (temperature gun)\n\nManometer x 2 (check batteries)\n \nAir Pressure Gauge\n\nAir Pump Guns\n\nSpare Valves\n\n\nMetallic Caps\n\n Valve Screwdriver & Tightening Key\n\n \nWhite & Orange Markers\n \n Chalk\n\n Tread Wear Calliper\n\n\n Aluminium Tape\n \nBrake Cleaner\n\nRim Cleaner\n\n\n Rubber scraper\n\nHeat Gun (check it works)\n\n\n Tyre Booklet\n\n Gloves & Rags\n\n\nTPMS O-ring\n\n\nMilwaukee Tyre Pressure Inflating Tool (charged)\nNitrogen (if used) | Prepare bottles in position with manometers before session.\nPPE (for pitlane) | Overall · fireproof underwear · shoes · gloves · helmet & glasses · armbrace\nRadio | Check before event day – always return to charge after use."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Milwaukee Tyre Pressure Inflating Tool",
@@ -110,7 +117,8 @@
             "Confirm tool is working and battery level is sufficient before any session.",
             "⚠  Evening: bleed compressors empty to remove humidity. Winter: verify all pressure gauges read the same on the same tyre; verify all temperature guns read the same temperature."
           ],
-          "images": []
+          "images": [],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Rim Temperature Measurement",
@@ -128,7 +136,8 @@
           ],
           "images": [
             "ceefb98d_18fb4f42.png"
-          ]
+          ],
+          "parent": "1.  PREPARATION"
         },
         {
           "title": "Set Name Format",
@@ -138,7 +147,8 @@
             "111_X11 _1_1",
             "[Table]\n111 | Chassis number\nX11 | Event – T (Test) or R (Race) + number\n1 | Run number (1 digit)\n1 | Tyre Number (1,2,3,4) – [FL,FR,RL,RR]\nW | ONLY IF RAIN TYRE"
           ],
-          "images": []
+          "images": [],
+          "parent": "2.  TYRE MARKINGS & IDENTIFICATION"
         },
         {
           "title": "Required Markings on Each Tyre",
@@ -148,7 +158,8 @@
             "Position – FL / FR / RL / RR (white)",
             "Markings must always remain visible."
           ],
-          "images": []
+          "images": [],
+          "parent": "2.  TYRE MARKINGS & IDENTIFICATION"
         },
         {
           "title": "Example",
@@ -156,7 +167,8 @@
           "content": [],
           "images": [
             "ceefb98d_de7fe404.png"
-          ]
+          ],
+          "parent": "2.  TYRE MARKINGS & IDENTIFICATION"
         },
         {
           "title": "When Changing Tyre Position",
@@ -165,7 +177,8 @@
             "Delete old rotation arrow and position marking.",
             "Write new arrow and position in ORANGE."
           ],
-          "images": []
+          "images": [],
+          "parent": "2.  TYRE MARKINGS & IDENTIFICATION"
         },
         {
           "title": "Tyre Status Markings",
@@ -173,7 +186,8 @@
           "content": [
             "[Table]\nX on tread | Tyre will NOT be reused\nKEEP on tyre | Tyre stays in stock"
           ],
-          "images": []
+          "images": [],
+          "parent": "2.  TYRE MARKINGS & IDENTIFICATION"
         },
         {
           "title": "3.  TYRE BOOK",
@@ -185,7 +199,8 @@
           ],
           "images": [
             "ceefb98d_c2156574.jpeg"
-          ]
+          ],
+          "parent": ""
         },
         {
           "title": "4.  COMMUNICATION RULES",
@@ -198,7 +213,8 @@
             "Discarding a set",
             "⚠  If the plan changes at any point – re-confirm with engineer immediately. Clear communication prevents mistakes."
           ],
-          "images": []
+          "images": [],
+          "parent": ""
         },
         {
           "title": "Check Tyre Temps in Ovens",
@@ -210,7 +226,8 @@
             "Oven temperature management:",
             "[Table]\nToo cold (>15 min to go) | BOOST: leave slider open, raise ON/OFF setting by +5 °C temporarily.\nToo hot | Close slider only – do NOT open door suddenly (room cools, heater fires again, set gets hotter).\nStandard difference | 5 °C between ON and OFF settings."
           ],
-          "images": []
+          "images": [],
+          "parent": "5.  PRE-RUN"
         },
         {
           "title": "Session Confirm with Engineer",
@@ -221,7 +238,8 @@
             "Time of use?",
             "Any plan changes?"
           ],
-          "images": []
+          "images": [],
+          "parent": "5.  PRE-RUN"
         },
         {
           "title": "Final Pre-Run Wheel Check",
@@ -265,7 +283,8 @@
             "Right after dropping off a set, return to check the next set(s) planned to use",
             "Communicate with engineer on timing and any plan changes."
           ],
-          "images": []
+          "images": [],
+          "parent": "5.  PRE-RUN"
         },
         {
           "title": "Post-Session Tyre Treatment",
@@ -285,7 +304,8 @@
             "If tyre will NOT be reused → mark X clearly on tread surface.",
             "If tyre to be dismounted and kept in stock → mark KEEP clearly on surface."
           ],
-          "images": []
+          "images": [],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "Set Down (after cool-down)",
@@ -304,7 +324,8 @@
           "images": [
             "ceefb98d_1c75fe75.png",
             "ceefb98d_5ccb22d9.jpeg"
-          ]
+          ],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "Ovens – After Session / Event",
@@ -314,7 +335,8 @@
             "Open doors to cool down ovens.",
             "Check fuel level: refuel if needed (do not overfill – heater takes longer to heat)."
           ],
-          "images": []
+          "images": [],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "Cleaning – Rims",
@@ -331,7 +353,8 @@
             "Check rim surface for cracks or damage.",
             "⚠  Do not damage tread when cleaning. If supplier inspection required, clean tyre surface with heat gun as directed."
           ],
-          "images": []
+          "images": [],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "Cleaning – Tread",
@@ -339,7 +362,8 @@
           "content": [
             "Remove pick-up rubber if set will be reused. Use heat gun to clean surface if a supplier inspection is planned – follow their instructions."
           ],
-          "images": []
+          "images": [],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "Goodyear / Michelin Handover",
@@ -347,7 +371,8 @@
           "content": [
             "If Goodyear or Michelin has a booth, bring cleaned wheels to them for tyre removal/mounting. Bring tyre book and mark correct wheel set on the form. Wheels must be clean, inflated, balance weights removed, with stickers in correct positions."
           ],
-          "images": []
+          "images": [],
+          "parent": "7.  AFTER RUN / SESSION"
         },
         {
           "title": "At Track (Supplier Mounting)",
@@ -362,7 +387,8 @@
             "Rim stickers correct (inner side of spokes, except TPMS number).",
             "Valve and TPMS sensor secure."
           ],
-          "images": []
+          "images": [],
+          "parent": "8.  WORKSHOP – MOUNTING & BALANCING"
         },
         {
           "title": "Workshop Mounting",
@@ -376,7 +402,8 @@
             "Confirm TPMS position with controller after mounting.",
             "Clean weight mounting area with brake cleaner, tap weight with plastic hammer, apply aluminium tape."
           ],
-          "images": []
+          "images": [],
+          "parent": "8.  WORKSHOP – MOUNTING & BALANCING"
         },
         {
           "title": "TPMS – Maintenance & Torques",
@@ -387,7 +414,8 @@
             "⚠  Always check for damage before fitting – and report accordingly",
             "Refer below for the installation procedure of the TPMS sensors"
           ],
-          "images": []
+          "images": [],
+          "parent": "8.  WORKSHOP – MOUNTING & BALANCING"
         },
         {
           "title": "Oven Setup (Workshop)",
@@ -400,7 +428,8 @@
             "Check structure: ramps, floor, walls, sliders for damage and stability.",
             "Confirm ON/OFF temperature settings with engineer (standard: 5 °C difference)"
           ],
-          "images": []
+          "images": [],
+          "parent": "8.  WORKSHOP – MOUNTING & BALANCING"
         },
         {
           "title": "9.  TPMS SENSOR – INSTALLATION & TORQUES",
@@ -410,7 +439,8 @@
             "⚠ ALWAYS use a torque wrench. Guessing torque causes leaks, sensor damage, or stripped threads.",
             "⚠  Remove valve cap BEFORE tightening valve nut – cap inside socket stresses and bends the valve."
           ],
-          "images": []
+          "images": [],
+          "parent": ""
         },
         {
           "title": "Torque Reference",
@@ -418,7 +448,8 @@
           "content": [
             "[Table]\nSensor body screw  (Torx T20) | 4 Nm  –  do not over-tighten, cracks sensor\nValve nut  (inside rim, 14 mm wrench) | 10–11 Nm  –  11 Nm recommended (ELMS)\nAir valve  (inner) | 6–8 Nm  –  remove cap before tightening\nTPMS-RH21 controller range | LF write functions: max 60 cm from sensor"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "1 · Valve Installation",
@@ -437,7 +468,8 @@
           "images": [
             "ceefb98d_0e280952.png",
             "ceefb98d_e4b572f0.png"
-          ]
+          ],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "2 · TPMS-RS21 Sensor  (Basic)",
@@ -453,7 +485,8 @@
           ],
           "images": [
             "ceefb98d_99c67832.png"
-          ]
+          ],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "3 · TPMS-IR21 Sensor  (Advanced – includes Rim Temperature)",
@@ -468,7 +501,8 @@
           ],
           "images": [
             "ceefb98d_3f1413de.png"
-          ]
+          ],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "4 · Maintenance & Battery",
@@ -482,7 +516,8 @@
             "Each checklist is repeated 4× so it can be used across multiple events or sessions. Fill in Date, Event, and Sets at the top of each instance.",
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -490,7 +525,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -498,7 +534,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -506,7 +543,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -514,7 +552,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -522,7 +561,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -530,7 +570,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -538,7 +579,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -546,7 +588,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -554,7 +597,8 @@
           "content": [
             "[Table]\nA.  BEFORE LEAVING — Workshop → Event   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nPyrometer / temperature guns — check batteries | ☐\nManometer × 2 — check batteries | ☐\nAir pressure gauge | ☐\nAir pump guns | ☐\nPortable compressors — charged | ☐\nSpare valves | ☐\nMetallic valve caps — check quantity | ☐\nValve screwdriver & tightening key | ☐\nWhite & red markers | ☐\nChalk | ☐\nTread wear depth caliper | ☐\nAluminium tape | ☐\nBrake cleaner & rim cleaner | ☐\nRubber scraper & heat blower | ☐\nTyre book | ☐\nGloves & rags | ☐\nTPMS O-rings — spare pack | ☐\nMilwaukee tyre pressure inflating tool — charged | ☐\nRadio — charged & working | ☐\nAntifriction spray | ☐\nNitrogen bottles (if used) | ☐\nPPE bag — overall, fireproof underwear, shoes, gloves, helmet & glasses, armbrace | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -562,7 +606,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -570,7 +615,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -578,7 +624,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -586,7 +633,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -594,7 +642,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -602,7 +651,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -610,7 +660,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -618,7 +669,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -626,7 +678,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -634,7 +687,8 @@
           "content": [
             "[Table]\nB.  WHEEL CHECK — Per Set / Per Session   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nCorrect tyre on correct rim set — check set name matches | ☐\nCorrect set in correct position (FL / FR / RR / RL) | ☐\nYellow strips — undamaged and correctly placed | ☐\nRim stickers — rim number, set number (RS_XX), car number, TPMS sticker (inner spokes except TPMS number) | ☐\nSticker band — valve position sticker present and correctly placed | ☐\nTPMS sensor — condition and seating confirmed with controller | ☐\nValve — condition, torqued 10–11 Nm, metallic cap fitted (mandatory QP & Race) | ☐\nBalance weights — secure, brake cleaner applied, tapped with plastic hammer, aluminium tape over weights | ☐\nRim surface — no cracks, no glue residue, shoulders straight and undamaged | ☐\nTyre shoulders — straight, no cracks | ☐\nTyre markings — set name (white), rotation arrow (white, large), position all clearly visible | ☐\nPre-set to storage pressure before session morning (Slicks 1.70 / Rain 1.90) | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -642,7 +696,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -650,7 +705,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -658,7 +714,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -666,7 +723,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -674,7 +732,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -682,7 +741,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -690,7 +750,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -698,7 +759,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -706,7 +768,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -714,7 +777,8 @@
           "content": [
             "[Table]\nC.  SESSION PREP   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nOvens on — fuel level checked, ON/OFF temp settings confirmed with engineer | ☐\nSets out of tent, laid in correct order front to back: FR | RR | RL | FL | ☐\nTyre temps measured above valve (~5 cm) — recorded in tyre book | ☐\nRim temps measured — 4-point method, 10 cm distance, average calculated (if engineer requests) | ☐\nCold pressures measured — handed to engineer immediately | ☐\nRim & wheel check completed on all sets | ☐\nTarget pressures received from engineer | ☐\nPressures set — 3-step method (big bleed → small bleed → final check), all 4 tyres per step | ☐\nValues shown to engineer before bleeding | ☐\nValve caps fitted, sets stacked in correct order (RR bottom → RL → FR → FL top) | ☐\nValves facing rear of trolleys | ☐\nCorrect sets loaded in ovens at correct time per tyre book timetable | ☐\nOven temperature verified — oven paper correct | ☐\nTyre book completed and given to engineer | ☐\nSecond manometer in box (from engineer toolbox) | ☐\nMilwaukee inflating tool — charged, in box for pre-grid & grid | ☐\nNitrogen bottles in position with manometers (if used) | ☐\nPPE ready — suit, helmet, glasses, armbrace | ☐\nRadio — on, charged, working | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -722,7 +786,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #1\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -730,7 +795,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #2\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -738,7 +804,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #3\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -746,7 +813,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #4\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -754,7 +822,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #5\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -762,7 +831,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #6\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -770,7 +840,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #7\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -778,7 +849,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #8\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -786,7 +858,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #9\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -794,7 +867,8 @@
           "content": [
             "[Table]\nD.  DURING SESSION   #10\nDate: _______________   Time: ___________   Event: ___________________________\nSet names:\nSuit up at least 30 min before session | ☐\nOven temps checked regularly — boost if >15 min to go and too cold (+5°C ON/OFF) | ☐\nSession plan confirmed with engineer — which set, which stint, timing | ☐\nFinal pre-run wheel check done (correct set, TPMS confirmed, valve cap, balance weights, markings) | ☐\n'Tyres to the box' — close slider first, extract trolley, close oven door, move to box | ☐\nVisual check on car — flatspots, cuts, shoulder damage — communicate to engineer immediately | ☐\nHot pressure check done (FP/test: pitlane with full PPE / Race & QP: in box after tyres off) | ☐\nPressures bled to target in clockwise order FL → FR → RR → RL — data given to engineer | ☐\nWheel position swap markings updated in RED (if position changed) | ☐\nNext sets checked in ovens after drop-off | ☐\nPlan changes confirmed with engineer | ☐"
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         },
         {
           "title": "Notes",
@@ -807,7 +881,8 @@
             "NOTES & IMPROVEMENTS",
             "Use this space to record lessons learned, issues to fix, or improvements for the next event."
           ],
-          "images": []
+          "images": [],
+          "parent": "9.  TPMS SENSOR – INSTALLATION & TORQUES"
         }
       ]
     }
