@@ -6,7 +6,7 @@ A chatbot for mechanics and engineers to query procedure documents.
 import streamlit as st
 from pathlib import Path
 from groq import Groq
-from search_engine import search, get_context_for_llm, get_document_list, load_index
+from search_engine import search, get_context_for_llm, get_document_list, load_index, build_embeddings
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR, EXTRACTED_DIR
 
 # --- Page Config ---
@@ -179,9 +179,10 @@ if page == "⚙️ Admin":
                 f.write(uploaded_file.getbuffer())
             st.success(f"Uploaded: {uploaded_file.name}")
 
-        # Auto-rebuild index after upload
-        with st.spinner("Rebuilding document index..."):
+        # Auto-rebuild index and embeddings after upload
+        with st.spinner("Rebuilding document index and search embeddings..."):
             index = build_index()
+            build_embeddings()
             doc_count = len(index["documents"])
             section_count = sum(len(d["sections"]) for d in index["documents"])
         st.success(f"Index rebuilt: {doc_count} document(s), {section_count} sections")
@@ -203,20 +204,22 @@ if page == "⚙️ Admin":
                 if st.button("🗑️ Remove", key=f"del_{doc_path.name}"):
                     doc_path.unlink()
                     st.success(f"Removed: {doc_path.name}")
-                    # Rebuild index after removal
+                    # Rebuild index and embeddings after removal
                     with st.spinner("Rebuilding index..."):
                         build_index()
+                        build_embeddings()
                     st.rerun()
 
     st.divider()
 
     # --- Rebuild index manually ---
     if st.button("🔄 Rebuild Document Index", use_container_width=True):
-        with st.spinner("Processing documents..."):
+        with st.spinner("Processing documents and building search embeddings..."):
             index = build_index()
+            num_sections = build_embeddings()
             doc_count = len(index["documents"])
             section_count = sum(len(d["sections"]) for d in index["documents"])
-            st.success(f"Indexed {doc_count} document(s), {section_count} sections")
+            st.success(f"Indexed {doc_count} document(s), {section_count} sections, {num_sections} embeddings")
 
     # --- API key status ---
     st.divider()
