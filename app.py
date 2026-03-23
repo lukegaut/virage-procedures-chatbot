@@ -3,14 +3,11 @@ Virage Procedures Chatbot
 A chatbot for mechanics and engineers to query procedure documents.
 """
 
-import time
 import streamlit as st
 from pathlib import Path
-from google import genai
+from groq import Groq
 from search_engine import search, get_context_for_llm, get_document_list, load_index
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR
-
-GEMINI_MODELS = ["gemini-2.0-flash-lite", "gemini-2.0-flash"]
 
 # --- Page Config ---
 st.set_page_config(
@@ -30,15 +27,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def get_gemini_response(query, context):
-    """Get an AI response from Google Gemini, grounded in the procedure context."""
-    api_key = st.secrets.get("GEMINI_API_KEY", "")
-    if not api_key:
-        return "⚠️ Gemini API key not configured. Add it in the app settings."
-
-    client = genai.Client(api_key=api_key)
-
-    prompt = f"""You are a technical procedures assistant for Virage motorsport engineers and mechanics.
+SYSTEM_PROMPT = """You are a technical procedures assistant for Virage motorsport engineers and mechanics.
 Your role is to help them understand and follow procedures accurately.
 
 CRITICAL RULES:
@@ -49,7 +38,18 @@ CRITICAL RULES:
 5. If safety warnings or torque specs are mentioned in the procedures, ALWAYS include them.
 6. When referencing specific steps, mention which procedure document they come from.
 7. Format your response for easy reading - use bullet points and numbered steps where appropriate.
-8. Keep answers focused and concise - mechanics need quick answers, not essays.
+8. Keep answers focused and concise - mechanics need quick answers, not essays."""
+
+
+def get_ai_response(query, context):
+    """Get an AI response from Groq, grounded in the procedure context."""
+    api_key = st.secrets.get("GROQ_API_KEY", "")
+    if not api_key:
+        return "⚠️ API key not configured. Add GROQ_API_KEY in the app settings."
+
+    client = Groq(api_key=api_key)
+
+    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
 
 PROCEDURE CONTEXT:
 {context}
@@ -58,19 +58,15 @@ USER QUESTION: {query}
 
 Answer using ONLY the information from the procedure context above."""
 
-    # Try multiple models in case one hits rate limits
-    for model in GEMINI_MODELS:
-        try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-            )
-            return response.text
-        except Exception as e:
-            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                continue  # Try next model
-            raise
-    return "⚠️ All AI models are currently rate-limited. Please wait a minute and try again."
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.3,
+    )
+    return response.choices[0].message.content
 
 
 def display_images(images):
@@ -107,12 +103,12 @@ with st.sidebar:
     st.divider()
 
     # API key status
-    api_key = st.secrets.get("GEMINI_API_KEY", "")
+    api_key = st.secrets.get("GROQ_API_KEY", "")
     if api_key:
-        st.success("🤖 AI: Connected (Gemini)")
+        st.success("🤖 AI: Connected (Groq)")
     else:
         st.error("🤖 AI: No API key")
-        st.caption("Add GEMINI_API_KEY to .streamlit/secrets.toml")
+        st.caption("Add GROQ_API_KEY to secrets")
 
     st.divider()
     st.caption("Place procedure .docx files in:")
@@ -155,7 +151,7 @@ if prompt := st.chat_input("Ask about a procedure... (e.g., 'How do I change a t
             else:
                 with st.spinner("Searching procedures..."):
                     try:
-                        response_text = get_gemini_response(prompt, context)
+                        response_text = get_ai_response(prompt, context)
                     except Exception as e:
                         response_text = f"Error generating response: {e}"
 
