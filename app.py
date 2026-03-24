@@ -70,7 +70,7 @@ CRITICAL RULES:
 10. When a diagram or image is important for understanding (e.g. layout diagrams, step-by-step photos), tell the user to check the images below for the visual reference."""
 
 
-def encode_image(img_path, max_width=1000):
+def encode_image(img_path, max_width=800):
     """Encode and resize an image to base64 for the Claude API."""
     from PIL import Image
     import io
@@ -123,7 +123,7 @@ def get_ai_response(query, context, images, chat_history=""):
     images_added = 0
     for img_file in images:
         img_path = IMAGES_DIR / img_file
-        if img_path.exists() and images_added < 5:  # Limit to 5 images to control costs
+        if img_path.exists() and images_added < 3:  # Limit to 3 images to control costs
             try:
                 media_type, img_data = encode_image(img_path)
                 content.append({
