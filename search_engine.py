@@ -203,11 +203,11 @@ def get_sibling_images(section_title, section_parent):
 
 
 
-def get_context_for_llm(query, max_chars=8000):
+def get_context_for_llm(query, max_chars=6000, max_images=8):
     """
-    Build context by finding the best-matching document, then including
-    ALL of that document's sections (in order). This ensures complete
-    procedures are shown, not fragments.
+    Build context from the top search results. Includes sections that
+    scored well, prioritising the top-matched document. Limits both
+    text and images to keep responses focused and costs low.
     """
     results = search(query, top_k=10, min_score=0.15)
     if not results:
@@ -215,44 +215,32 @@ def get_context_for_llm(query, max_chars=8000):
 
     # The top result determines the primary document
     primary_doc_name = results[0]["doc_name"]
-    primary_filename = results[0]["filename"]
 
-    # Load ALL sections from the primary document (in document order)
-    index = load_index()
-    primary_doc = None
-    for doc in index["documents"]:
-        if doc["filename"] == primary_filename:
-            primary_doc = doc
-            break
-
-    if not primary_doc:
-        return None, []
+    # Get all results from the primary document, sorted by score
+    primary_results = [r for r in results if r["doc_name"] == primary_doc_name]
 
     context_parts = []
     all_images = []
     seen_images = set()
     total_chars = 0
 
-    # Include ALL sections from the primary document in order
-    for section in primary_doc["sections"]:
-        # Skip empty page-render sections but collect their images
-        if not section["content"]:
-            for img in section["images"]:
-                if img not in seen_images:
-                    all_images.append(img)
-                    seen_images.add(img)
+    # Include matched sections from the primary document
+    for r in primary_results:
+        if not r["content"]:
             continue
 
-        section_text = "\n".join(section["content"])
-        section_block = f"## {section['title']} (from: {primary_doc_name})\n{section_text}\n"
+        section_text = "\n".join(r["content"])
+        section_block = f"## {r['section_title']} (from: {primary_doc_name})\n{section_text}\n"
         if total_chars + len(section_block) > max_chars and context_parts:
             break
         context_parts.append(section_block)
         total_chars += len(section_block)
 
-        for img in section["images"]:
-            if img not in seen_images:
-                all_images.append(img)
-                seen_images.add(img)
+        # Collect images (with limit)
+        if len(all_images) < max_images:
+            for img in r["images"]:
+                if img not in seen_images and len(all_images) < max_images:
+                    all_images.append(img)
+                    seen_images.add(img)
 
     return "\n".join(context_parts), all_images
