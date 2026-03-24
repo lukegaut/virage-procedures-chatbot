@@ -66,6 +66,25 @@ def iter_block_items(doc):
             yield DocxTable(child, doc)
 
 
+def get_table_images(table, image_map):
+    """Extract images embedded inside table cells, with per-cell text context."""
+    images = []
+    image_cell_context = {}  # img_file -> cell text for context
+    seen = set()
+    for row in table.rows:
+        row_text = " ".join(cell.text.strip() for cell in row.cells if cell.text.strip())
+        for cell in row.cells:
+            for paragraph in cell.paragraphs:
+                para_imgs = get_paragraph_images(paragraph, image_map)
+                for img in para_imgs:
+                    if img not in seen:
+                        seen.add(img)
+                        images.append(img)
+                        # Use the row text as context for this image
+                        image_cell_context[img] = row_text
+    return images, image_cell_context
+
+
 def format_table(table):
     """Convert a docx table to readable text."""
     rows = []
@@ -208,6 +227,17 @@ def process_document(filepath):
             if table_text.strip():
                 current_section["content"].append(f"[Table]\n{table_text}")
                 recent_text_lines.append(table_text[:200])
+
+            # Extract images embedded inside table cells
+            table_imgs, cell_contexts = get_table_images(item, image_map)
+            if table_imgs:
+                current_section["images"].extend(table_imgs)
+                for img_file in table_imgs:
+                    current_section["image_contexts"][img_file] = {
+                        "before": cell_contexts.get(img_file, ""),
+                        "section": current_section["title"],
+                        "parent": current_section.get("parent", ""),
+                    }
 
     # Capture text AFTER images — go back and add "after" context
     for section in sections:
