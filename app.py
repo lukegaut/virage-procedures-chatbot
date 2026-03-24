@@ -164,8 +164,8 @@ if page == "⚙️ Admin":
     # --- Upload new documents ---
     st.subheader("📤 Upload Procedure Documents")
     uploaded_files = st.file_uploader(
-        "Upload .docx files",
-        type=["docx"],
+        "Upload procedure documents (.docx, .pdf, .pptx)",
+        type=["docx", "pdf", "pptx"],
         accept_multiple_files=True,
     )
 
@@ -188,7 +188,12 @@ if page == "⚙️ Admin":
 
     # --- Manage existing documents ---
     st.subheader("📄 Existing Documents")
-    docs = list(PROCEDURES_DIR.glob("*.docx"))
+    docs = sorted(
+        list(PROCEDURES_DIR.glob("*.docx"))
+        + list(PROCEDURES_DIR.glob("*.pdf"))
+        + list(PROCEDURES_DIR.glob("*.pptx")),
+        key=lambda p: p.name,
+    )
 
     if not docs:
         st.info("No procedure documents loaded yet. Upload some above.")
@@ -243,7 +248,8 @@ else:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
             if message.get("images"):
-                display_images(message["images"])
+                with st.expander("📸 View related images"):
+                    display_images(message["images"])
 
     # Chat input
     if prompt := st.chat_input("Ask about a procedure..."):
@@ -277,16 +283,17 @@ else:
 
                 st.markdown(display_text)
 
-                # Show relevant images (already filtered by semantic matching)
-                if images:
-                    display_images(images)
-
                 # Show sources
                 results = search(search_query, top_k=3)
                 if results:
                     with st.expander("📋 Sources"):
                         for r in results:
                             st.markdown(f"- **{r['section_title']}** from _{r['doc_name']}_")
+
+                # Show "View images" button if images are available
+                if images:
+                    with st.expander("📸 View related images"):
+                        display_images(images)
 
             st.session_state.messages.append({
                 "role": "assistant",

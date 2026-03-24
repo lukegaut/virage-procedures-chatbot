@@ -329,7 +329,4 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
             seen.add(img)
             unique_candidates.append(img)
 
-    # Filter images by semantic relevance to the query
-    relevant_images = filter_relevant_images(query, unique_candidates)
-
-    return "\n".join(context_parts), relevant_images
+    return "\n".join(context_parts), unique_candidates

@@ -1,5 +1,5 @@
 """
-Processes .docx procedure files into structured searchable data.
+Processes .docx, .pdf, and .pptx procedure files into structured searchable data.
 Extracts text organized by sections and saves embedded images.
 Tables are processed in document order so they attach to the correct section.
 """
@@ -256,23 +256,226 @@ def process_document(filepath):
     }
 
 
+def process_pdf(filepath):
+    """Process a PDF file into structured sections with images."""
+    import fitz  # PyMuPDF
+
+    doc_id = hashlib.md5(str(filepath).encode()).hexdigest()[:8]
+    doc_name = Path(filepath).stem
+
+    sections = []
+    current_section = {
+        "title": doc_name,
+        "level": 0,
+        "content": [],
+        "images": [],
+        "image_contexts": {},
+        "parent": "",
+    }
+
+    for page_num in range(len(fitz.open(filepath))):
+        pdf = fitz.open(filepath)
+        page = pdf[page_num]
+
+        # Extract text blocks with font info to detect headings
+        blocks = page.get_text("dict")["blocks"]
+
+        for block in blocks:
+            if block["type"] == 0:  # Text block
+                for line in block["lines"]:
+                    text = "".join(span["text"] for span in line["spans"]).strip()
+                    if not text:
+                        continue
+
+                    # Detect headings by font size (larger than ~13pt is likely a heading)
+                    max_size = max(span["size"] for span in line["spans"])
+                    is_bold = any("bold" in span.get("font", "").lower() for span in line["spans"])
+
+                    if max_size >= 14 or (max_size >= 12 and is_bold):
+                        if current_section["content"] or current_section["images"]:
+                            sections.append(current_section)
+                        current_section = {
+                            "title": text,
+                            "level": 1 if max_size >= 14 else 2,
+                            "content": [],
+                            "images": [],
+                            "image_contexts": {},
+                            "parent": "",
+                        }
+                    else:
+                        current_section["content"].append(text)
+
+            elif block["type"] == 1:  # Image block
+                try:
+                    img_data = block.get("image")
+                    if img_data:
+                        ext = "png"
+                        img_filename = f"{doc_id}_{hashlib.md5(img_data).hexdigest()[:8]}.{ext}"
+                        img_path = IMAGES_DIR / img_filename
+                        with open(img_path, "wb") as f:
+                            f.write(img_data)
+                        current_section["images"].append(img_filename)
+                        context_before = " ".join(current_section["content"][-3:]) if current_section["content"] else ""
+                        current_section["image_contexts"][img_filename] = {
+                            "before": context_before,
+                            "section": current_section["title"],
+                            "parent": current_section.get("parent", ""),
+                        }
+                except Exception:
+                    pass
+
+        # Also extract images via page.get_images() for embedded images
+        pdf2 = fitz.open(filepath)
+        page2 = pdf2[page_num]
+        for img_index, img_info in enumerate(page2.get_images(full=True)):
+            xref = img_info[0]
+            try:
+                base_image = pdf2.extract_image(xref)
+                img_data = base_image["image"]
+                ext = base_image.get("ext", "png")
+                img_filename = f"{doc_id}_{hashlib.md5(img_data).hexdigest()[:8]}.{ext}"
+                img_path = IMAGES_DIR / img_filename
+                if not img_path.exists():
+                    with open(img_path, "wb") as f:
+                        f.write(img_data)
+                if img_filename not in current_section["images"]:
+                    current_section["images"].append(img_filename)
+                    context_before = " ".join(current_section["content"][-3:]) if current_section["content"] else ""
+                    current_section["image_contexts"][img_filename] = {
+                        "before": context_before,
+                        "section": current_section["title"],
+                        "parent": current_section.get("parent", ""),
+                    }
+            except Exception:
+                pass
+        pdf2.close()
+        pdf.close()
+
+    if current_section["content"] or current_section["images"]:
+        sections.append(current_section)
+
+    return {
+        "filename": Path(filepath).name,
+        "doc_name": doc_name,
+        "doc_id": doc_id,
+        "sections": sections,
+    }
+
+
+def process_pptx(filepath):
+    """Process a PowerPoint file into structured sections with images."""
+    from pptx import Presentation
+    from pptx.enum.shapes import MSO_SHAPE_TYPE
+
+    doc_id = hashlib.md5(str(filepath).encode()).hexdigest()[:8]
+    doc_name = Path(filepath).stem
+
+    prs = Presentation(filepath)
+    sections = []
+
+    for slide_num, slide in enumerate(prs.slides, 1):
+        slide_title = ""
+        slide_content = []
+        slide_images = []
+        image_contexts = {}
+
+        for shape in slide.shapes:
+            if shape.has_text_frame:
+                for para in shape.text_frame.paragraphs:
+                    text = para.text.strip()
+                    if text:
+                        # First text on slide with title placeholder is the title
+                        if shape.shape_type == MSO_SHAPE_TYPE.PLACEHOLDER and not slide_title:
+                            try:
+                                if shape.placeholder_format.idx == 0:  # Title placeholder
+                                    slide_title = text
+                                    continue
+                            except Exception:
+                                pass
+                        slide_content.append(text)
+
+            if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                try:
+                    img_data = shape.image.blob
+                    ext = shape.image.content_type.split("/")[-1]
+                    if ext == "jpeg":
+                        ext = "jpg"
+                    img_filename = f"{doc_id}_{hashlib.md5(img_data).hexdigest()[:8]}.{ext}"
+                    img_path = IMAGES_DIR / img_filename
+                    with open(img_path, "wb") as f:
+                        f.write(img_data)
+                    slide_images.append(img_filename)
+                    context_before = " ".join(slide_content[-3:]) if slide_content else slide_title
+                    image_contexts[img_filename] = {
+                        "before": context_before,
+                        "section": slide_title or f"Slide {slide_num}",
+                        "parent": doc_name,
+                    }
+                except Exception:
+                    pass
+
+            # Handle tables in slides
+            if shape.has_table:
+                table = shape.table
+                rows = []
+                for row in table.rows:
+                    cells = [cell.text.strip() for cell in row.cells]
+                    deduped = []
+                    prev = None
+                    for c in cells:
+                        if c != prev:
+                            deduped.append(c)
+                        prev = c
+                    rows.append(" | ".join(deduped))
+                slide_content.append(f"[Table]\n" + "\n".join(rows))
+
+        if slide_content or slide_images:
+            sections.append({
+                "title": slide_title or f"Slide {slide_num}",
+                "level": 1,
+                "content": slide_content,
+                "images": slide_images,
+                "image_contexts": image_contexts,
+                "parent": doc_name,
+            })
+
+    return {
+        "filename": Path(filepath).name,
+        "doc_name": doc_name,
+        "doc_id": doc_id,
+        "sections": sections,
+    }
+
+
 def build_index():
-    """Process all .docx files in the procedures directory and build the search index."""
+    """Process all procedure files (.docx, .pdf, .pptx) in the procedures directory and build the search index."""
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
     index = {"documents": []}
 
-    docx_files = list(PROCEDURES_DIR.glob("*.docx"))
-    if not docx_files:
-        print(f"No .docx files found in {PROCEDURES_DIR}")
-        print(f"Please place your procedure documents in: {PROCEDURES_DIR.resolve()}")
+    # Find all supported file types
+    all_files = []
+    for ext in ("*.docx", "*.pdf", "*.pptx"):
+        all_files.extend(PROCEDURES_DIR.glob(ext))
+
+    if not all_files:
+        print(f"No procedure files found in {PROCEDURES_DIR}")
+        print(f"Supported formats: .docx, .pdf, .pptx")
         return index
 
-    for filepath in docx_files:
+    for filepath in all_files:
         print(f"Processing: {filepath.name}")
         try:
-            doc_data = process_document(filepath)
+            ext = filepath.suffix.lower()
+            if ext == ".docx":
+                doc_data = process_document(filepath)
+            elif ext == ".pdf":
+                doc_data = process_pdf(filepath)
+            elif ext == ".pptx":
+                doc_data = process_pptx(filepath)
+            else:
+                continue
             index["documents"].append(doc_data)
             print(f"  -> {len(doc_data['sections'])} sections extracted")
         except Exception as e:
