@@ -256,11 +256,101 @@ def process_document(filepath):
     }
 
 
+def _get_word_counts(text_lines, title):
+    """Count meaningful words in a section's content, excluding stopwords and title words."""
+    stopwords = {
+        "the", "and", "for", "are", "but", "not", "you", "all", "can", "her",
+        "was", "one", "our", "out", "its", "has", "his", "how", "man", "new",
+        "now", "old", "see", "way", "who", "did", "get", "let", "say", "she",
+        "too", "use", "when", "with", "from", "that", "this", "they", "will",
+        "step", "crew", "2026", "pit", "stop", "mec", "puts", "goes", "takes",
+        "makes", "sure", "position", "line", "behind", "white", "cross",
+        "document", "their", "finish", "tasks", "orders", "them", "again",
+        "stay", "when", "then", "into", "also", "before", "after",
+    }
+    title_words = set(w.lower() for w in re.split(r'\W+', title) if w)
+    ignore = stopwords | title_words
+
+    word_counts = {}
+    for line in text_lines:
+        for word in re.split(r'\W+', line.lower()):
+            if len(word) >= 3 and word not in ignore and not word.isdigit():
+                word_counts[word] = word_counts.get(word, 0) + 1
+    return word_counts
+
+
+def _disambiguate_sections(sections_group):
+    """
+    Given a list of sections with the same title, give each a unique suffix
+    based on what makes it different from the others.
+    """
+    base_title = sections_group[0]["title"]
+
+    # Get word counts for each section
+    all_counts = []
+    for section in sections_group:
+        counts = _get_word_counts(section["content"], base_title)
+        all_counts.append(counts)
+
+    # For each section, find words that are distinctive to IT
+    # (appear much more in this section than others)
+    labels = {
+        "gun": "Tyre Changes",
+        "wheel": "Tyre Changes",
+        "tyre": "Tyre Changes",
+        "tire": "Tyre Changes",
+        "tyres": "Tyre Changes",
+        "electric": "Tyre Changes",
+        "lance": "Tyre Changes",
+        "driver": "Driver Change",
+        "windshield": "Driver Change",
+        "fuel": "Fuelling",
+        "refuel": "Refuelling",
+    }
+
+    for i, section in enumerate(sections_group):
+        my_counts = all_counts[i]
+        other_counts = {}
+        for j, counts in enumerate(all_counts):
+            if j != i:
+                for w, c in counts.items():
+                    other_counts[w] = other_counts.get(w, 0) + c
+
+        # Find words unique or dominant in this section
+        distinctive = {}
+        for word, count in my_counts.items():
+            other_count = other_counts.get(word, 0)
+            # Word appears significantly more in this section
+            if count > other_count * 2 or (count >= 2 and other_count == 0):
+                distinctive[word] = count
+
+        # Try to match a known label
+        best_label = None
+        best_score = 0
+        for word, count in distinctive.items():
+            if word in labels and count > best_score:
+                best_label = labels[word]
+                best_score = count
+
+        if best_label:
+            section["title"] = f"{base_title} - {best_label}"
+        else:
+            # Fallback: use top distinctive words
+            ranked = sorted(distinctive.items(), key=lambda x: -x[1])
+            keywords = [w for w, c in ranked[:3] if c >= 2]
+            if keywords:
+                suffix = " ".join(w.capitalize() for w in keywords)
+                section["title"] = f"{base_title} - {suffix}"
+            else:
+                section["title"] = f"{base_title} (Part {i + 1})"
+
+
 def process_pdf(filepath):
     """
     Process a PDF file: render pages as images, grouped by major headings.
     Detects large/bold text as section headings and groups subsequent pages
-    under them. This creates meaningful sections instead of 1 section per page.
+    under them. When duplicate headings appear, disambiguates them using
+    content keywords (e.g. "PIT STOP CREW LES 2026 - Tyre Changes").
     """
     import fitz  # PyMuPDF
     from PIL import Image
@@ -316,17 +406,37 @@ def process_pdf(filepath):
 
     pdf.close()
 
-    # Second pass: group pages by headings into sections
+    # Second pass: group pages by major headings into sections.
+    # A "major heading" is one that differs from the current section's base title.
+    # Sub-headings like "Step 1", "Step 2" stay within the current section.
+    # Repeated major headings start a NEW section (disambiguated later).
     sections = []
     current_section = None
+    current_base_title = None  # The major heading for the current section
 
     for page in pages_info:
-        if page["heading"]:
-            # New heading found — save current section and start new one
+        heading = page["heading"]
+
+        # Decide if this heading starts a new section
+        is_new_major_heading = False
+        if heading:
+            # "Step N" headings are sub-headings, not new sections
+            is_step = bool(re.match(r'^Step\s+\d+', heading, re.IGNORECASE))
+            if not is_step:
+                if heading != current_base_title:
+                    # Different heading than current — always new section
+                    is_new_major_heading = True
+                elif not page["text_lines"] or len(page["text_lines"]) <= 1:
+                    # Same heading on a page with minimal text = title page for new section
+                    is_new_major_heading = True
+
+        if is_new_major_heading:
             if current_section:
                 sections.append(current_section)
+            current_base_title = heading
             current_section = {
-                "title": page["heading"],
+                "title": heading,  # Will be disambiguated later if needed
+                "base_title": heading,
                 "level": 1,
                 "content": [f"Document: {doc_name}"],
                 "images": [page["image"]],
@@ -334,16 +444,16 @@ def process_pdf(filepath):
                 "parent": doc_name,
                 "is_page_render": True,
             }
-            # Add text from this page
             current_section["content"].extend(page["text_lines"])
         elif current_section:
-            # No heading — append to current section
+            # Append to current section
             current_section["images"].append(page["image"])
             current_section["content"].extend(page["text_lines"])
         else:
             # No section started yet — create a default one
             current_section = {
-                "title": f"Page {page['page_num']}",
+                "title": f"{doc_name} - Overview",
+                "base_title": None,
                 "level": 1,
                 "content": [f"Document: {doc_name}"] + page["text_lines"],
                 "images": [page["image"]],
@@ -352,9 +462,24 @@ def process_pdf(filepath):
                 "is_page_render": True,
             }
 
-    # Don't forget the last section
     if current_section:
         sections.append(current_section)
+
+    # Third pass: disambiguate sections with duplicate titles
+    title_groups = {}
+    for section in sections:
+        t = section["title"]
+        if t not in title_groups:
+            title_groups[t] = []
+        title_groups[t].append(section)
+
+    for title, group in title_groups.items():
+        if len(group) > 1:
+            _disambiguate_sections(group)
+
+    # Clean up: remove internal base_title field
+    for section in sections:
+        section.pop("base_title", None)
 
     return {
         "filename": Path(filepath).name,

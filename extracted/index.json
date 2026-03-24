@@ -1313,7 +1313,7 @@
       "doc_id": "0d8ac95a",
       "sections": [
         {
-          "title": "Page 1",
+          "title": "PitStop Procedure 2026 - ELMS - Overview",
           "level": 1,
           "content": [
             "Document: PitStop Procedure 2026 - ELMS",
@@ -1371,59 +1371,27 @@
             "MEC 2 puts the lance",
             "MEC 1",
             "MEC 2",
-            "MEC 3"
-          ],
-          "images": [
-            "0d8ac95a_page9.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - ELMS",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW ELMS 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - ELMS",
+            "MEC 3",
             "PIT STOP CREW ELMS 2026",
             "MEC 1",
             "MEC 2",
             "MEC 3",
             "MEC 1 operates the rear gun. He removes wheel 3, and MEC 2 puts the new one",
-            "MEC 3 changes by himself the tyre 1"
-          ],
-          "images": [
-            "0d8ac95a_page10.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - ELMS",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW ELMS 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - ELMS",
+            "MEC 3 changes by himself the tyre 1",
             "MEC 1",
             "MEC 2",
             "MEC 3",
             "MEC 2 takes wheel 4 new  and puts it. MEC 1 removes old wheel 1 and takes it",
             "behind the line.",
             "MEC 3 takes wheel 2 and removes old tyre.",
-            "PIT STOP CREW ELMS 2026"
-          ],
-          "images": [
-            "0d8ac95a_page11.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - ELMS",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW ELMS 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - ELMS",
+            "PIT STOP CREW ELMS 2026",
+            "MEC 1",
+            "MEC 2",
+            "MEC 3",
+            "MEC 2 goes to wheel 2, puts the  new tyre and takes the old one behind",
+            "the line",
+            "MEC 1 removes the lance and drops the car.",
+            "PIT STOP CREW ELMS 2026",
             "MEC 1",
             "MEC 2",
             "MEC 3",
@@ -1433,26 +1401,10 @@
             "PIT STOP CREW ELMS 2026"
           ],
           "images": [
-            "0d8ac95a_page12.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - ELMS",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW ELMS 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - ELMS",
-            "MEC 1",
-            "MEC 2",
-            "MEC 3",
-            "MEC 2 goes to wheel 2, puts the  new tyre and takes the old one behind",
-            "the line",
-            "MEC 1 removes the lance and drops the car.",
-            "PIT STOP CREW ELMS 2026"
-          ],
-          "images": [
+            "0d8ac95a_page9.jpg",
+            "0d8ac95a_page10.jpg",
+            "0d8ac95a_page11.jpg",
+            "0d8ac95a_page12.jpg",
             "0d8ac95a_page13.jpg",
             "0d8ac95a_page14.jpg"
           ],
@@ -1468,7 +1420,7 @@
       "doc_id": "5227a8e5",
       "sections": [
         {
-          "title": "Page 1",
+          "title": "PitStop Procedure 2026 - LES - Overview",
           "level": 1,
           "content": [
             "Document: PitStop Procedure 2026 - LES",
@@ -1507,24 +1459,11 @@
           "is_page_render": true
         },
         {
-          "title": "PIT STOP CREW LES 2026",
+          "title": "PIT STOP CREW LES 2026 - Driver Change",
           "level": 1,
           "content": [
             "Document: PitStop Procedure 2026 - LES",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page8.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 1",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 1",
             "DA",
             "1’",
@@ -1533,20 +1472,7 @@
             "MEC 2",
             "CC",
             "CC: Stops the car in position, makes sure the engine is OFF, orders to cross the line.",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page9.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 2",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 2",
             "DA",
             "1’",
@@ -1557,20 +1483,7 @@
             "MEC 2: Check the rear tire pressures and check their condition.",
             "MEC 1: Clean the windshield.",
             "DA: Helps the driver get out of the car.",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page10.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 3",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 2",
             "1’",
             "2’",
@@ -1581,20 +1494,7 @@
             "MEC 2: Check the front tire pressures and check their condition.",
             "MEC 1: Check the front of the car and if possible the floor car.",
             "DA: Prepares the driver entry.",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page11.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 4",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "1’",
             "2’",
             "DA",
@@ -1605,20 +1505,7 @@
             "MEC 1 & MEC 2: When they finish their tasks, they cross the line",
             "again and stay out.",
             "DA: Hold and position the next driver correctly.",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page12.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 5",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "1’",
             "2’",
             "DA",
@@ -1633,6 +1520,11 @@
             "PIT STOP CREW LES 2026"
           ],
           "images": [
+            "5227a8e5_page8.jpg",
+            "5227a8e5_page9.jpg",
+            "5227a8e5_page10.jpg",
+            "5227a8e5_page11.jpg",
+            "5227a8e5_page12.jpg",
             "5227a8e5_page13.jpg"
           ],
           "image_contexts": {},
@@ -1640,24 +1532,11 @@
           "is_page_render": true
         },
         {
-          "title": "PIT STOP CREW LES 2026",
+          "title": "PIT STOP CREW LES 2026 - Tyre Changes",
           "level": 1,
           "content": [
             "Document: PitStop Procedure 2026 - LES",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page14.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 1",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 2",
             "GUN 1",
             "D.Change",
@@ -1665,120 +1544,42 @@
             "2’",
             "Step 1",
             "USE ELECTRIC GUN ON POSITION 4 !",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page15.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 2",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 2",
             "GUN 1",
             "D.Change",
             "1’",
             "2’",
             "Step 2",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page16.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 3",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "MEC 2",
             "GUN 1",
             "D.Change",
             "1’",
             "2’",
             "Step 3",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page17.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 4",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "Step 4",
             "MEC 2",
             "GUN 1",
             "D.Change",
             "1’",
             "2’",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page18.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 5",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "Step 5",
             "MEC 2",
             "GUN 1",
             "D.Change",
             "1’",
             "2’",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page19.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 6",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "Step 6",
             "MEC 2",
             "GUN 1",
             "1’",
             "2’",
             "D.Change",
-            "PIT STOP CREW LES 2026"
-          ],
-          "images": [
-            "5227a8e5_page20.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - LES",
-          "is_page_render": true
-        },
-        {
-          "title": "Step 7",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - LES",
+            "PIT STOP CREW LES 2026",
             "Step 7",
             "MEC 2",
             "1’",
@@ -1788,6 +1589,13 @@
             "PIT STOP CREW LES 2026"
           ],
           "images": [
+            "5227a8e5_page14.jpg",
+            "5227a8e5_page15.jpg",
+            "5227a8e5_page16.jpg",
+            "5227a8e5_page17.jpg",
+            "5227a8e5_page18.jpg",
+            "5227a8e5_page19.jpg",
+            "5227a8e5_page20.jpg",
             "5227a8e5_page21.jpg",
             "5227a8e5_page22.jpg"
           ],
@@ -1803,7 +1611,7 @@
       "doc_id": "1ac22c52",
       "sections": [
         {
-          "title": "Page 1",
+          "title": "PitStop Procedure 2026 - MLMC - Overview",
           "level": 1,
           "content": [
             "Document: PitStop Procedure 2026 - MLMC",
@@ -1862,20 +1670,7 @@
             "FL",
             "FR",
             "RR",
-            "RL"
-          ],
-          "images": [
-            "1ac22c52_page9.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RL",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
@@ -1884,20 +1679,7 @@
             "FL",
             "FR",
             "RR",
-            "RL"
-          ],
-          "images": [
-            "1ac22c52_page10.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RL",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
@@ -1906,40 +1688,14 @@
             "MEC 1 tights the new tire",
             "FL",
             "FR",
-            "RR"
-          ],
-          "images": [
-            "1ac22c52_page11.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RR",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
             "MEC 2 brings old FL behind the line",
             "MEC 1 goes to front left",
             "FR",
-            "RR"
-          ],
-          "images": [
-            "1ac22c52_page12.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RR",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
@@ -1947,40 +1703,14 @@
             "MEC 2 fit the new tire, and put the old FR behind the line",
             "MEC 1 tight the tire on the car",
             "FR",
-            "RR"
-          ],
-          "images": [
-            "1ac22c52_page13.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RR",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
             "MEC 1 operates the gun and remove rear right tires",
             "MEC 2 fit the new tire",
             "MEC 1 tight the tire on the car",
-            "RR"
-          ],
-          "images": [
-            "1ac22c52_page14.jpg"
-          ],
-          "image_contexts": {},
-          "parent": "PitStop Procedure 2026 - MLMC",
-          "is_page_render": true
-        },
-        {
-          "title": "PIT STOP CREW MLMC 2026",
-          "level": 1,
-          "content": [
-            "Document: PitStop Procedure 2026 - MLMC",
+            "RR",
             "PIT STOP CREW MLMC 2026",
             "MEC 1",
             "MEC 2",
@@ -1989,6 +1719,12 @@
             "MEC 2 goes behind the white line before releasing the car"
           ],
           "images": [
+            "1ac22c52_page9.jpg",
+            "1ac22c52_page10.jpg",
+            "1ac22c52_page11.jpg",
+            "1ac22c52_page12.jpg",
+            "1ac22c52_page13.jpg",
+            "1ac22c52_page14.jpg",
             "1ac22c52_page15.jpg",
             "1ac22c52_page16.jpg"
           ],

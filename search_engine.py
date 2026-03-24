@@ -38,18 +38,33 @@ def load_index():
 def _build_section_text(section, doc_name):
     """
     Build a rich text representation of a section for embedding.
-    Combines doc name, parent, title, and content for best semantic matching.
+    Includes doc name, title, and substantial content so the embedding
+    captures what the section is actually about — not just its title.
+    For PDF sections (sparse text, mostly images), the title is repeated
+    to ensure it dominates the embedding since the content is visual.
     """
     parts = []
     parts.append(f"Document: {doc_name}")
     parent = section.get("parent", "")
-    if parent:
-        parts.append(f"Section: {parent}")
-    parts.append(f"Topic: {section['title']}")
+    if parent and parent != doc_name:
+        parts.append(f"Parent: {parent}")
+    parts.append(f"Section: {section['title']}")
+
     content = "\n".join(section.get("content", []))
-    if content:
-        # Limit content to avoid overwhelming the embedding
-        parts.append(content[:1500])
+
+    if section.get("is_page_render", False):
+        # PDF sections: content is sparse (mostly image labels).
+        # Repeat title to anchor the embedding on the section topic.
+        parts.append(f"Topic: {section['title']}")
+        if content:
+            parts.append(content[:1500])
+    else:
+        # DOCX sections: rich text content, use more of it.
+        # The model truncates at ~256 tokens but including more text
+        # ensures important terms near the end aren't lost.
+        if content:
+            parts.append(content[:3000])
+
     return "\n".join(parts)
 
 
@@ -124,7 +139,8 @@ def _load_embeddings():
 def search(query, top_k=5, min_score=0.15):
     """
     Semantic search: find the most relevant sections by meaning.
-    Returns sections sorted by relevance (cosine similarity).
+    Uses cosine similarity from embeddings, with a small title-match
+    bonus to help distinguish sections with similar content.
     """
     embeddings, sections = _load_embeddings()
     if embeddings is None or sections is None or len(sections) == 0:
@@ -138,29 +154,26 @@ def search(query, top_k=5, min_score=0.15):
     # Cosine similarity (embeddings are already normalized, so dot product = cosine sim)
     similarities = np.dot(embeddings, query_embedding)
 
-    # Extract words from query for exact name matching
+    # Build query word set for title matching
     query_words = set(query.lower().split())
 
     for i, section in enumerate(sections):
-        # Penalise sections with very little content
+        # Penalise sections with very little content (likely empty/filler)
         content_length = sum(len(line) for line in section.get("content", []))
         if content_length < 20:
             similarities[i] *= 0.3
         elif content_length < 80:
             similarities[i] *= 0.7
 
-        # Boost sections where the document name or section title contains
-        # an exact word match from the query (e.g. "LES" matches "- LES" not "- ELMS")
-        doc_name_upper = section["doc_name"].upper()
-        title_upper = section["section_title"].upper()
-        for word in query_words:
-            w = word.upper()
-            if len(w) >= 2:  # Skip very short words
-                # Check for exact word boundary match in doc name
-                doc_words = set(doc_name_upper.replace("-", " ").replace("_", " ").split())
-                title_words = set(title_upper.replace("-", " ").replace("_", " ").split())
-                if w in doc_words or w in title_words:
-                    similarities[i] *= 1.3  # Boost for exact name match
+        # Small title-match bonus: when query words appear in the section title,
+        # add a small additive bonus. This helps distinguish semantically similar
+        # sections (e.g. "Tyre Changes" vs "Driver Change" when query says "tyre").
+        title_words = set(section["section_title"].lower().replace("-", " ").split())
+        matching = query_words & title_words
+        # Only count meaningful matches (3+ chars, not stopwords)
+        meaningful = {w for w in matching if len(w) >= 3}
+        if meaningful:
+            similarities[i] += 0.03 * len(meaningful)
 
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]
@@ -206,71 +219,40 @@ def get_document_list():
     return [doc["doc_name"] for doc in index["documents"]]
 
 
-def get_sibling_images(section_title, section_parent):
-    """Get images from sibling sections (same parent heading)."""
-    if not section_parent:
-        return []
-    index = load_index()
-    images = []
-    for doc in index["documents"]:
-        for section in doc["sections"]:
-            if section.get("parent") == section_parent and section["images"]:
-                images.extend(section["images"])
-    return images
-
-
-
 def get_context_for_llm(query, max_chars=6000, max_images_to_ai=5, max_images_display=10):
     """
-    Build context from the top search results.
-    For PDFs (page renders): sends best-matching pages to Claude via vision.
-    For DOCX: sends extracted text (cheap).
+    Build context from the best matching SECTION.
+    For PDFs: find the best section, return its images for vision.
+    For DOCX: return text from matched sections.
     Returns (context_text, ai_images, display_images, use_vision).
-    - ai_images: images to send to Claude API (limited, for vision)
-    - display_images: images to show the user (can be more)
     """
-    results = search(query, top_k=10, min_score=0.15)
+    results = search(query, top_k=5, min_score=0.15)
     if not results:
         return None, [], [], False
 
-    # The top result determines the primary document
-    primary_doc_name = results[0]["doc_name"]
-    primary_filename = results[0]["filename"]
-    has_page_renders = results[0].get("is_page_render", False)
+    # The top result is our primary match
+    best = results[0]
+    has_page_renders = best.get("is_page_render", False)
 
     if has_page_renders:
-        # PDF mode: show images from matched sections only
-        matched_sections = [r for r in results if r["doc_name"] == primary_doc_name]
-
-        # Collect images from matched sections in score order
-        ai_images = []
-        display_images_list = []
-        seen = set()
+        # PDF mode: use the SINGLE best-matching section
+        # All images and text come from this one section — no mixing
         context_parts = []
+        text = "\n".join(best["content"])
+        context_parts.append(f"## {best['section_title']} (from: {best['doc_name']})\n{text}")
 
-        for r in matched_sections:
-            # Add text for context
-            if r["content"]:
-                text = "\n".join(r["content"])
-                context_parts.append(f"## {r['section_title']}\n{text}")
-
-            # Collect images
-            for img in r["images"]:
-                if img not in seen:
-                    seen.add(img)
-                    display_images_list.append(img)
-                    if len(ai_images) < max_images_to_ai:
-                        ai_images.append(img)
-
+        ai_images = best["images"][:max_images_to_ai]
+        display_images = best["images"][:max_images_display]
         # Sort display images by filename to maintain page order
-        display_images_list.sort()
+        display_images.sort()
 
-        context = "\n".join(context_parts) if context_parts else f"Document: {primary_doc_name}"
-        return context, ai_images, display_images_list[:max_images_display], True
+        context = "\n".join(context_parts)
+        return context, ai_images, display_images, True
 
     else:
-        # DOCX mode: text only, cheap
-        primary_results = [r for r in results if r["doc_name"] == primary_doc_name]
+        # DOCX mode: text only, cheap. Can include multiple sections from same doc.
+        primary_doc = best["doc_name"]
+        primary_results = [r for r in results if r["doc_name"] == primary_doc]
 
         context_parts = []
         all_images = []
@@ -281,7 +263,7 @@ def get_context_for_llm(query, max_chars=6000, max_images_to_ai=5, max_images_di
             if not r["content"]:
                 continue
             section_text = "\n".join(r["content"])
-            section_block = f"## {r['section_title']} (from: {primary_doc_name})\n{section_text}\n"
+            section_block = f"## {r['section_title']} (from: {primary_doc})\n{section_text}\n"
             if total_chars + len(section_block) > max_chars and context_parts:
                 break
             context_parts.append(section_block)
