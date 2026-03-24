@@ -258,120 +258,67 @@ def process_document(filepath):
 
 def process_pdf(filepath):
     """
-    Process a PDF file into structured sections with images.
-    Uses a page-based approach: each page becomes a section.
-    Pages with diagrams/images get a full-page render saved as an image.
-    Consecutive pages with the same title are merged into one section.
+    Process a PDF file: render every page as an image.
+    PDFs (especially PowerPoint exports) are visual documents — the content
+    IS the page renders. Each page becomes one section with its rendered image.
+    Text is extracted only for search indexing, not for display.
     """
     import fitz  # PyMuPDF
+    from PIL import Image
+    import io
 
     doc_id = hashlib.md5(str(filepath).encode()).hexdigest()[:8]
     doc_name = Path(filepath).stem
 
     pdf = fitz.open(filepath)
-    raw_pages = []
+    sections = []
 
     for page_num in range(len(pdf)):
         page = pdf[page_num]
 
-        # Extract all text from the page
+        # Extract text for search indexing
         text_lines = []
-        page_title = ""
+        page_title = f"Page {page_num + 1}"
         blocks = page.get_text("dict")["blocks"]
 
         for block in blocks:
             if block["type"] == 0:
                 for line in block["lines"]:
                     line_text = "".join(span["text"] for span in line["spans"]).strip()
-                    if not line_text:
-                        continue
-                    # Use the first substantial text line as the page title
-                    max_size = max(span["size"] for span in line["spans"])
-                    is_bold = any("bold" in span.get("font", "").lower() for span in line["spans"])
-                    if not page_title and len(line_text) > 3 and (max_size >= 12 or is_bold):
-                        page_title = line_text
-                    else:
+                    if line_text and len(line_text) > 1:
                         text_lines.append(line_text)
 
-        # Check if page has meaningful images (not just tiny icons/logos)
-        has_images = False
-        for img_info in page.get_images(full=True):
-            try:
-                xref = img_info[0]
-                base_image = pdf.extract_image(xref)
-                w = base_image.get("width", 0)
-                h = base_image.get("height", 0)
-                # Only count images larger than 100x100 as meaningful
-                if w > 100 and h > 100:
-                    has_images = True
-                    break
-            except Exception:
-                pass
+        # Use first substantial text as page title
+        for line in text_lines[:5]:
+            if len(line) > 3:
+                page_title = line
+                break
 
-        # Render full page as image if it has diagrams or limited text
-        page_image = None
-        if has_images:
-            mat = fitz.Matrix(2, 2)  # 2x zoom for readability
-            pix = page.get_pixmap(matrix=mat)
-            img_filename = f"{doc_id}_page{page_num + 1}.png"
-            img_path = IMAGES_DIR / img_filename
-            pix.save(str(img_path))
-            page_image = img_filename
+        # Render page as image (1.5x zoom, compressed JPEG for speed)
+        mat = fitz.Matrix(1.5, 1.5)
+        pix = page.get_pixmap(matrix=mat)
+        img_filename = f"{doc_id}_page{page_num + 1}.jpg"
+        img_path = IMAGES_DIR / img_filename
 
-        raw_pages.append({
-            "title": page_title or f"Page {page_num + 1}",
-            "content": text_lines,
-            "image": page_image,
-            "page_num": page_num + 1,
+        # Convert to JPEG for smaller file size
+        img = Image.open(io.BytesIO(pix.tobytes("png")))
+        img = img.convert("RGB")
+        img.save(str(img_path), format="JPEG", quality=85)
+
+        # Add document name to content for better search matching
+        search_content = [f"Document: {doc_name}"] + text_lines
+
+        sections.append({
+            "title": page_title,
+            "level": 1,
+            "content": search_content,
+            "images": [img_filename],
+            "image_contexts": {},
+            "parent": doc_name,
+            "is_page_render": True,  # Flag so app knows to send to Claude
         })
 
     pdf.close()
-
-    # Merge consecutive pages with the same title into one section
-    sections = []
-    for page_data in raw_pages:
-        # Skip completely empty pages (no text, no images)
-        if not page_data["content"] and not page_data["image"]:
-            continue
-
-        title = page_data["title"]
-        # Filter out single characters/numbers that aren't real content
-        content = [line for line in page_data["content"]
-                   if len(line) > 1 or not line.isdigit()]
-
-        # Check if we can merge with the previous section (same title)
-        if sections and sections[-1]["title"] == title:
-            sections[-1]["content"].extend(content)
-            if page_data["image"]:
-                img = page_data["image"]
-                sections[-1]["images"].append(img)
-                ctx = " ".join(content[-3:]) if content else title
-                sections[-1]["image_contexts"][img] = {
-                    "before": ctx,
-                    "section": title,
-                    "parent": doc_name,
-                }
-        else:
-            images = []
-            image_contexts = {}
-            if page_data["image"]:
-                img = page_data["image"]
-                images.append(img)
-                ctx = " ".join(content[-3:]) if content else title
-                image_contexts[img] = {
-                    "before": ctx,
-                    "section": title,
-                    "parent": doc_name,
-                }
-
-            sections.append({
-                "title": title,
-                "level": 1,
-                "content": content,
-                "images": images,
-                "image_contexts": image_contexts,
-                "parent": doc_name,
-            })
 
     return {
         "filename": Path(filepath).name,

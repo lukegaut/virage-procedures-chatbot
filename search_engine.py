@@ -78,6 +78,7 @@ def build_embeddings():
                 "content": section["content"],
                 "images": section["images"],
                 "parent": section.get("parent", ""),
+                "is_page_render": section.get("is_page_render", False),
             })
 
     if not texts:
@@ -177,6 +178,7 @@ def search(query, top_k=5, min_score=0.15):
             "content": section["content"],
             "images": section["images"],
             "parent": section.get("parent", ""),
+            "is_page_render": section.get("is_page_render", False),
             "score": score,
         })
 
@@ -220,13 +222,14 @@ def get_sibling_images(section_title, section_parent):
 
 def get_context_for_llm(query, max_chars=6000, max_images=8):
     """
-    Build context from the top search results. Includes sections that
-    scored well, prioritising the top-matched document. Limits both
-    text and images to keep responses focused and costs low.
+    Build context from the top search results. Prioritises the top-matched
+    document. Returns (context_text, images, use_vision).
+    use_vision=True when the content is from PDFs (visual documents)
+    where page images should be sent to Claude for reading.
     """
     results = search(query, top_k=10, min_score=0.15)
     if not results:
-        return None, []
+        return None, [], False
 
     # The top result determines the primary document
     primary_doc_name = results[0]["doc_name"]
@@ -238,10 +241,21 @@ def get_context_for_llm(query, max_chars=6000, max_images=8):
     all_images = []
     seen_images = set()
     total_chars = 0
+    has_page_renders = False
 
     # Include matched sections from the primary document
     for r in primary_results:
+        # Check if this is a page-render section (from PDF)
+        if r.get("is_page_render"):
+            has_page_renders = True
+
         if not r["content"]:
+            # Still collect images from empty sections
+            if len(all_images) < max_images:
+                for img in r["images"]:
+                    if img not in seen_images and len(all_images) < max_images:
+                        all_images.append(img)
+                        seen_images.add(img)
             continue
 
         section_text = "\n".join(r["content"])
@@ -258,4 +272,4 @@ def get_context_for_llm(query, max_chars=6000, max_images=8):
                     all_images.append(img)
                     seen_images.add(img)
 
-    return "\n".join(context_parts), all_images
+    return "\n".join(context_parts), all_images, has_page_renders

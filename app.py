@@ -4,8 +4,11 @@ A chatbot for mechanics and engineers to query procedure documents.
 Uses Claude AI with vision to understand text, tables, and diagrams.
 """
 
+import base64
+import io
 import streamlit as st
 from pathlib import Path
+from PIL import Image
 from anthropic import Anthropic
 from search_engine import search, get_context_for_llm, get_document_list, load_index, build_embeddings
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR, EXTRACTED_DIR
@@ -70,8 +73,29 @@ CRITICAL RULES:
 
 
 
-def get_ai_response(query, context, chat_history=""):
-    """Get a Claude AI response using text context only (no images = low cost)."""
+def encode_image_for_api(img_path, max_width=800):
+    """Encode and resize an image for the Claude API."""
+    img = Image.open(img_path)
+    if img.width > max_width:
+        ratio = max_width / img.width
+        img = img.resize((max_width, int(img.height * ratio)), Image.LANCZOS)
+    buf = io.BytesIO()
+    if img.mode in ("RGBA", "LA", "P"):
+        img.save(buf, format="PNG", optimize=True)
+        media_type = "image/png"
+    else:
+        img = img.convert("RGB")
+        img.save(buf, format="JPEG", quality=75)
+        media_type = "image/jpeg"
+    return media_type, base64.standard_b64encode(buf.getvalue()).decode("utf-8")
+
+
+def get_ai_response(query, context, images=None, use_vision=False, chat_history=""):
+    """
+    Get a Claude AI response.
+    - For DOCX content: text-only (cheap, fast)
+    - For PDF content: sends page images so Claude can read diagrams (vision mode)
+    """
     api_key = st.secrets.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         return "⚠️ API key not configured. Add ANTHROPIC_API_KEY in the app settings."
@@ -82,7 +106,42 @@ def get_ai_response(query, context, chat_history=""):
     if chat_history:
         history_section = f"\nRECENT CONVERSATION:\n{chat_history}\n"
 
-    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
+    if use_vision and images:
+        # Vision mode: send page images for Claude to read
+        content = []
+        content.append({
+            "type": "text",
+            "text": f"Below are pages from procedure documents. Read ALL text, tables, diagrams, and annotations visible in the images to answer the question.\n{history_section}\nUSER QUESTION: {query}\n\nAnswer using ONLY what you can see in the page images. Tell the user to check the procedure page images shown below your answer for visual details."
+        })
+
+        images_added = 0
+        for img_file in images:
+            img_path = IMAGES_DIR / img_file
+            if img_path.exists() and images_added < 5:
+                try:
+                    media_type, img_data = encode_image_for_api(img_path)
+                    content.append({
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": media_type,
+                            "data": img_data,
+                        }
+                    })
+                    images_added += 1
+                except Exception:
+                    pass
+
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": content}],
+            temperature=0.3,
+        )
+    else:
+        # Text mode: cheap, fast, for well-extracted DOCX content
+        user_prompt = f"""Based on the following procedure documentation, answer the user's question.
 {history_section}
 PROCEDURE CONTEXT:
 {context}
@@ -91,15 +150,14 @@ USER QUESTION: {query}
 
 Answer using ONLY the information from the procedure context above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to. Related images from the procedures will be shown separately below your answer."""
 
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=1024,
-        system=SYSTEM_PROMPT,
-        messages=[
-            {"role": "user", "content": user_prompt},
-        ],
-        temperature=0.3,
-    )
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": user_prompt}],
+            temperature=0.3,
+        )
+
     return response.content[0].text
 
 
@@ -262,17 +320,21 @@ else:
             chat_history = get_recent_chat_context()
 
             # Search for relevant context
-            context, images = get_context_for_llm(search_query)
+            context, images, use_vision = get_context_for_llm(search_query)
 
             # Generate AI response
             with st.chat_message("assistant"):
-                if not context:
+                if not context and not images:
                     display_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
                     images = []
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
-                            display_text = get_ai_response(prompt, context, chat_history)
+                            display_text = get_ai_response(
+                                prompt, context, images,
+                                use_vision=use_vision,
+                                chat_history=chat_history,
+                            )
                         except Exception as e:
                             display_text = f"Error generating response: {e}"
 
