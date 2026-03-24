@@ -239,44 +239,34 @@ def get_context_for_llm(query, max_chars=6000, max_images_to_ai=5, max_images_di
     has_page_renders = results[0].get("is_page_render", False)
 
     if has_page_renders:
-        # PDF mode: get ALL pages from primary document in document order
-        index = load_index()
-        primary_doc = None
-        for doc in index["documents"]:
-            if doc["filename"] == primary_filename:
-                primary_doc = doc
-                break
+        # PDF mode: show images from matched sections only
+        matched_sections = [r for r in results if r["doc_name"] == primary_doc_name]
 
-        if not primary_doc:
-            return None, [], [], False
-
-        # Get the top-scoring page indices from search results
-        matched_pages = [r for r in results if r["doc_name"] == primary_doc_name]
-        matched_images = set()
-        for r in matched_pages:
-            for img in r["images"]:
-                matched_images.add(img)
-
-        # Collect ALL pages from the document in order for display
-        all_display_images = []
-        context_parts = []
-        for section in primary_doc["sections"]:
-            for img in section["images"]:
-                all_display_images.append(img)
-            # Add text for context (used alongside images)
-            if section["content"]:
-                text = "\n".join(section["content"])
-                context_parts.append(f"## {section['title']}\n{text}")
-
-        # For AI: only send the top-matched pages (sorted by score, capped)
+        # Collect images from matched sections in score order
         ai_images = []
-        for r in matched_pages[:max_images_to_ai]:
+        display_images_list = []
+        seen = set()
+        context_parts = []
+
+        for r in matched_sections:
+            # Add text for context
+            if r["content"]:
+                text = "\n".join(r["content"])
+                context_parts.append(f"## {r['section_title']}\n{text}")
+
+            # Collect images
             for img in r["images"]:
-                if img not in ai_images:
-                    ai_images.append(img)
+                if img not in seen:
+                    seen.add(img)
+                    display_images_list.append(img)
+                    if len(ai_images) < max_images_to_ai:
+                        ai_images.append(img)
+
+        # Sort display images by filename to maintain page order
+        display_images_list.sort()
 
         context = "\n".join(context_parts) if context_parts else f"Document: {primary_doc_name}"
-        return context, ai_images, all_display_images[:max_images_display], True
+        return context, ai_images, display_images_list[:max_images_display], True
 
     else:
         # DOCX mode: text only, cheap

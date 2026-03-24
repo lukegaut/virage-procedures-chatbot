@@ -258,10 +258,9 @@ def process_document(filepath):
 
 def process_pdf(filepath):
     """
-    Process a PDF file: render every page as an image.
-    PDFs (especially PowerPoint exports) are visual documents — the content
-    IS the page renders. Each page becomes one section with its rendered image.
-    Text is extracted only for search indexing, not for display.
+    Process a PDF file: render pages as images, grouped by major headings.
+    Detects large/bold text as section headings and groups subsequent pages
+    under them. This creates meaningful sections instead of 1 section per page.
     """
     import fitz  # PyMuPDF
     from PIL import Image
@@ -271,54 +270,91 @@ def process_pdf(filepath):
     doc_name = Path(filepath).stem
 
     pdf = fitz.open(filepath)
-    sections = []
 
+    # First pass: extract page info and detect headings
+    pages_info = []
     for page_num in range(len(pdf)):
         page = pdf[page_num]
-
-        # Extract text for search indexing
-        text_lines = []
-        page_title = f"Page {page_num + 1}"
         blocks = page.get_text("dict")["blocks"]
+
+        text_lines = []
+        heading = None
+        max_font_size = 0
 
         for block in blocks:
             if block["type"] == 0:
                 for line in block["lines"]:
                     line_text = "".join(span["text"] for span in line["spans"]).strip()
-                    if line_text and len(line_text) > 1:
-                        text_lines.append(line_text)
+                    if not line_text or len(line_text) <= 1:
+                        continue
+                    font_size = max(span["size"] for span in line["spans"])
+                    is_bold = any("bold" in span.get("font", "").lower() for span in line["spans"])
 
-        # Use first substantial text as page title
-        for line in text_lines[:5]:
-            if len(line) > 3:
-                page_title = line
-                break
+                    text_lines.append(line_text)
 
-        # Render page as image (1.5x zoom, compressed JPEG for speed)
+                    # Detect major headings (large bold text, typically 20px+)
+                    if is_bold and font_size >= 20 and len(line_text) > 3:
+                        if not heading or font_size > max_font_size:
+                            heading = line_text
+                            max_font_size = font_size
+
+        # Render page as JPEG
         mat = fitz.Matrix(1.5, 1.5)
         pix = page.get_pixmap(matrix=mat)
         img_filename = f"{doc_id}_page{page_num + 1}.jpg"
         img_path = IMAGES_DIR / img_filename
-
-        # Convert to JPEG for smaller file size
         img = Image.open(io.BytesIO(pix.tobytes("png")))
         img = img.convert("RGB")
         img.save(str(img_path), format="JPEG", quality=85)
 
-        # Add document name to content for better search matching
-        search_content = [f"Document: {doc_name}"] + text_lines
-
-        sections.append({
-            "title": page_title,
-            "level": 1,
-            "content": search_content,
-            "images": [img_filename],
-            "image_contexts": {},
-            "parent": doc_name,
-            "is_page_render": True,  # Flag so app knows to send to Claude
+        pages_info.append({
+            "page_num": page_num + 1,
+            "heading": heading,
+            "text_lines": text_lines,
+            "image": img_filename,
         })
 
     pdf.close()
+
+    # Second pass: group pages by headings into sections
+    sections = []
+    current_section = None
+
+    for page in pages_info:
+        if page["heading"]:
+            # New heading found — save current section and start new one
+            if current_section:
+                sections.append(current_section)
+            current_section = {
+                "title": page["heading"],
+                "level": 1,
+                "content": [f"Document: {doc_name}"],
+                "images": [page["image"]],
+                "image_contexts": {},
+                "parent": doc_name,
+                "is_page_render": True,
+            }
+            # Add text from this page
+            current_section["content"].extend(page["text_lines"])
+        elif current_section:
+            # No heading — append to current section
+            current_section["images"].append(page["image"])
+            current_section["content"].extend(page["text_lines"])
+        else:
+            # No section started yet — create a default one
+            current_section = {
+                "title": f"Page {page['page_num']}",
+                "level": 1,
+                "content": [f"Document: {doc_name}"] + page["text_lines"],
+                "images": [page["image"]],
+                "image_contexts": {},
+                "parent": doc_name,
+                "is_page_render": True,
+            }
+
+    # Don't forget the last section
+    if current_section:
+        sections.append(current_section)
 
     return {
         "filename": Path(filepath).name,
