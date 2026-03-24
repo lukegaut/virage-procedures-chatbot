@@ -257,102 +257,121 @@ def process_document(filepath):
 
 
 def process_pdf(filepath):
-    """Process a PDF file into structured sections with images."""
+    """
+    Process a PDF file into structured sections with images.
+    Uses a page-based approach: each page becomes a section.
+    Pages with diagrams/images get a full-page render saved as an image.
+    Consecutive pages with the same title are merged into one section.
+    """
     import fitz  # PyMuPDF
 
     doc_id = hashlib.md5(str(filepath).encode()).hexdigest()[:8]
     doc_name = Path(filepath).stem
 
-    sections = []
-    current_section = {
-        "title": doc_name,
-        "level": 0,
-        "content": [],
-        "images": [],
-        "image_contexts": {},
-        "parent": "",
-    }
+    pdf = fitz.open(filepath)
+    raw_pages = []
 
-    for page_num in range(len(fitz.open(filepath))):
-        pdf = fitz.open(filepath)
+    for page_num in range(len(pdf)):
         page = pdf[page_num]
 
-        # Extract text blocks with font info to detect headings
+        # Extract all text from the page
+        text_lines = []
+        page_title = ""
         blocks = page.get_text("dict")["blocks"]
 
         for block in blocks:
-            if block["type"] == 0:  # Text block
+            if block["type"] == 0:
                 for line in block["lines"]:
-                    text = "".join(span["text"] for span in line["spans"]).strip()
-                    if not text:
+                    line_text = "".join(span["text"] for span in line["spans"]).strip()
+                    if not line_text:
                         continue
-
-                    # Detect headings by font size (larger than ~13pt is likely a heading)
+                    # Use the first substantial text line as the page title
                     max_size = max(span["size"] for span in line["spans"])
                     is_bold = any("bold" in span.get("font", "").lower() for span in line["spans"])
-
-                    if max_size >= 14 or (max_size >= 12 and is_bold):
-                        if current_section["content"] or current_section["images"]:
-                            sections.append(current_section)
-                        current_section = {
-                            "title": text,
-                            "level": 1 if max_size >= 14 else 2,
-                            "content": [],
-                            "images": [],
-                            "image_contexts": {},
-                            "parent": "",
-                        }
+                    if not page_title and len(line_text) > 3 and (max_size >= 12 or is_bold):
+                        page_title = line_text
                     else:
-                        current_section["content"].append(text)
+                        text_lines.append(line_text)
 
-            elif block["type"] == 1:  # Image block
-                try:
-                    img_data = block.get("image")
-                    if img_data:
-                        ext = "png"
-                        img_filename = f"{doc_id}_{hashlib.md5(img_data).hexdigest()[:8]}.{ext}"
-                        img_path = IMAGES_DIR / img_filename
-                        with open(img_path, "wb") as f:
-                            f.write(img_data)
-                        current_section["images"].append(img_filename)
-                        context_before = " ".join(current_section["content"][-3:]) if current_section["content"] else ""
-                        current_section["image_contexts"][img_filename] = {
-                            "before": context_before,
-                            "section": current_section["title"],
-                            "parent": current_section.get("parent", ""),
-                        }
-                except Exception:
-                    pass
-
-        # Also extract images via page.get_images() for embedded images
-        pdf2 = fitz.open(filepath)
-        page2 = pdf2[page_num]
-        for img_index, img_info in enumerate(page2.get_images(full=True)):
-            xref = img_info[0]
+        # Check if page has meaningful images (not just tiny icons/logos)
+        has_images = False
+        for img_info in page.get_images(full=True):
             try:
-                base_image = pdf2.extract_image(xref)
-                img_data = base_image["image"]
-                ext = base_image.get("ext", "png")
-                img_filename = f"{doc_id}_{hashlib.md5(img_data).hexdigest()[:8]}.{ext}"
-                img_path = IMAGES_DIR / img_filename
-                if not img_path.exists():
-                    with open(img_path, "wb") as f:
-                        f.write(img_data)
-                if img_filename not in current_section["images"]:
-                    current_section["images"].append(img_filename)
-                    context_before = " ".join(current_section["content"][-3:]) if current_section["content"] else ""
-                    current_section["image_contexts"][img_filename] = {
-                        "before": context_before,
-                        "section": current_section["title"],
-                        "parent": current_section.get("parent", ""),
-                    }
+                xref = img_info[0]
+                base_image = pdf.extract_image(xref)
+                w = base_image.get("width", 0)
+                h = base_image.get("height", 0)
+                # Only count images larger than 100x100 as meaningful
+                if w > 100 and h > 100:
+                    has_images = True
+                    break
             except Exception:
                 pass
-        pdf2.close()
-        pdf.close()
 
-    if current_section["content"] or current_section["images"]:
-        sections.append(current_section)
+        # Render full page as image if it has diagrams or limited text
+        page_image = None
+        if has_images:
+            mat = fitz.Matrix(2, 2)  # 2x zoom for readability
+            pix = page.get_pixmap(matrix=mat)
+            img_filename = f"{doc_id}_page{page_num + 1}.png"
+            img_path = IMAGES_DIR / img_filename
+            pix.save(str(img_path))
+            page_image = img_filename
+
+        raw_pages.append({
+            "title": page_title or f"Page {page_num + 1}",
+            "content": text_lines,
+            "image": page_image,
+            "page_num": page_num + 1,
+        })
+
+    pdf.close()
+
+    # Merge consecutive pages with the same title into one section
+    sections = []
+    for page_data in raw_pages:
+        # Skip completely empty pages (no text, no images)
+        if not page_data["content"] and not page_data["image"]:
+            continue
+
+        title = page_data["title"]
+        # Filter out single characters/numbers that aren't real content
+        content = [line for line in page_data["content"]
+                   if len(line) > 1 or not line.isdigit()]
+
+        # Check if we can merge with the previous section (same title)
+        if sections and sections[-1]["title"] == title:
+            sections[-1]["content"].extend(content)
+            if page_data["image"]:
+                img = page_data["image"]
+                sections[-1]["images"].append(img)
+                ctx = " ".join(content[-3:]) if content else title
+                sections[-1]["image_contexts"][img] = {
+                    "before": ctx,
+                    "section": title,
+                    "parent": doc_name,
+                }
+        else:
+            images = []
+            image_contexts = {}
+            if page_data["image"]:
+                img = page_data["image"]
+                images.append(img)
+                ctx = " ".join(content[-3:]) if content else title
+                image_contexts[img] = {
+                    "before": ctx,
+                    "section": title,
+                    "parent": doc_name,
+                }
+
+            sections.append({
+                "title": title,
+                "level": 1,
+                "content": content,
+                "images": images,
+                "image_contexts": image_contexts,
+                "parent": doc_name,
+            })
 
     return {
         "filename": Path(filepath).name,
