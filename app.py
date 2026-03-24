@@ -1,11 +1,13 @@
 """
 Virage Procedures Chatbot
 A chatbot for mechanics and engineers to query procedure documents.
+Uses Claude AI with vision to understand text, tables, and diagrams.
 """
 
+import base64
 import streamlit as st
 from pathlib import Path
-from groq import Groq
+from anthropic import Anthropic
 from search_engine import search, get_context_for_llm, get_document_list, load_index, build_embeddings
 from document_processor import build_index, PROCEDURES_DIR, IMAGES_DIR, EXTRACTED_DIR
 
@@ -57,81 +59,92 @@ Your role is to help them understand and follow procedures accurately.
 
 CRITICAL RULES:
 1. ONLY use the provided procedure context to answer questions. Do NOT make up information.
-2. If the context does not contain enough information to answer, say so clearly and suggest what they could ask instead based on topics you can see in the context.
+2. If the context does not contain enough information to answer, say so clearly and suggest what they could ask instead.
 3. Never contradict or modify the procedure steps - relay them accurately.
 4. Use clear, simple language suitable for workshop use.
-5. If safety warnings or torque specs are mentioned in the procedures, ALWAYS include them.
+5. If safety warnings or torque specs are mentioned, ALWAYS include them.
 6. When referencing specific steps, mention which procedure document they come from.
 7. Format your response for easy reading - use bullet points and numbered steps where appropriate.
 8. Keep answers focused and concise - mechanics need quick answers, not essays.
-9. Do NOT include any image tags or image instructions in your response."""
+9. You will be shown page images from procedure documents. Read and use ALL information visible in them including diagrams, tables, annotations, and text.
+10. When a diagram or image is important for understanding (e.g. layout diagrams, step-by-step photos), tell the user to check the images below for the visual reference."""
 
 
-def get_recent_chat_context():
-    """Get recent chat history for follow-up question understanding."""
-    messages = st.session_state.get("messages", [])
-    if not messages:
-        return ""
-    # Include last 4 messages (2 exchanges) for context
-    recent = messages[-4:]
-    parts = []
-    for m in recent:
-        role = "User" if m["role"] == "user" else "Assistant"
-        parts.append(f"{role}: {m['content'][:300]}")
-    return "\n".join(parts)
+def encode_image(img_path):
+    """Encode an image to base64 for the Claude API."""
+    with open(img_path, "rb") as f:
+        data = f.read()
+    ext = img_path.suffix.lower()
+    if ext in (".jpg", ".jpeg"):
+        media_type = "image/jpeg"
+    elif ext == ".png":
+        media_type = "image/png"
+    elif ext == ".gif":
+        media_type = "image/gif"
+    elif ext == ".webp":
+        media_type = "image/webp"
+    else:
+        media_type = "image/png"
+    return media_type, base64.standard_b64encode(data).decode("utf-8")
 
 
-def build_search_query(prompt):
-    """
-    Build an effective search query by combining the current prompt
-    with recent conversation context for follow-up questions.
-    """
-    chat_context = get_recent_chat_context()
-    if not chat_context:
-        return prompt
-
-    # If the prompt is short/vague, it's likely a follow-up — combine with previous topic
-    words = prompt.strip().split()
-    if len(words) <= 6:
-        # Extract the last user question for context
-        messages = st.session_state.get("messages", [])
-        for m in reversed(messages):
-            if m["role"] == "user":
-                return f"{m['content']} {prompt}"
-        return prompt
-    return prompt
-
-
-def get_ai_response(query, context, chat_history=""):
-    """Get an AI response from Groq, grounded in the procedure context."""
-    api_key = st.secrets.get("GROQ_API_KEY", "")
+def get_ai_response(query, context, images, chat_history=""):
+    """Get a Claude AI response with vision support."""
+    api_key = st.secrets.get("ANTHROPIC_API_KEY", "")
     if not api_key:
-        return "⚠️ API key not configured. Add GROQ_API_KEY in the app settings."
+        return "⚠️ API key not configured. Add ANTHROPIC_API_KEY in the app settings."
 
-    client = Groq(api_key=api_key)
+    client = Anthropic(api_key=api_key)
 
-    history_section = ""
+    # Build the message content with text and images
+    content = []
+
+    # Add conversation history if this is a follow-up
+    history_text = ""
     if chat_history:
-        history_section = f"\nRECENT CONVERSATION:\n{chat_history}\n"
+        history_text = f"\n\nRECENT CONVERSATION:\n{chat_history}\n"
 
-    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
-{history_section}
-PROCEDURE CONTEXT:
-{context}
+    # Add text context
+    content.append({
+        "type": "text",
+        "text": f"PROCEDURE CONTEXT (extracted text):\n{context}\n{history_text}\nUSER QUESTION: {query}\n\nAnswer using ONLY the information from the procedure context and images above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to."
+    })
 
-USER QUESTION: {query}
+    # Add page images so Claude can see diagrams, tables, etc.
+    images_added = 0
+    for img_file in images:
+        img_path = IMAGES_DIR / img_file
+        if img_path.exists() and images_added < 5:  # Limit to 5 images to control costs
+            try:
+                media_type, img_data = encode_image(img_path)
+                content.append({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": media_type,
+                        "data": img_data,
+                    }
+                })
+                images_added += 1
+            except Exception:
+                pass
 
-Answer using ONLY the information from the procedure context above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to."""
+    if images_added > 0:
+        content.append({
+            "type": "text",
+            "text": "The images above are from the relevant procedure pages. Use them to answer the question — they may contain diagrams, tables, step photos, or other visual information not captured in the text."
+        })
 
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_prompt},
+            {"role": "user", "content": content},
         ],
         temperature=0.3,
     )
-    return response.choices[0].message.content
+    return response.content[0].text
 
 
 def display_images(images):
@@ -144,6 +157,34 @@ def display_images(images):
         img_path = IMAGES_DIR / img_file
         if img_path.exists():
             st.image(str(img_path), use_container_width=True)
+
+
+def get_recent_chat_context():
+    """Get recent chat history for follow-up question understanding."""
+    messages = st.session_state.get("messages", [])
+    if not messages:
+        return ""
+    recent = messages[-4:]
+    parts = []
+    for m in recent:
+        role = "User" if m["role"] == "user" else "Assistant"
+        parts.append(f"{role}: {m['content'][:300]}")
+    return "\n".join(parts)
+
+
+def build_search_query(prompt):
+    """Combine current prompt with previous context for follow-up questions."""
+    chat_context = get_recent_chat_context()
+    if not chat_context:
+        return prompt
+    words = prompt.strip().split()
+    if len(words) <= 6:
+        messages = st.session_state.get("messages", [])
+        for m in reversed(messages):
+            if m["role"] == "user":
+                return f"{m['content']} {prompt}"
+        return prompt
+    return prompt
 
 
 # --- Page routing ---
@@ -206,7 +247,6 @@ if page == "⚙️ Admin":
                 if st.button("🗑️ Remove", key=f"del_{doc_path.name}"):
                     doc_path.unlink()
                     st.success(f"Removed: {doc_path.name}")
-                    # Rebuild index and embeddings after removal
                     with st.spinner("Rebuilding index..."):
                         build_index()
                         build_embeddings()
@@ -225,12 +265,12 @@ if page == "⚙️ Admin":
 
     # --- API key status ---
     st.divider()
-    api_key = st.secrets.get("GROQ_API_KEY", "")
+    api_key = st.secrets.get("ANTHROPIC_API_KEY", "")
     if api_key:
-        st.success("🤖 AI: Connected (Groq)")
+        st.success("🤖 AI: Connected (Claude)")
     else:
         st.error("🤖 AI: No API key")
-        st.caption("Add GROQ_API_KEY to secrets")
+        st.caption("Add ANTHROPIC_API_KEY to secrets")
 
 else:
     # ========================
@@ -248,7 +288,7 @@ else:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
             if message.get("images"):
-                with st.expander("📸 View related images"):
+                with st.expander("📸 View procedure pages"):
                     display_images(message["images"])
 
     # Chat input
@@ -266,7 +306,7 @@ else:
             search_query = build_search_query(prompt)
             chat_history = get_recent_chat_context()
 
-            # Search for relevant context (images are pre-filtered by relevance)
+            # Search for relevant context
             context, images = get_context_for_llm(search_query, max_sections=3)
 
             # Generate AI response
@@ -277,7 +317,7 @@ else:
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
-                            display_text = get_ai_response(prompt, context, chat_history)
+                            display_text = get_ai_response(prompt, context, images, chat_history)
                         except Exception as e:
                             display_text = f"Error generating response: {e}"
 
@@ -290,9 +330,9 @@ else:
                         for r in results:
                             st.markdown(f"- **{r['section_title']}** from _{r['doc_name']}_")
 
-                # Show "View images" button if images are available
+                # Show procedure page images
                 if images:
-                    with st.expander("📸 View related images"):
+                    with st.expander("📸 View procedure pages"):
                         display_images(images)
 
             st.session_state.messages.append({
