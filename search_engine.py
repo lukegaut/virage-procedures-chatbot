@@ -203,69 +203,56 @@ def get_sibling_images(section_title, section_parent):
 
 
 
-def get_context_for_llm(query, max_chars=6000):
+def get_context_for_llm(query, max_chars=8000):
     """
-    Build a context string prioritising sections from the top-matched document.
-    First includes ALL sections from the primary document, then fills
-    remaining space with other documents. Images only from primary doc.
+    Build context by finding the best-matching document, then including
+    ALL of that document's sections (in order). This ensures complete
+    procedures are shown, not fragments.
     """
-    # Get more results than we need so we can find all primary doc sections
-    results = search(query, top_k=15, min_score=0.15)
+    results = search(query, top_k=10, min_score=0.15)
     if not results:
         return None, []
 
     # The top result determines the primary document
-    primary_doc = results[0]["doc_name"]
+    primary_doc_name = results[0]["doc_name"]
+    primary_filename = results[0]["filename"]
 
-    # Split results into primary doc vs other docs
-    primary_sections = [r for r in results if r["doc_name"] == primary_doc]
-    other_sections = [r for r in results if r["doc_name"] != primary_doc]
+    # Load ALL sections from the primary document (in document order)
+    index = load_index()
+    primary_doc = None
+    for doc in index["documents"]:
+        if doc["filename"] == primary_filename:
+            primary_doc = doc
+            break
+
+    if not primary_doc:
+        return None, []
 
     context_parts = []
     all_images = []
     seen_images = set()
     total_chars = 0
-    included_titles = set()
 
-    # First: include all sections from the primary document
-    for r in primary_sections:
-        if r["section_title"] in included_titles:
-            continue
-        # Skip sections with no content (page renders with only images)
-        if not r["content"]:
-            # Still collect their images
-            for img in r["images"]:
+    # Include ALL sections from the primary document in order
+    for section in primary_doc["sections"]:
+        # Skip empty page-render sections but collect their images
+        if not section["content"]:
+            for img in section["images"]:
                 if img not in seen_images:
                     all_images.append(img)
                     seen_images.add(img)
             continue
 
-        section_text = "\n".join(r["content"])
-        section_block = f"## {r['section_title']} (from: {r['doc_name']})\n{section_text}\n"
+        section_text = "\n".join(section["content"])
+        section_block = f"## {section['title']} (from: {primary_doc_name})\n{section_text}\n"
         if total_chars + len(section_block) > max_chars and context_parts:
             break
         context_parts.append(section_block)
         total_chars += len(section_block)
-        included_titles.add(r["section_title"])
 
-        for img in r["images"]:
+        for img in section["images"]:
             if img not in seen_images:
                 all_images.append(img)
                 seen_images.add(img)
-
-    # Then: fill remaining space with other documents for context
-    for r in other_sections:
-        if r["section_title"] in included_titles:
-            continue
-        if not r["content"]:
-            continue
-        section_text = "\n".join(r["content"])
-        section_block = f"## {r['section_title']} (from: {r['doc_name']})\n{section_text}\n"
-        if total_chars + len(section_block) > max_chars:
-            break
-        context_parts.append(section_block)
-        total_chars += len(section_block)
-        included_titles.add(r["section_title"])
-        # No images from other docs
 
     return "\n".join(context_parts), all_images
