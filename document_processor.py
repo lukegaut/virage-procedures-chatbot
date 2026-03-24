@@ -256,93 +256,30 @@ def process_document(filepath):
     }
 
 
-def _get_word_counts(text_lines, title):
-    """Count meaningful words in a section's content, excluding stopwords and title words."""
-    stopwords = {
-        "the", "and", "for", "are", "but", "not", "you", "all", "can", "her",
-        "was", "one", "our", "out", "its", "has", "his", "how", "man", "new",
-        "now", "old", "see", "way", "who", "did", "get", "let", "say", "she",
-        "too", "use", "when", "with", "from", "that", "this", "they", "will",
-        "step", "crew", "2026", "pit", "stop", "mec", "puts", "goes", "takes",
-        "makes", "sure", "position", "line", "behind", "white", "cross",
-        "document", "their", "finish", "tasks", "orders", "them", "again",
-        "stay", "when", "then", "into", "also", "before", "after",
-    }
-    title_words = set(w.lower() for w in re.split(r'\W+', title) if w)
-    ignore = stopwords | title_words
-
-    word_counts = {}
-    for line in text_lines:
-        for word in re.split(r'\W+', line.lower()):
-            if len(word) >= 3 and word not in ignore and not word.isdigit():
-                word_counts[word] = word_counts.get(word, 0) + 1
-    return word_counts
-
-
 def _disambiguate_sections(sections_group):
     """
-    Given a list of sections with the same title, give each a unique suffix
-    based on what makes it different from the others.
+    Given a list of sections with the same title, give each a unique suffix.
+    Checks for tyre-change equipment keywords (gun, wheel) to label sections
+    as 'With Tyre Change' vs 'Without Tyre Change'. Falls back to numbering.
     """
     base_title = sections_group[0]["title"]
+    tyre_change_keywords = {"gun", "wheel", "electric gun", "tyre change", "tire change"}
 
-    # Get word counts for each section
-    all_counts = []
+    labels = []
     for section in sections_group:
-        counts = _get_word_counts(section["content"], base_title)
-        all_counts.append(counts)
+        content_lower = " ".join(section.get("content", [])).lower()
+        has_tyre_change = any(kw in content_lower for kw in tyre_change_keywords)
+        labels.append(has_tyre_change)
 
-    # For each section, find words that are distinctive to IT
-    # (appear much more in this section than others)
-    labels = {
-        "gun": "Tyre Changes",
-        "wheel": "Tyre Changes",
-        "tyre": "Tyre Changes",
-        "tire": "Tyre Changes",
-        "tyres": "Tyre Changes",
-        "electric": "Tyre Changes",
-        "lance": "Tyre Changes",
-        "driver": "Driver Change",
-        "windshield": "Driver Change",
-        "fuel": "Fuelling",
-        "refuel": "Refuelling",
-    }
-
-    for i, section in enumerate(sections_group):
-        my_counts = all_counts[i]
-        other_counts = {}
-        for j, counts in enumerate(all_counts):
-            if j != i:
-                for w, c in counts.items():
-                    other_counts[w] = other_counts.get(w, 0) + c
-
-        # Find words unique or dominant in this section
-        distinctive = {}
-        for word, count in my_counts.items():
-            other_count = other_counts.get(word, 0)
-            # Word appears significantly more in this section
-            if count > other_count * 2 or (count >= 2 and other_count == 0):
-                distinctive[word] = count
-
-        # Try to match a known label
-        best_label = None
-        best_score = 0
-        for word, count in distinctive.items():
-            if word in labels and count > best_score:
-                best_label = labels[word]
-                best_score = count
-
-        if best_label:
-            section["title"] = f"{base_title} - {best_label}"
-        else:
-            # Fallback: use top distinctive words
-            ranked = sorted(distinctive.items(), key=lambda x: -x[1])
-            keywords = [w for w, c in ranked[:3] if c >= 2]
-            if keywords:
-                suffix = " ".join(w.capitalize() for w in keywords)
-                section["title"] = f"{base_title} - {suffix}"
-            else:
-                section["title"] = f"{base_title} (Part {i + 1})"
+    # If we can cleanly split into tyre-change vs non-tyre-change, use that
+    if len(sections_group) == 2 and labels[0] != labels[1]:
+        for i, section in enumerate(sections_group):
+            suffix = "With Tyre Change" if labels[i] else "Without Tyre Change"
+            section["title"] = f"{base_title} - {suffix}"
+    else:
+        # Fallback: simple numbering
+        for i, section in enumerate(sections_group):
+            section["title"] = f"{base_title} (Part {i + 1})"
 
 
 def process_pdf(filepath):
