@@ -262,7 +262,7 @@ else:
             chat_history = get_recent_chat_context()
 
             # Search for relevant context
-            context, images = get_context_for_llm(search_query, max_sections=3)
+            context, images = get_context_for_llm(search_query)
 
             # Generate AI response
             with st.chat_message("assistant"):
