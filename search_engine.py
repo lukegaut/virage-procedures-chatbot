@@ -203,21 +203,23 @@ def get_sibling_images(section_title, section_parent):
 
 
 
-def get_context_for_llm(query, max_sections=3, max_chars=5000):
+def get_context_for_llm(query, max_sections=5, max_chars=6000):
     """
-    Build a context string from the top matched sections only.
-    Images come only from the #1 matched section to keep them relevant.
+    Build a context string from the top matched sections.
+    Collects images from ALL matched sections so the AI can see
+    diagrams, step photos, etc. from across the relevant content.
     """
     results = search(query, top_k=max_sections)
     if not results:
         return None, []
 
     context_parts = []
-    top_images = []
+    all_images = []
+    seen_images = set()
     total_chars = 0
     included_titles = set()
 
-    for i, r in enumerate(results):
+    for r in results:
         if r["section_title"] in included_titles:
             continue
 
@@ -229,8 +231,10 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
         total_chars += len(section_block)
         included_titles.add(r["section_title"])
 
-        # Only take images from the top matched section
-        if i == 0:
-            top_images = list(r["images"])
+        # Collect images from all matched sections
+        for img in r["images"]:
+            if img not in seen_images:
+                all_images.append(img)
+                seen_images.add(img)
 
-    return "\n".join(context_parts), top_images
+    return "\n".join(context_parts), all_images

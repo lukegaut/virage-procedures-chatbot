@@ -70,21 +70,30 @@ CRITICAL RULES:
 10. When a diagram or image is important for understanding (e.g. layout diagrams, step-by-step photos), tell the user to check the images below for the visual reference."""
 
 
-def encode_image(img_path):
-    """Encode an image to base64 for the Claude API."""
-    with open(img_path, "rb") as f:
-        data = f.read()
-    ext = img_path.suffix.lower()
-    if ext in (".jpg", ".jpeg"):
-        media_type = "image/jpeg"
-    elif ext == ".png":
+def encode_image(img_path, max_width=1000):
+    """Encode and resize an image to base64 for the Claude API."""
+    from PIL import Image
+    import io
+
+    img = Image.open(img_path)
+
+    # Resize if too large (saves upload time and API cost)
+    if img.width > max_width:
+        ratio = max_width / img.width
+        new_size = (max_width, int(img.height * ratio))
+        img = img.resize(new_size, Image.LANCZOS)
+
+    # Convert to JPEG for smaller size (unless it has transparency)
+    buf = io.BytesIO()
+    if img.mode in ("RGBA", "LA", "P"):
+        img.save(buf, format="PNG", optimize=True)
         media_type = "image/png"
-    elif ext == ".gif":
-        media_type = "image/gif"
-    elif ext == ".webp":
-        media_type = "image/webp"
     else:
-        media_type = "image/png"
+        img = img.convert("RGB")
+        img.save(buf, format="JPEG", quality=80)
+        media_type = "image/jpeg"
+
+    data = buf.getvalue()
     return media_type, base64.standard_b64encode(data).decode("utf-8")
 
 
