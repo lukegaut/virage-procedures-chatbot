@@ -137,14 +137,29 @@ def search(query, top_k=5, min_score=0.15):
     # Cosine similarity (embeddings are already normalized, so dot product = cosine sim)
     similarities = np.dot(embeddings, query_embedding)
 
-    # Penalise sections with very little content — they match semantically
-    # via parent/title context but have nothing useful to show
+    # Extract words from query for exact name matching
+    query_words = set(query.lower().split())
+
     for i, section in enumerate(sections):
+        # Penalise sections with very little content
         content_length = sum(len(line) for line in section.get("content", []))
         if content_length < 20:
-            similarities[i] *= 0.3  # Heavy penalty for empty/near-empty sections
+            similarities[i] *= 0.3
         elif content_length < 80:
-            similarities[i] *= 0.7  # Moderate penalty for very short sections
+            similarities[i] *= 0.7
+
+        # Boost sections where the document name or section title contains
+        # an exact word match from the query (e.g. "LES" matches "- LES" not "- ELMS")
+        doc_name_upper = section["doc_name"].upper()
+        title_upper = section["section_title"].upper()
+        for word in query_words:
+            w = word.upper()
+            if len(w) >= 2:  # Skip very short words
+                # Check for exact word boundary match in doc name
+                doc_words = set(doc_name_upper.replace("-", " ").replace("_", " ").split())
+                title_words = set(title_upper.replace("-", " ").replace("_", " ").split())
+                if w in doc_words or w in title_words:
+                    similarities[i] *= 1.3  # Boost for exact name match
 
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]
