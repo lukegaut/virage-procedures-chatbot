@@ -305,7 +305,7 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
         # Collect candidate images from matched sections
         all_candidate_images.extend(r["images"])
 
-        # Include sibling section TEXT for complete context
+        # Include sibling section TEXT for complete context (but NOT their images)
         if r.get("parent"):
             siblings = get_sibling_sections(r["section_title"], r["parent"])
             for sib in siblings:
@@ -318,8 +318,6 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
                 context_parts.append(sib_block)
                 total_chars += len(sib_block)
                 included_titles.add(sib["section_title"])
-                # Also consider sibling images as candidates
-                all_candidate_images.extend(sib["images"])
 
     # Deduplicate candidate images
     seen = set()
