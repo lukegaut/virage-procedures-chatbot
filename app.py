@@ -212,7 +212,7 @@ if page == "⚙️ Admin":
         st.stop()
 
     st.title("⚙️ Admin Center")
-    st.caption("Upload new procedure documents or remove existing ones.")
+    st.caption("Upload new procedure documents or remove existing ones. (v2 — vision indexing)")
 
     st.divider()
 
@@ -270,12 +270,19 @@ if page == "⚙️ Admin":
 
     # --- Rebuild index manually ---
     if st.button("🔄 Rebuild Document Index", use_container_width=True):
-        with st.spinner("Processing documents and building search embeddings..."):
+        with st.spinner("Processing documents and building search embeddings (this may take a minute for PDFs)..."):
             index = build_index(api_key=st.secrets.get("ANTHROPIC_API_KEY", ""))
             num_sections = build_embeddings()
             doc_count = len(index["documents"])
             section_count = sum(len(d["sections"]) for d in index["documents"])
             st.success(f"Indexed {doc_count} document(s), {section_count} sections, {num_sections} embeddings")
+
+            # Show generated section titles so user can verify
+            for doc in index["documents"]:
+                if doc["filename"].endswith(".pdf"):
+                    with st.expander(f"📄 {doc['doc_name']} — sections"):
+                        for s in doc["sections"]:
+                            st.write(f"- **{s['title']}** ({len(s['images'])} pages)")
 
     # --- API key status ---
     st.divider()

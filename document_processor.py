@@ -267,8 +267,10 @@ def _describe_pdf_sections(sections, api_key=None):
     embeddings capture what the section is truly about.
     """
     if not api_key or not sections:
+        print(f"    Skipping vision: api_key={'set' if api_key else 'missing'}, sections={len(sections) if sections else 0}")
         return
 
+    print(f"    Running vision on {len(sections)} sections...")
     import base64
     import io
     from PIL import Image
