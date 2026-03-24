@@ -166,8 +166,9 @@ def search(query, top_k=5, min_score=0.15):
     # Cosine similarity (embeddings are already normalized, so dot product = cosine sim)
     similarities = np.dot(embeddings, query_embedding)
 
-    # Build query word set for title matching
-    query_words = set(query.lower().split())
+    # Build query word set for matching
+    query_lower = query.lower()
+    query_words = set(query_lower.split())
 
     for i, section in enumerate(sections):
         # Penalise sections with very little content (likely empty/filler)
@@ -177,17 +178,40 @@ def search(query, top_k=5, min_score=0.15):
         elif content_length < 80:
             similarities[i] *= 0.7
 
-        # Small title-match bonus: when query words appear in the section title,
-        # add a small additive bonus. This helps distinguish semantically similar
-        # sections (e.g. "Tyre Changes" vs "Driver Change" when query says "tyre").
+        doc_name_lower = section["doc_name"].lower()
         title_lower = section["section_title"].lower().replace("-", " ")
         title_words = set(title_lower.split())
+
+        # Document name matching: if the query mentions a specific document
+        # identifier (e.g. "LES", "MLMC", "ELMS"), strongly prefer sections
+        # from that document. This is critical because these acronyms are
+        # semantically meaningless to the embedding model.
+        doc_name_words = set(doc_name_lower.replace("-", " ").split())
+        doc_match = query_words & doc_name_words
+        doc_match = {w for w in doc_match if len(w) >= 2}
+        if doc_match:
+            similarities[i] += 0.15 * len(doc_match)
+        else:
+            # If query specifically names a document and this section is from
+            # a DIFFERENT document, penalize it
+            all_doc_identifiers = {"les", "mlmc", "elms", "lmp3", "lmp4"}
+            query_doc_ids = query_words & all_doc_identifiers
+            if query_doc_ids:
+                similarities[i] -= 0.15
+
+        # Title-match bonus: when query words appear in the section title
         matching = query_words & title_words
-        # Only count meaningful matches (3+ chars, not stopwords)
         meaningful = {w for w in matching if len(w) >= 3}
         if meaningful:
             similarities[i] += 0.03 * len(meaningful)
 
+        # "Without" in title: penalize when query doesn't say "without",
+        # boost when it does. Helps distinguish "with" vs "without" variants.
+        if "without" in title_words:
+            if "without" in query_words or "no" in query_words:
+                similarities[i] += 0.08
+            else:
+                similarities[i] -= 0.08
 
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]
