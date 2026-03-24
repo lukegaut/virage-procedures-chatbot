@@ -176,14 +176,6 @@ def search(query, top_k=5, min_score=0.15):
         if meaningful:
             similarities[i] += 0.03 * len(meaningful)
 
-        # Handle "with/without" disambiguation in titles:
-        # If title says "Without X" but query doesn't say "without", penalize.
-        # If title says "Without X" and query says "without", boost.
-        if "without" in title_words:
-            if "without" in query_words:
-                similarities[i] += 0.08
-            else:
-                similarities[i] -= 0.08
 
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]

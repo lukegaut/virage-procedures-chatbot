@@ -256,38 +256,117 @@ def process_document(filepath):
     }
 
 
-def _disambiguate_sections(sections_group):
+def _describe_pdf_sections(sections, api_key=None):
     """
-    Given a list of sections with the same title, give each a unique suffix.
-    Checks for tyre-change equipment keywords (gun, wheel) to label sections
-    as 'With Tyre Change' vs 'Without Tyre Change'. Falls back to numbering.
+    Use Claude Vision to read each PDF section's first page and generate
+    an accurate title and description. This solves the core problem: PDF
+    content (especially PowerPoint exports) has its real text baked into
+    images, so we need vision to know what each section actually covers.
+
+    The AI-generated description is added to section content so that
+    embeddings capture what the section is truly about.
     """
-    base_title = sections_group[0]["title"]
-    tyre_change_keywords = {"gun", "wheel", "electric gun", "tyre change", "tire change"}
+    if not api_key or not sections:
+        return
 
-    labels = []
-    for section in sections_group:
-        content_lower = " ".join(section.get("content", [])).lower()
-        has_tyre_change = any(kw in content_lower for kw in tyre_change_keywords)
-        labels.append(has_tyre_change)
+    import base64
+    import io
+    from PIL import Image
+    from anthropic import Anthropic
 
-    # If we can cleanly split into tyre-change vs non-tyre-change, use that
-    if len(sections_group) == 2 and labels[0] != labels[1]:
-        for i, section in enumerate(sections_group):
-            suffix = "With Tyre Change" if labels[i] else "Without Tyre Change"
-            section["title"] = f"{base_title} - {suffix}"
-    else:
-        # Fallback: simple numbering
-        for i, section in enumerate(sections_group):
-            section["title"] = f"{base_title} (Part {i + 1})"
+    client = Anthropic(api_key=api_key)
+
+    for section in sections:
+        if not section.get("images"):
+            continue
+
+        # Send the first page image to Claude to read the actual content
+        img_path = IMAGES_DIR / section["images"][0]
+        if not img_path.exists():
+            continue
+
+        try:
+            # Resize for speed
+            img = Image.open(img_path)
+            if img.width > 800:
+                ratio = 800 / img.width
+                img = img.resize((800, int(img.height * ratio)), Image.LANCZOS)
+            buf = io.BytesIO()
+            img = img.convert("RGB")
+            img.save(buf, format="JPEG", quality=75)
+            img_data = base64.standard_b64encode(buf.getvalue()).decode("utf-8")
+
+            response = client.messages.create(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=200,
+                messages=[{
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "image/jpeg",
+                                "data": img_data,
+                            },
+                        },
+                        {
+                            "type": "text",
+                            "text": (
+                                "This is a page from a motorsport procedure document. "
+                                "Read the page and give me:\n"
+                                "1. TITLE: The exact main heading/title shown on this page\n"
+                                "2. SUBTITLE: Any subtitle, description, or classification "
+                                "(e.g. 'Pit Stop Without Tyre Change', 'Step 3', etc.)\n"
+                                "3. SUMMARY: A one-sentence summary of what this section covers\n\n"
+                                "Format your response exactly as:\n"
+                                "TITLE: ...\nSUBTITLE: ...\nSUMMARY: ..."
+                            ),
+                        },
+                    ],
+                }],
+                temperature=0,
+            )
+
+            ai_text = response.content[0].text
+            print(f"    AI description for '{section['title']}': {ai_text[:100]}...")
+
+            # Parse the AI response
+            title_line = ""
+            subtitle_line = ""
+            summary_line = ""
+            for line in ai_text.split("\n"):
+                line = line.strip()
+                if line.upper().startswith("TITLE:"):
+                    title_line = line[6:].strip()
+                elif line.upper().startswith("SUBTITLE:"):
+                    subtitle_line = line[9:].strip()
+                elif line.upper().startswith("SUMMARY:"):
+                    summary_line = line[8:].strip()
+
+            # Build a better section title from what the AI actually sees
+            if title_line:
+                new_title = title_line
+                if subtitle_line and subtitle_line.lower() not in ("none", "n/a", ""):
+                    new_title = f"{title_line} - {subtitle_line}"
+                section["title"] = new_title
+
+            # Add the AI description to content so embeddings capture it
+            if summary_line:
+                section["content"].insert(0, f"Summary: {summary_line}")
+            if subtitle_line and subtitle_line.lower() not in ("none", "n/a", ""):
+                section["content"].insert(0, f"Subtitle: {subtitle_line}")
+
+        except Exception as e:
+            print(f"    Vision description failed for '{section['title']}': {e}")
 
 
-def process_pdf(filepath):
+def process_pdf(filepath, api_key=None):
     """
     Process a PDF file: render pages as images, grouped by major headings.
     Detects large/bold text as section headings and groups subsequent pages
-    under them. When duplicate headings appear, disambiguates them using
-    content keywords (e.g. "PIT STOP CREW LES 2026 - Tyre Changes").
+    under them. Uses Claude Vision to read each section's first page and
+    generate accurate titles and descriptions from the visual content.
     """
     import fitz  # PyMuPDF
     from PIL import Image
@@ -402,17 +481,10 @@ def process_pdf(filepath):
     if current_section:
         sections.append(current_section)
 
-    # Third pass: disambiguate sections with duplicate titles
-    title_groups = {}
-    for section in sections:
-        t = section["title"]
-        if t not in title_groups:
-            title_groups[t] = []
-        title_groups[t].append(section)
-
-    for title, group in title_groups.items():
-        if len(group) > 1:
-            _disambiguate_sections(group)
+    # Third pass: use Claude Vision to read each section's first page
+    # and generate accurate titles/descriptions from the visual content.
+    # This replaces fragile text-based disambiguation.
+    _describe_pdf_sections(sections, api_key=api_key)
 
     # Clean up: remove internal base_title field
     for section in sections:
@@ -511,8 +583,9 @@ def process_pptx(filepath):
     }
 
 
-def build_index():
-    """Process all procedure files (.docx, .pdf, .pptx) in the procedures directory and build the search index."""
+def build_index(api_key=None):
+    """Process all procedure files (.docx, .pdf, .pptx) in the procedures directory and build the search index.
+    If api_key is provided, uses Claude Vision to read PDF page images for accurate section titles."""
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -535,7 +608,7 @@ def build_index():
             if ext == ".docx":
                 doc_data = process_document(filepath)
             elif ext == ".pdf":
-                doc_data = process_pdf(filepath)
+                doc_data = process_pdf(filepath, api_key=api_key)
             elif ext == ".pptx":
                 doc_data = process_pptx(filepath)
             else:
