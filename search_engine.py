@@ -35,6 +35,15 @@ def load_index():
         return json.load(f)
 
 
+def _normalize_spelling(text):
+    """Normalize common spelling variants so search matches regardless of spelling."""
+    import re
+    # tire/tires (American) → tyre/tyres (British) — standardize to British
+    text = re.sub(r'\btires\b', 'tyres', text, flags=re.IGNORECASE)
+    text = re.sub(r'\btire\b', 'tyre', text, flags=re.IGNORECASE)
+    return text
+
+
 def _build_section_text(section, doc_name):
     """
     Build a rich text representation of a section for embedding.
@@ -65,7 +74,7 @@ def _build_section_text(section, doc_name):
         if content:
             parts.append(content[:3000])
 
-    return "\n".join(parts)
+    return _normalize_spelling("\n".join(parts))
 
 
 def build_embeddings():
@@ -147,6 +156,9 @@ def search(query, top_k=5, min_score=0.15):
         return []
 
     model = _get_model()
+
+    # Normalize spelling variants before encoding
+    query = _normalize_spelling(query)
 
     # Encode the query
     query_embedding = model.encode(query, normalize_embeddings=True)
