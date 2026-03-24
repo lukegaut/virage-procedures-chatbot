@@ -220,56 +220,86 @@ def get_sibling_images(section_title, section_parent):
 
 
 
-def get_context_for_llm(query, max_chars=6000, max_images=8):
+def get_context_for_llm(query, max_chars=6000, max_images_to_ai=5, max_images_display=10):
     """
-    Build context from the top search results. Prioritises the top-matched
-    document. Returns (context_text, images, use_vision).
-    use_vision=True when the content is from PDFs (visual documents)
-    where page images should be sent to Claude for reading.
+    Build context from the top search results.
+    For PDFs (page renders): sends best-matching pages to Claude via vision.
+    For DOCX: sends extracted text (cheap).
+    Returns (context_text, ai_images, display_images, use_vision).
+    - ai_images: images to send to Claude API (limited, for vision)
+    - display_images: images to show the user (can be more)
     """
     results = search(query, top_k=10, min_score=0.15)
     if not results:
-        return None, [], False
+        return None, [], [], False
 
     # The top result determines the primary document
     primary_doc_name = results[0]["doc_name"]
+    primary_filename = results[0]["filename"]
+    has_page_renders = results[0].get("is_page_render", False)
 
-    # Get all results from the primary document, sorted by score
-    primary_results = [r for r in results if r["doc_name"] == primary_doc_name]
+    if has_page_renders:
+        # PDF mode: get ALL pages from primary document in document order
+        index = load_index()
+        primary_doc = None
+        for doc in index["documents"]:
+            if doc["filename"] == primary_filename:
+                primary_doc = doc
+                break
 
-    context_parts = []
-    all_images = []
-    seen_images = set()
-    total_chars = 0
-    has_page_renders = False
+        if not primary_doc:
+            return None, [], [], False
 
-    # Include matched sections from the primary document
-    for r in primary_results:
-        # Check if this is a page-render section (from PDF)
-        if r.get("is_page_render"):
-            has_page_renders = True
-
-        if not r["content"]:
-            # Still collect images from empty sections
-            if len(all_images) < max_images:
-                for img in r["images"]:
-                    if img not in seen_images and len(all_images) < max_images:
-                        all_images.append(img)
-                        seen_images.add(img)
-            continue
-
-        section_text = "\n".join(r["content"])
-        section_block = f"## {r['section_title']} (from: {primary_doc_name})\n{section_text}\n"
-        if total_chars + len(section_block) > max_chars and context_parts:
-            break
-        context_parts.append(section_block)
-        total_chars += len(section_block)
-
-        # Collect images (with limit)
-        if len(all_images) < max_images:
+        # Get the top-scoring page indices from search results
+        matched_pages = [r for r in results if r["doc_name"] == primary_doc_name]
+        matched_images = set()
+        for r in matched_pages:
             for img in r["images"]:
-                if img not in seen_images and len(all_images) < max_images:
+                matched_images.add(img)
+
+        # Collect ALL pages from the document in order for display
+        all_display_images = []
+        context_parts = []
+        for section in primary_doc["sections"]:
+            for img in section["images"]:
+                all_display_images.append(img)
+            # Add text for context (used alongside images)
+            if section["content"]:
+                text = "\n".join(section["content"])
+                context_parts.append(f"## {section['title']}\n{text}")
+
+        # For AI: only send the top-matched pages (sorted by score, capped)
+        ai_images = []
+        for r in matched_pages[:max_images_to_ai]:
+            for img in r["images"]:
+                if img not in ai_images:
+                    ai_images.append(img)
+
+        context = "\n".join(context_parts) if context_parts else f"Document: {primary_doc_name}"
+        return context, ai_images, all_display_images[:max_images_display], True
+
+    else:
+        # DOCX mode: text only, cheap
+        primary_results = [r for r in results if r["doc_name"] == primary_doc_name]
+
+        context_parts = []
+        all_images = []
+        seen_images = set()
+        total_chars = 0
+
+        for r in primary_results:
+            if not r["content"]:
+                continue
+            section_text = "\n".join(r["content"])
+            section_block = f"## {r['section_title']} (from: {primary_doc_name})\n{section_text}\n"
+            if total_chars + len(section_block) > max_chars and context_parts:
+                break
+            context_parts.append(section_block)
+            total_chars += len(section_block)
+
+            for img in r["images"]:
+                if img not in seen_images:
                     all_images.append(img)
                     seen_images.add(img)
 
-    return "\n".join(context_parts), all_images, has_page_renders
+        return "\n".join(context_parts), [], all_images, False

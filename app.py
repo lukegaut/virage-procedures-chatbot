@@ -320,18 +320,18 @@ else:
             chat_history = get_recent_chat_context()
 
             # Search for relevant context
-            context, images, use_vision = get_context_for_llm(search_query)
+            context, ai_images, display_imgs, use_vision = get_context_for_llm(search_query)
 
             # Generate AI response
             with st.chat_message("assistant"):
-                if not context and not images:
+                if not context and not ai_images and not display_imgs:
                     display_text = "I couldn't find any relevant information in the procedures for that question. Could you try rephrasing or being more specific?"
-                    images = []
+                    display_imgs = []
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
                             display_text = get_ai_response(
-                                prompt, context, images,
+                                prompt, context, ai_images,
                                 use_vision=use_vision,
                                 chat_history=chat_history,
                             )
@@ -341,8 +341,8 @@ else:
                 st.markdown(display_text)
 
                 # Show procedure images directly (always visible)
-                if images:
-                    display_images(images)
+                if display_imgs:
+                    display_images(display_imgs)
 
                 # Show sources
                 results = search(search_query, top_k=3)
@@ -354,5 +354,5 @@ else:
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": display_text,
-                "images": images if images else [],
+                "images": display_imgs if display_imgs else [],
             })
