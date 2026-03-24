@@ -295,12 +295,15 @@ def _describe_pdf_page(client, img_path):
                     "text": (
                         "This is a page from a motorsport pit stop or procedure document. "
                         "Read everything visible on the page and respond with:\n"
-                        "SECTION: The procedure/section name this page belongs to "
-                        "(e.g. 'Pit Stop With Tyre Change', 'Pit Stop Without Tyre Change', "
-                        "'Crew Roles Overview', 'Step 3 - Front Checks')\n"
+                        "SECTION: The HIGH-LEVEL procedure name this page belongs to. "
+                        "Use a short, general name — do NOT include step numbers. "
+                        "Examples: 'Pit Stop With Tyre Change', 'Pit Stop Without Tyre Change', "
+                        "'Crew Roles and Positions', 'Timing and Penalties Overview'.\n"
                         "DESCRIPTION: 2-3 sentences describing what this page shows, "
                         "including any steps, roles, diagrams, tables, or instructions visible.\n\n"
-                        "Be specific about whether it involves tyre/wheel changes or not."
+                        "IMPORTANT: The SECTION name must be the same for all pages that "
+                        "belong to the same procedure. Step 1, Step 2, etc. of the same "
+                        "procedure must all have the SAME section name."
                     ),
                 },
             ],
@@ -382,7 +385,19 @@ def process_pdf(filepath, api_key=None):
                 "description": "",
             })
 
-    # Step 3: Group consecutive pages with the same section name
+    # Step 3: Group consecutive pages into sections.
+    # Uses fuzzy matching: if two names share >60% of words, they're the same section.
+    def _names_match(name_a, name_b):
+        if name_a == name_b:
+            return True
+        words_a = set(name_a.lower().split())
+        words_b = set(name_b.lower().split())
+        if not words_a or not words_b:
+            return False
+        overlap = len(words_a & words_b)
+        smaller = min(len(words_a), len(words_b))
+        return overlap / smaller >= 0.6
+
     sections = []
     current_section = None
     current_name = None
@@ -390,7 +405,7 @@ def process_pdf(filepath, api_key=None):
     for i, (page_info, desc) in enumerate(zip(page_images, page_descriptions)):
         section_name = desc["section"]
 
-        if section_name != current_name:
+        if current_name is None or not _names_match(section_name, current_name):
             # New section
             if current_section:
                 sections.append(current_section)
