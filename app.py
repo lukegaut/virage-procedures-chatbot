@@ -4,7 +4,6 @@ A chatbot for mechanics and engineers to query procedure documents.
 Uses Claude AI with vision to understand text, tables, and diagrams.
 """
 
-import base64
 import streamlit as st
 from pathlib import Path
 from anthropic import Anthropic
@@ -70,86 +69,34 @@ CRITICAL RULES:
 10. When a diagram or image is important for understanding (e.g. layout diagrams, step-by-step photos), tell the user to check the images below for the visual reference."""
 
 
-def encode_image(img_path, max_width=800):
-    """Encode and resize an image to base64 for the Claude API."""
-    from PIL import Image
-    import io
 
-    img = Image.open(img_path)
-
-    # Resize if too large (saves upload time and API cost)
-    if img.width > max_width:
-        ratio = max_width / img.width
-        new_size = (max_width, int(img.height * ratio))
-        img = img.resize(new_size, Image.LANCZOS)
-
-    # Convert to JPEG for smaller size (unless it has transparency)
-    buf = io.BytesIO()
-    if img.mode in ("RGBA", "LA", "P"):
-        img.save(buf, format="PNG", optimize=True)
-        media_type = "image/png"
-    else:
-        img = img.convert("RGB")
-        img.save(buf, format="JPEG", quality=80)
-        media_type = "image/jpeg"
-
-    data = buf.getvalue()
-    return media_type, base64.standard_b64encode(data).decode("utf-8")
-
-
-def get_ai_response(query, context, images, chat_history=""):
-    """Get a Claude AI response with vision support."""
+def get_ai_response(query, context, chat_history=""):
+    """Get a Claude AI response using text context only (no images = low cost)."""
     api_key = st.secrets.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         return "⚠️ API key not configured. Add ANTHROPIC_API_KEY in the app settings."
 
     client = Anthropic(api_key=api_key)
 
-    # Build the message content with text and images
-    content = []
-
-    # Add conversation history if this is a follow-up
-    history_text = ""
+    history_section = ""
     if chat_history:
-        history_text = f"\n\nRECENT CONVERSATION:\n{chat_history}\n"
+        history_section = f"\nRECENT CONVERSATION:\n{chat_history}\n"
 
-    # Add text context
-    content.append({
-        "type": "text",
-        "text": f"PROCEDURE CONTEXT (extracted text):\n{context}\n{history_text}\nUSER QUESTION: {query}\n\nAnswer using ONLY the information from the procedure context and images above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to."
-    })
+    user_prompt = f"""Based on the following procedure documentation, answer the user's question.
+{history_section}
+PROCEDURE CONTEXT:
+{context}
 
-    # Add page images so Claude can see diagrams, tables, etc.
-    images_added = 0
-    for img_file in images:
-        img_path = IMAGES_DIR / img_file
-        if img_path.exists() and images_added < 3:  # Limit to 3 images to control costs
-            try:
-                media_type, img_data = encode_image(img_path)
-                content.append({
-                    "type": "image",
-                    "source": {
-                        "type": "base64",
-                        "media_type": media_type,
-                        "data": img_data,
-                    }
-                })
-                images_added += 1
-            except Exception:
-                pass
+USER QUESTION: {query}
 
-    if images_added > 0:
-        content.append({
-            "type": "text",
-            "text": "The images above are from the relevant procedure pages. Use them to answer the question — they may contain diagrams, tables, step photos, or other visual information not captured in the text."
-        })
+Answer using ONLY the information from the procedure context above. If the user is asking a follow-up question, use the conversation history to understand what they are referring to. Related images from the procedures will be shown separately below your answer."""
 
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=1024,
         system=SYSTEM_PROMPT,
         messages=[
-            {"role": "user", "content": content},
+            {"role": "user", "content": user_prompt},
         ],
         temperature=0.3,
     )
@@ -297,8 +244,7 @@ else:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
             if message.get("images"):
-                with st.expander("📸 View procedure pages"):
-                    display_images(message["images"])
+                display_images(message["images"])
 
     # Chat input
     if prompt := st.chat_input("Ask about a procedure..."):
@@ -326,11 +272,15 @@ else:
                 else:
                     with st.spinner("Searching procedures..."):
                         try:
-                            display_text = get_ai_response(prompt, context, images, chat_history)
+                            display_text = get_ai_response(prompt, context, chat_history)
                         except Exception as e:
                             display_text = f"Error generating response: {e}"
 
                 st.markdown(display_text)
+
+                # Show procedure images directly (always visible)
+                if images:
+                    display_images(images)
 
                 # Show sources
                 results = search(search_query, top_k=3)
@@ -338,11 +288,6 @@ else:
                     with st.expander("📋 Sources"):
                         for r in results:
                             st.markdown(f"- **{r['section_title']}** from _{r['doc_name']}_")
-
-                # Show procedure page images
-                if images:
-                    with st.expander("📸 View procedure pages"):
-                        display_images(images)
 
             st.session_state.messages.append({
                 "role": "assistant",
