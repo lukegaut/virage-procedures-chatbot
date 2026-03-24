@@ -202,95 +202,22 @@ def get_sibling_images(section_title, section_parent):
     return images
 
 
-def get_sibling_sections(section_title, section_parent):
-    """Get all sibling sections under the same parent heading."""
-    if not section_parent:
-        return []
-    index = load_index()
-    siblings = []
-    for doc in index["documents"]:
-        for section in doc["sections"]:
-            if (section.get("parent") == section_parent
-                    and section["title"] != section_title
-                    and (section.get("content") or section.get("images"))):
-                siblings.append({
-                    "doc_name": doc["doc_name"],
-                    "section_title": section["title"],
-                    "content": section.get("content", []),
-                    "images": section.get("images", []),
-                    "parent": section.get("parent", ""),
-                })
-    return siblings
-
-
-def _get_all_image_contexts():
-    """Build a map of image filename -> context description from the index."""
-    index = load_index()
-    image_ctx = {}
-    for doc in index["documents"]:
-        for section in doc["sections"]:
-            for img_file, ctx in section.get("image_contexts", {}).items():
-                image_ctx[img_file] = ctx.get("description", section["title"])
-    return image_ctx
-
-
-def filter_relevant_images(query, candidate_images, threshold=0.25):
-    """
-    Use semantic similarity to filter images to only those relevant to the query.
-    Compares the query against each image's context description.
-    """
-    if not candidate_images:
-        return []
-
-    image_ctx = _get_all_image_contexts()
-    model = _get_model()
-
-    # Build descriptions for candidate images
-    image_descriptions = []
-    image_files = []
-    for img in candidate_images:
-        desc = image_ctx.get(img, "")
-        if desc:
-            image_descriptions.append(desc)
-            image_files.append(img)
-
-    if not image_descriptions:
-        return []
-
-    # Encode query and image descriptions
-    query_embedding = model.encode(query, normalize_embeddings=True)
-    desc_embeddings = model.encode(image_descriptions, normalize_embeddings=True)
-
-    # Calculate similarity
-    similarities = np.dot(desc_embeddings, query_embedding)
-
-    # Only return images above the relevance threshold
-    relevant = []
-    for i, score in enumerate(similarities):
-        if score >= threshold:
-            relevant.append((image_files[i], float(score)))
-
-    # Sort by relevance
-    relevant.sort(key=lambda x: x[1], reverse=True)
-    return [img for img, _score in relevant]
-
 
 def get_context_for_llm(query, max_sections=3, max_chars=5000):
     """
-    Build a context string from the most relevant sections.
-    When a matched section has a parent, also includes sibling sections
-    for complete context. Images are filtered by semantic relevance.
+    Build a context string from the top matched sections only.
+    Images come only from the #1 matched section to keep them relevant.
     """
     results = search(query, top_k=max_sections)
     if not results:
         return None, []
 
     context_parts = []
-    all_candidate_images = []
+    top_images = []
     total_chars = 0
     included_titles = set()
 
-    for r in results:
+    for i, r in enumerate(results):
         if r["section_title"] in included_titles:
             continue
 
@@ -302,29 +229,8 @@ def get_context_for_llm(query, max_sections=3, max_chars=5000):
         total_chars += len(section_block)
         included_titles.add(r["section_title"])
 
-        # Collect candidate images from matched sections
-        all_candidate_images.extend(r["images"])
+        # Only take images from the top matched section
+        if i == 0:
+            top_images = list(r["images"])
 
-        # Include sibling section TEXT for complete context (but NOT their images)
-        if r.get("parent"):
-            siblings = get_sibling_sections(r["section_title"], r["parent"])
-            for sib in siblings:
-                if sib["section_title"] in included_titles:
-                    continue
-                sib_text = "\n".join(sib["content"])
-                sib_block = f"## {sib['section_title']} (from: {sib['doc_name']})\n{sib_text}\n"
-                if total_chars + len(sib_block) > max_chars:
-                    break
-                context_parts.append(sib_block)
-                total_chars += len(sib_block)
-                included_titles.add(sib["section_title"])
-
-    # Deduplicate candidate images
-    seen = set()
-    unique_candidates = []
-    for img in all_candidate_images:
-        if img not in seen:
-            seen.add(img)
-            unique_candidates.append(img)
-
-    return "\n".join(context_parts), unique_candidates
+    return "\n".join(context_parts), top_images
