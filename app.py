@@ -212,7 +212,7 @@ if page == "⚙️ Admin":
         st.stop()
 
     st.title("⚙️ Admin Center")
-    st.caption("Upload new procedure documents or remove existing ones. (v2 — vision indexing)")
+    st.caption("Upload new procedure documents or remove existing ones. (v3 — full page vision)")
 
     st.divider()
 

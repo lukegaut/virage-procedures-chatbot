@@ -256,119 +256,66 @@ def process_document(filepath):
     }
 
 
-def _describe_pdf_sections(sections, api_key=None):
-    """
-    Use Claude Vision to read each PDF section's first page and generate
-    an accurate title and description. This solves the core problem: PDF
-    content (especially PowerPoint exports) has its real text baked into
-    images, so we need vision to know what each section actually covers.
-
-    The AI-generated description is added to section content so that
-    embeddings capture what the section is truly about.
-    """
-    if not api_key or not sections:
-        print(f"    Skipping vision: api_key={'set' if api_key else 'missing'}, sections={len(sections) if sections else 0}")
-        return
-
-    print(f"    Running vision on {len(sections)} sections...")
+def _encode_page_image(img_path, max_width=800):
+    """Encode a page image for the Claude API."""
     import base64
     import io
     from PIL import Image
-    from anthropic import Anthropic
 
-    client = Anthropic(api_key=api_key)
+    img = Image.open(img_path)
+    if img.width > max_width:
+        ratio = max_width / img.width
+        img = img.resize((max_width, int(img.height * ratio)), Image.LANCZOS)
+    buf = io.BytesIO()
+    img = img.convert("RGB")
+    img.save(buf, format="JPEG", quality=75)
+    return base64.standard_b64encode(buf.getvalue()).decode("utf-8")
 
-    for section in sections:
-        if not section.get("images"):
-            continue
 
-        # Send the first page image to Claude to read the actual content
-        img_path = IMAGES_DIR / section["images"][0]
-        if not img_path.exists():
-            continue
+def _describe_pdf_page(client, img_path):
+    """Send a single PDF page to Claude Vision and get a structured description."""
+    img_data = _encode_page_image(img_path)
 
-        try:
-            # Resize for speed
-            img = Image.open(img_path)
-            if img.width > 800:
-                ratio = 800 / img.width
-                img = img.resize((800, int(img.height * ratio)), Image.LANCZOS)
-            buf = io.BytesIO()
-            img = img.convert("RGB")
-            img.save(buf, format="JPEG", quality=75)
-            img_data = base64.standard_b64encode(buf.getvalue()).decode("utf-8")
-
-            response = client.messages.create(
-                model="claude-haiku-4-5-20251001",
-                max_tokens=200,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image",
-                            "source": {
-                                "type": "base64",
-                                "media_type": "image/jpeg",
-                                "data": img_data,
-                            },
-                        },
-                        {
-                            "type": "text",
-                            "text": (
-                                "This is a page from a motorsport procedure document. "
-                                "Read the page and give me:\n"
-                                "1. TITLE: The exact main heading/title shown on this page\n"
-                                "2. SUBTITLE: Any subtitle, description, or classification "
-                                "(e.g. 'Pit Stop Without Tyre Change', 'Step 3', etc.)\n"
-                                "3. SUMMARY: A one-sentence summary of what this section covers\n\n"
-                                "Format your response exactly as:\n"
-                                "TITLE: ...\nSUBTITLE: ...\nSUMMARY: ..."
-                            ),
-                        },
-                    ],
-                }],
-                temperature=0,
-            )
-
-            ai_text = response.content[0].text
-            print(f"    AI description for '{section['title']}': {ai_text[:100]}...")
-
-            # Parse the AI response
-            title_line = ""
-            subtitle_line = ""
-            summary_line = ""
-            for line in ai_text.split("\n"):
-                line = line.strip()
-                if line.upper().startswith("TITLE:"):
-                    title_line = line[6:].strip()
-                elif line.upper().startswith("SUBTITLE:"):
-                    subtitle_line = line[9:].strip()
-                elif line.upper().startswith("SUMMARY:"):
-                    summary_line = line[8:].strip()
-
-            # Build a better section title from what the AI actually sees
-            if title_line:
-                new_title = title_line
-                if subtitle_line and subtitle_line.lower() not in ("none", "n/a", ""):
-                    new_title = f"{title_line} - {subtitle_line}"
-                section["title"] = new_title
-
-            # Add the AI description to content so embeddings capture it
-            if summary_line:
-                section["content"].insert(0, f"Summary: {summary_line}")
-            if subtitle_line and subtitle_line.lower() not in ("none", "n/a", ""):
-                section["content"].insert(0, f"Subtitle: {subtitle_line}")
-
-        except Exception as e:
-            print(f"    Vision description failed for '{section['title']}': {e}")
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=300,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": "image/jpeg",
+                        "data": img_data,
+                    },
+                },
+                {
+                    "type": "text",
+                    "text": (
+                        "This is a page from a motorsport pit stop or procedure document. "
+                        "Read everything visible on the page and respond with:\n"
+                        "SECTION: The procedure/section name this page belongs to "
+                        "(e.g. 'Pit Stop With Tyre Change', 'Pit Stop Without Tyre Change', "
+                        "'Crew Roles Overview', 'Step 3 - Front Checks')\n"
+                        "DESCRIPTION: 2-3 sentences describing what this page shows, "
+                        "including any steps, roles, diagrams, tables, or instructions visible.\n\n"
+                        "Be specific about whether it involves tyre/wheel changes or not."
+                    ),
+                },
+            ],
+        }],
+        temperature=0,
+    )
+    return response.content[0].text
 
 
 def process_pdf(filepath, api_key=None):
     """
-    Process a PDF file: render pages as images, grouped by major headings.
-    Detects large/bold text as section headings and groups subsequent pages
-    under them. Uses Claude Vision to read each section's first page and
-    generate accurate titles and descriptions from the visual content.
+    Process a PDF: render every page, use Claude Vision to read each page,
+    then group pages into sections based on what Claude sees.
+    This is the only reliable way to index PowerPoint-exported PDFs where
+    all meaningful content is baked into images.
     """
     import fitz  # PyMuPDF
     from PIL import Image
@@ -379,34 +326,10 @@ def process_pdf(filepath, api_key=None):
 
     pdf = fitz.open(filepath)
 
-    # First pass: extract page info and detect headings
-    pages_info = []
+    # Step 1: Render every page as JPEG
+    page_images = []
     for page_num in range(len(pdf)):
         page = pdf[page_num]
-        blocks = page.get_text("dict")["blocks"]
-
-        text_lines = []
-        heading = None
-        max_font_size = 0
-
-        for block in blocks:
-            if block["type"] == 0:
-                for line in block["lines"]:
-                    line_text = "".join(span["text"] for span in line["spans"]).strip()
-                    if not line_text or len(line_text) <= 1:
-                        continue
-                    font_size = max(span["size"] for span in line["spans"])
-                    is_bold = any("bold" in span.get("font", "").lower() for span in line["spans"])
-
-                    text_lines.append(line_text)
-
-                    # Detect major headings (large bold text, typically 20px+)
-                    if is_bold and font_size >= 20 and len(line_text) > 3:
-                        if not heading or font_size > max_font_size:
-                            heading = line_text
-                            max_font_size = font_size
-
-        # Render page as JPEG
         mat = fitz.Matrix(1.5, 1.5)
         pix = page.get_pixmap(matrix=mat)
         img_filename = f"{doc_id}_page{page_num + 1}.jpg"
@@ -414,83 +337,86 @@ def process_pdf(filepath, api_key=None):
         img = Image.open(io.BytesIO(pix.tobytes("png")))
         img = img.convert("RGB")
         img.save(str(img_path), format="JPEG", quality=85)
-
-        pages_info.append({
+        page_images.append({
             "page_num": page_num + 1,
-            "heading": heading,
-            "text_lines": text_lines,
             "image": img_filename,
+            "img_path": img_path,
         })
 
     pdf.close()
 
-    # Second pass: group pages by major headings into sections.
-    # A "major heading" is one that differs from the current section's base title.
-    # Sub-headings like "Step 1", "Step 2" stay within the current section.
-    # Repeated major headings start a NEW section (disambiguated later).
+    # Step 2: Send each page to Claude Vision for description
+    page_descriptions = []
+    if api_key:
+        from anthropic import Anthropic
+        client = Anthropic(api_key=api_key)
+
+        for page_info in page_images:
+            try:
+                ai_text = _describe_pdf_page(client, page_info["img_path"])
+                section_name = ""
+                description = ""
+                for line in ai_text.split("\n"):
+                    line = line.strip()
+                    if line.upper().startswith("SECTION:"):
+                        section_name = line[8:].strip()
+                    elif line.upper().startswith("DESCRIPTION:"):
+                        description = line[12:].strip()
+
+                page_descriptions.append({
+                    "section": section_name or f"Page {page_info['page_num']}",
+                    "description": description,
+                })
+                print(f"    Page {page_info['page_num']}: {section_name[:60]}")
+            except Exception as e:
+                print(f"    Page {page_info['page_num']} vision failed: {e}")
+                page_descriptions.append({
+                    "section": f"Page {page_info['page_num']}",
+                    "description": "",
+                })
+    else:
+        # No API key — fall back to basic page-level sections
+        for page_info in page_images:
+            page_descriptions.append({
+                "section": f"Page {page_info['page_num']}",
+                "description": "",
+            })
+
+    # Step 3: Group consecutive pages with the same section name
     sections = []
     current_section = None
-    current_base_title = None  # The major heading for the current section
+    current_name = None
 
-    for page in pages_info:
-        heading = page["heading"]
+    for i, (page_info, desc) in enumerate(zip(page_images, page_descriptions)):
+        section_name = desc["section"]
 
-        # Decide if this heading starts a new section
-        is_new_major_heading = False
-        if heading:
-            # "Step N" headings are sub-headings, not new sections
-            is_step = bool(re.match(r'^Step\s+\d+', heading, re.IGNORECASE))
-            if not is_step:
-                if heading != current_base_title:
-                    # Different heading than current — always new section
-                    is_new_major_heading = True
-                elif not page["text_lines"] or len(page["text_lines"]) <= 1:
-                    # Same heading on a page with minimal text = title page for new section
-                    is_new_major_heading = True
-
-        if is_new_major_heading:
+        if section_name != current_name:
+            # New section
             if current_section:
                 sections.append(current_section)
-            current_base_title = heading
+            current_name = section_name
             current_section = {
-                "title": heading,  # Will be disambiguated later if needed
-                "base_title": heading,
+                "title": section_name,
                 "level": 1,
-                "content": [f"Document: {doc_name}"],
-                "images": [page["image"]],
+                "content": [f"Document: {doc_name}", f"Section: {section_name}"],
+                "images": [page_info["image"]],
                 "image_contexts": {},
                 "parent": doc_name,
                 "is_page_render": True,
             }
-            current_section["content"].extend(page["text_lines"])
-        elif current_section:
-            # Append to current section
-            current_section["images"].append(page["image"])
-            current_section["content"].extend(page["text_lines"])
         else:
-            # No section started yet — create a default one
-            current_section = {
-                "title": f"{doc_name} - Overview",
-                "base_title": None,
-                "level": 1,
-                "content": [f"Document: {doc_name}"] + page["text_lines"],
-                "images": [page["image"]],
-                "image_contexts": {},
-                "parent": doc_name,
-                "is_page_render": True,
-            }
+            current_section["images"].append(page_info["image"])
+
+        # Add the AI description to content for rich embeddings
+        if desc["description"]:
+            current_section["content"].append(desc["description"])
 
     if current_section:
         sections.append(current_section)
 
-    # Third pass: use Claude Vision to read each section's first page
-    # and generate accurate titles/descriptions from the visual content.
-    # This replaces fragile text-based disambiguation.
-    _describe_pdf_sections(sections, api_key=api_key)
-
-    # Clean up: remove internal base_title field
-    for section in sections:
-        section.pop("base_title", None)
+    print(f"    Grouped into {len(sections)} sections")
+    for s in sections:
+        print(f"      - {s['title']} ({len(s['images'])} pages)")
 
     return {
         "filename": Path(filepath).name,

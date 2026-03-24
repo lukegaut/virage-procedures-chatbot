@@ -170,7 +170,26 @@ def search(query, top_k=5, min_score=0.15):
     query_lower = query.lower()
     query_words = set(query_lower.split())
 
+    # Hard document filter: if query mentions a specific document name,
+    # ONLY return results from that document. No soft bonuses — just filter.
+    known_doc_ids = set()
+    for section in sections:
+        for word in section["doc_name"].lower().replace("-", " ").split():
+            if len(word) >= 2:
+                known_doc_ids.add(word)
+    query_doc_match = query_words & known_doc_ids
+    # Remove generic words that aren't document identifiers
+    generic_words = {"procedure", "pitstop", "pit", "stop", "2026", "setup", "process", "tyre", "tyres", "guide", "updated"}
+    query_doc_match -= generic_words
+
     for i, section in enumerate(sections):
+        # If query names a specific document, zero out non-matching docs
+        if query_doc_match:
+            doc_words = set(section["doc_name"].lower().replace("-", " ").split())
+            if not (query_doc_match & doc_words):
+                similarities[i] = -1  # Hard filter — will never appear in results
+                continue
+
         # Penalise sections with very little content (likely empty/filler)
         content_length = sum(len(line) for line in section.get("content", []))
         if content_length < 20:
@@ -178,40 +197,13 @@ def search(query, top_k=5, min_score=0.15):
         elif content_length < 80:
             similarities[i] *= 0.7
 
-        doc_name_lower = section["doc_name"].lower()
+        # Title-match bonus
         title_lower = section["section_title"].lower().replace("-", " ")
         title_words = set(title_lower.split())
-
-        # Document name matching: if the query mentions a specific document
-        # identifier (e.g. "LES", "MLMC", "ELMS"), strongly prefer sections
-        # from that document. This is critical because these acronyms are
-        # semantically meaningless to the embedding model.
-        doc_name_words = set(doc_name_lower.replace("-", " ").split())
-        doc_match = query_words & doc_name_words
-        doc_match = {w for w in doc_match if len(w) >= 2}
-        if doc_match:
-            similarities[i] += 0.15 * len(doc_match)
-        else:
-            # If query specifically names a document and this section is from
-            # a DIFFERENT document, penalize it
-            all_doc_identifiers = {"les", "mlmc", "elms", "lmp3", "lmp4"}
-            query_doc_ids = query_words & all_doc_identifiers
-            if query_doc_ids:
-                similarities[i] -= 0.15
-
-        # Title-match bonus: when query words appear in the section title
         matching = query_words & title_words
         meaningful = {w for w in matching if len(w) >= 3}
         if meaningful:
-            similarities[i] += 0.03 * len(meaningful)
-
-        # "Without" in title: penalize when query doesn't say "without",
-        # boost when it does. Helps distinguish "with" vs "without" variants.
-        if "without" in title_words:
-            if "without" in query_words or "no" in query_words:
-                similarities[i] += 0.08
-            else:
-                similarities[i] -= 0.08
+            similarities[i] += 0.05 * len(meaningful)
 
     # Get top results
     top_indices = np.argsort(similarities)[::-1][:top_k]
